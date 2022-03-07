@@ -1,5 +1,9 @@
-function App() {
-  return <div className="App"></div>;
-}
+import TripCard from './components/TripCard.js';
 
-export default App;
+export default function App() {
+  return (
+    <div>
+      <TripCard />
+    </div>
+  );
+}
