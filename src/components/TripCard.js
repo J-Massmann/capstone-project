@@ -1,24 +1,28 @@
 import styled from 'styled-components';
+import { nanoid } from 'nanoid';
 
 export default function TripCard() {
   const destinations = [
     {
+      id: nanoid(),
       place: 'Barcelona',
       locations: ['Sagrada Familia', 'Park Güell'],
     },
     {
+      id: nanoid(),
       place: 'Tokyo',
       locations: ['Senso-ji', 'Imperial Palace'],
     },
   ];
+  console.log(destinations);
   return (
     <DestinationWrapper>
       {destinations.map(destination => (
-        <Wrapper>
-          <h1>{destination.place}</h1>
+        <Wrapper key={destination.id}>
+          <h2>{destination.place}</h2>
           <ul>
             {destination.locations.map(location => (
-              <li>{location}</li>
+              <li key={location.index}>{location}</li>
             ))}
           </ul>
         </Wrapper>
