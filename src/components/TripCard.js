@@ -1,32 +1,33 @@
 import styled from 'styled-components';
-import { nanoid } from 'nanoid';
 
-export default function TripCard() {
-  const destinations = [
-    {
-      id: nanoid(),
-      place: 'Barcelona',
-      locations: ['Sagrada Familia', 'Park Güell'],
-    },
-    {
-      id: nanoid(),
-      place: 'Tokyo',
-      locations: ['Senso-ji', 'Imperial Palace'],
-    },
-  ];
-  console.log(destinations);
+export default function TripCard({
+  id,
+  place,
+  locations,
+  status,
+  updateDestinations,
+}) {
+  function setStatus(id) {
+    updateDestinations(destination => {
+      destination[id].status = 'future';
+    });
+  }
   return (
     <DestinationWrapper>
-      {destinations.map(destination => (
-        <Wrapper key={destination.id}>
-          <h2>{destination.place}</h2>
-          <ul>
-            {destination.locations.map(location => (
-              <li key={location.index}>{location}</li>
-            ))}
-          </ul>
-        </Wrapper>
-      ))}
+      <Wrapper key={id}>
+        <h2>{place}</h2>
+        <ul>
+          {locations.map((location, index) => (
+            <li key={index}>{location}</li>
+          ))}
+        </ul>
+        <ToggleButtonWrapper>
+          <p>switch to:</p>
+          <button onClick={setStatus(id)} type="button" name="ToggleButton">
+            {status === 'future' ? 'past' : 'future'}
+          </button>
+        </ToggleButtonWrapper>
+      </Wrapper>
     </DestinationWrapper>
   );
 }
@@ -39,4 +40,20 @@ const Wrapper = styled.section`
 const DestinationWrapper = styled.main`
   display: grid;
   gap: 10px;
+`;
+
+const ToggleButtonWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 5px;
+  margin-bottom: 5px;
+
+  & p {
+    margin: 0;
+  }
+
+  button {
+    background-color: var(--bg-color-content);
+  }
 `;

@@ -1,9 +1,0 @@
-.active {
-  background-color: var(--bg-color-action);
-  color: var(--font-color);
-}
-
-.unactive {
-  background-color: var(--bg-color-content);
-  color: var(--font-color);
-}
