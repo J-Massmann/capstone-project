@@ -8,14 +8,26 @@ const useStore = create(set => ({
       id: nanoid(),
       place: 'Barcelona',
       locations: ['Sagrada Familia', 'Park Güell'],
-      status: 'future',
+      isTripFuture: true,
+      setStatus: () =>
+        set(
+          produce(state => {
+            state.isTripFuture = false;
+          })
+        ),
     },
-    {
-      id: nanoid(),
-      place: 'Tokyo',
-      locations: ['Senso-ji', 'Imperial Palace'],
-      status: 'past',
-    },
+    // {
+    //   id: nanoid(),
+    //   place: 'Tokyo',
+    //   locations: ['Senso-ji', 'Imperial Palace'],
+    //   isTripFuture: false,
+    //   setStatus: () =>
+    //     set(
+    //       produce(state => {
+    //         state.isTripFuture = !state.isTripFuture;
+    //       })
+    //     ),
+    // },
   ],
 }));
 

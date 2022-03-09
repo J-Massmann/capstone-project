@@ -11,15 +11,31 @@ export default function App() {
       id: nanoid(),
       place: 'Barcelona',
       locations: ['Sagrada Familia', 'Park Güell'],
-      status: 'future',
+      isTripFuture: true,
+    },
+    {
+      id: nanoid(),
+      place: 'New York',
+      locations: ['Brooklyn Bridge', 'Central Park'],
+      isTripFuture: true,
     },
     {
       id: nanoid(),
       place: 'Tokyo',
       locations: ['Senso-ji', 'Imperial Palace'],
-      status: 'past',
+      isTripFuture: false,
     },
   ]);
+
+  function handleTripStatus(destinationId) {
+    updateDestinations(draft => {
+      const destination = draft.find(
+        destination => destination.id === destinationId
+      );
+      destination.isTripFuture = !destination.isTripFuture;
+    });
+  }
+
   return (
     <div>
       <ToggleBar />
@@ -29,7 +45,7 @@ export default function App() {
           element={
             <FutureTrips
               destinations={destinations}
-              updateDestinations={updateDestinations}
+              handleTripStatus={handleTripStatus}
             />
           }
         />
@@ -38,7 +54,7 @@ export default function App() {
           element={
             <PastTrips
               destinations={destinations}
-              updateDestinations={updateDestinations}
+              handleTripStatus={handleTripStatus}
             />
           }
         />
