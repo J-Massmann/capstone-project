@@ -18,10 +18,9 @@ export default function TripCard({
       <ToggleButtonWrapper>
         <p>switch to:</p>
         <button
-          id={id}
+          aria-label="toggleTripStatus"
           onClick={handleTripStatus}
           type="button"
-          name="ToggleButton"
         >
           {isTripFuture === true ? 'past' : 'future'}
         </button>
