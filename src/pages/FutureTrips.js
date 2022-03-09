@@ -8,16 +8,20 @@ export default function FutureTrips({ destinations, handleTripStatus }) {
 
   return (
     <DestinationWrapper>
-      {futureDestinations.map(destination => (
-        <TripCard
-          key={destination.id}
-          id={destination.id}
-          place={destination.place}
-          locations={destination.locations}
-          isTripFuture={destination.isTripFuture}
-          handleTripStatus={() => handleTripStatus(destination.id)}
-        />
-      ))}
+      {futureDestinations.length > 0 ? (
+        futureDestinations.map(destination => (
+          <TripCard
+            key={destination.id}
+            id={destination.id}
+            place={destination.place}
+            locations={destination.locations}
+            isTripFuture={destination.isTripFuture}
+            handleTripStatus={() => handleTripStatus(destination.id)}
+          />
+        ))
+      ) : (
+        <p>No future trips planned!</p>
+      )}
     </DestinationWrapper>
   );
 }

@@ -7,16 +7,24 @@ export default function PastTrips({ destinations, handleTripStatus }) {
   });
   return (
     <DestinationWrapper>
-      {pastDestinations.map(destination => (
-        <TripCard
-          key={destination.id}
-          id={destination.id}
-          place={destination.place}
-          locations={destination.locations}
-          isTripFuture={destination.isTripFuture}
-          handleTripStatus={() => handleTripStatus(destination.id)}
-        />
-      ))}
+      {pastDestinations.length > 0 ? (
+        pastDestinations.map(destination => (
+          <TripCard
+            key={destination.id}
+            id={destination.id}
+            place={destination.place}
+            locations={destination.locations}
+            isTripFuture={destination.isTripFuture}
+            handleTripStatus={() => handleTripStatus(destination.id)}
+          />
+        ))
+      ) : (
+        <p>
+          You haven't selected any destinations where you have been.
+          <br />
+          Go check the current trips to get some inspiration for you next trip!
+        </p>
+      )}
     </DestinationWrapper>
   );
 }
