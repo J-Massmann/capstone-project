@@ -1,9 +1,10 @@
 import ToggleBar from './components/ToggleBar.js';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
 import { nanoid } from 'nanoid';
 import { useImmer } from 'use-immer';
+import DetailTrip from './pages/DetailTrip.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer([
@@ -40,8 +41,9 @@ export default function App() {
     <div>
       <ToggleBar />
       <Routes>
+        <Route path="*" element={<Navigate to="/futuretrips" replace />} />
         <Route
-          path="/"
+          path="/futuretrips"
           element={
             <FutureTrips
               destinations={destinations}

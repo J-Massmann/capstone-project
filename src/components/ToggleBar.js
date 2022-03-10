@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 export default function ToggleBar() {
   return (
     <ToggleBarWrapper>
-      <LinkButtonFuture aria-label="Link to future trips" to="/">
+      <LinkButtonFuture aria-label="Link to future trips" to="/futuretrips">
         future
       </LinkButtonFuture>
       <LinkButtonPast aria-label="Link to past trips" to="/pasttrips">

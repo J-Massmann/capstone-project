@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import TripCard from '../components/TripCard.js';
 
@@ -10,14 +11,16 @@ export default function FutureTrips({ destinations, handleTripStatus }) {
     <DestinationWrapper>
       {futureDestinations.length > 0 ? (
         futureDestinations.map(destination => (
-          <TripCard
-            key={destination.id}
-            id={destination.id}
-            place={destination.place}
-            locations={destination.locations}
-            isTripFuture={destination.isTripFuture}
-            handleTripStatus={() => handleTripStatus(destination.id)}
-          />
+          <Link to={`/${destination.place}`}>
+            <TripCard
+              key={destination.id}
+              id={destination.id}
+              place={destination.place}
+              locations={destination.locations}
+              isTripFuture={destination.isTripFuture}
+              handleTripStatus={() => handleTripStatus(destination.id)}
+            />
+          </Link>
         ))
       ) : (
         <p>No future trips planned!</p>
