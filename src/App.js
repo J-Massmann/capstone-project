@@ -1,4 +1,3 @@
-import ToggleBar from './components/ToggleBar.js';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
