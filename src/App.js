@@ -39,30 +39,24 @@ export default function App() {
 
   return (
     <div>
-      <ToggleBar />
       <Routes>
         <Route path="*" element={<Navigate to="/futuretrips" replace />} />
         <Route
           path="/futuretrips"
-          element={
-            <FutureTrips
-              destinations={destinations}
-              handleTripStatus={handleTripStatus}
-            />
-          }
+          element={<FutureTrips destinations={destinations} />}
         />
         <Route
           path="/futuretrips/:id"
-          element={<DetailTrip destinations={destinations} />}
-        />
-        <Route
-          path="/pasttrips"
           element={
-            <PastTrips
+            <DetailTrip
               destinations={destinations}
               handleTripStatus={handleTripStatus}
             />
           }
+        />
+        <Route
+          path="/pasttrips"
+          element={<PastTrips destinations={destinations} />}
         />
       </Routes>
     </div>
