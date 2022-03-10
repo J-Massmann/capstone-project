@@ -1,14 +1,17 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import goback from '../img/akar-icons_arrow-back.svg';
 
 export default function DetailTrip({ destinations, handleTripStatus }) {
   const { id } = useParams();
   const detailDestination = destinations.filter(destination => {
     return destination.place === id;
   });
+  const navigate = useNavigate();
 
   return (
     <>
+      <GoBack src={goback} alt="go back" onClick={() => navigate(-1)} />
       {detailDestination.map(trip => (
         <section key={trip.id}>
           <Header>{trip.place}</Header>
@@ -58,17 +61,6 @@ const ToggleButton = styled.button`
   }
 `;
 
-{
-  /* <ToggleButtonWrapper>
-        <p>switch to:</p>
-        <button
-          aria-label="toggleTripStatus"
-          onClick={handleTripStatus}
-          type="button"
-        >
-          {isTripFuture === true ? 'past' : 'future'}
-        </button>
-      </ToggleButtonWrapper> */
-}
-
-// {trip.isTripFuture === true ? 'past' : 'future'}
+const GoBack = styled.img`
+  cursor: pointer;
+`;
