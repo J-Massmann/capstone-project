@@ -1,6 +1,6 @@
 import TripCard from './TripCard.js';
 import { render, screen } from '@testing-library/react';
-import { userEvent } from '@storybook/testing-library';
+import userEvent from '@testing-library/user-event';
 
 describe('TripCard', () => {
   it('renders a section and two list items', () => {
