@@ -11,7 +11,7 @@ export default function FutureTrips({ destinations, handleTripStatus }) {
     <DestinationWrapper>
       {futureDestinations.length > 0 ? (
         futureDestinations.map(destination => (
-          <Link to={`/${destination.place}`}>
+          <Link to={`/futuretrips/${destination.place}`}>
             <TripCard
               key={destination.id}
               id={destination.id}

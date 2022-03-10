@@ -1,5 +1,5 @@
 import ToggleBar from './components/ToggleBar.js';
-import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
 import { nanoid } from 'nanoid';
@@ -50,6 +50,10 @@ export default function App() {
               handleTripStatus={handleTripStatus}
             />
           }
+        />
+        <Route
+          path="/futuretrips/:id"
+          element={<DetailTrip destinations={destinations} />}
         />
         <Route
           path="/pasttrips"
