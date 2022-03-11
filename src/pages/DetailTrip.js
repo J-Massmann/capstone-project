@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import goback from '../img/akar-icons_arrow-back.svg';
+import { ToggleButton } from '../components/ToggleBar.js';
 
 export default function DetailTrip({ destinations, handleTripStatus }) {
   const { id } = useParams();
@@ -16,20 +17,10 @@ export default function DetailTrip({ destinations, handleTripStatus }) {
         <section key={trip.id}>
           <Header>{trip.place}</Header>
           <ToggleButton
-            future
-            className={trip.isTripFuture === true ? 'active' : 'unactive'}
-            aria-label="toggleTripStatus"
-            onClick={() => handleTripStatus(trip.id)}
-          >
-            future
-          </ToggleButton>
-          <ToggleButton
-            className={trip.isTripFuture === true ? 'unactive' : 'active'}
-            aria-label="toggleTripStatus"
-            onClick={() => handleTripStatus(trip.id)}
-          >
-            past
-          </ToggleButton>
+            isTripFuture={trip.isTripFuture}
+            onHandleTripStatus={() => handleTripStatus(trip.id)}
+          />
+
           <Subheader>locations:</Subheader>
           <ul>
             {trip.locations.map((location, index) => (
@@ -48,17 +39,6 @@ const Header = styled.h1`
 
 const Subheader = styled.h2`
   text-decoration: underline;
-`;
-
-const ToggleButton = styled.button`
-  max-width: 100px;
-  width: 30%;
-  min-width: 45px;
-  border-radius: ${props => (props.future ? `10px 0 0 10px` : `0 10px 10px 0`)};
-  border: 1px solid var(--bg-color-main);
-  &.active {
-    background-color: var(--bg-color-action);
-  }
 `;
 
 const GoBack = styled.img`

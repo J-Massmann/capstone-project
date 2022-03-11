@@ -4,13 +4,39 @@ import { NavLink } from 'react-router-dom';
 export default function ToggleBar() {
   return (
     <ToggleBarWrapper>
-      <LinkButtonFuture aria-label="Link to future trips" to="/futuretrips">
+      <LinkButton
+        status="future"
+        aria-label="Link to future trips"
+        to="/futuretrips"
+      >
         future
-      </LinkButtonFuture>
-      <LinkButtonPast aria-label="Link to past trips" to="/pasttrips">
+      </LinkButton>
+      <LinkButton aria-label="Link to past trips" to="/pasttrips">
         past
-      </LinkButtonPast>
+      </LinkButton>
     </ToggleBarWrapper>
+  );
+}
+
+export function ToggleButton({ isTripFuture, onHandleTripStatus }) {
+  return (
+    <>
+      <ToggleStatusButton
+        status="future"
+        className={isTripFuture === true ? 'active' : ''}
+        aria-label="toggleTripStatus"
+        onClick={onHandleTripStatus}
+      >
+        future
+      </ToggleStatusButton>
+      <ToggleStatusButton
+        className={isTripFuture === true ? '' : 'active'}
+        aria-label="toggleTripStatus"
+        onClick={onHandleTripStatus}
+      >
+        past
+      </ToggleStatusButton>
+    </>
   );
 }
 
@@ -20,11 +46,12 @@ const ToggleBarWrapper = styled.nav`
   margin-bottom: 1rem;
 `;
 
-const LinkButtonFuture = styled(NavLink)`
+const LinkButton = styled(NavLink)`
   display: flex;
   color: var(--font-color);
   background-color: var(--bg-color-content);
-  border-radius: 15px 0 0 15px;
+  border-radius: ${props =>
+    props.status === 'future' ? `10px 0 0 10px` : `0 10px 10px 0`};
   border: 1px solid var(--bg-color-main);
   width: 40%;
   height: 2.2rem;
@@ -36,17 +63,13 @@ const LinkButtonFuture = styled(NavLink)`
   }
 `;
 
-const LinkButtonPast = styled(NavLink)`
-  display: flex;
-  background-color: var(--bg-color-content);
-  color: var(--font-color);
-  border-radius: 0 15px 15px 0;
+const ToggleStatusButton = styled.button`
+  max-width: 100px;
+  width: 30%;
+  min-width: 45px;
+  border-radius: ${props =>
+    props.status === 'future' ? `10px 0 0 10px` : `0 10px 10px 0`};
   border: 1px solid var(--bg-color-main);
-  width: 40%;
-  height: 2.2rem;
-  text-decoration: none;
-  justify-content: center;
-  align-items: center;
   &.active {
     background-color: var(--bg-color-action);
   }
