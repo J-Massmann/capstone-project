@@ -4,6 +4,7 @@ import PastTrips from './pages/PastTrips.js';
 import { nanoid } from 'nanoid';
 import { useImmer } from 'use-immer';
 import DetailTrip from './pages/DetailTrip.js';
+import FormNewTrip from './pages/FormNewTrip.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer([
@@ -57,6 +58,7 @@ export default function App() {
           path="/pasttrips"
           element={<PastTrips destinations={destinations} />}
         />
+        <Route path="/newtrip" element={<FormNewTrip />} />
       </Routes>
     </div>
   );
