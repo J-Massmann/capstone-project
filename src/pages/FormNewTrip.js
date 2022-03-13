@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import x_icon from '../img/icon_x.svg';
 
@@ -40,10 +41,12 @@ export default function FormNewTrip() {
     setLocationName('');
   }
 
+  const navigate = useNavigate();
+
   return (
     <>
       <HeaderWrapper>
-        <img src={x_icon} alt="cancel" />
+        <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
         <h1>New Trip</h1>
       </HeaderWrapper>
       <FormContainer
@@ -53,17 +56,24 @@ export default function FormNewTrip() {
       >
         <LabelHeader htmlFor="destination">Destination:</LabelHeader>
         <InputField
+          autoFocus
           id="destination"
           type="text"
           placeholder="e.g. Lissabon..."
           {...register('destination', {
             required: {
               value: true,
-              message: 'The name of your next destination must be filled',
+              message: 'The name of your next destination must be filled!',
             },
-            minLength: 2,
+            minLength: 1,
+            maxLength: {
+              value: 40,
+              message:
+                'Name of the your Destination is too long, try keeping it a littler shorter',
+            },
           })}
         />
+        <ErrorMessage>{errors.destination?.message}</ErrorMessage>
         <LabelHeader htmlFor="status">Status:</LabelHeader>
         <SelectField id="status" {...register('isTripFuture')}>
           <option value={true}>Trip in the future</option>
@@ -73,6 +83,7 @@ export default function FormNewTrip() {
         <InputField
           id="locations"
           type="text"
+          placeholder="Add a place you want to vist..."
           value={locationName}
           {...register('locations')}
           onChange={handleChange}
@@ -104,9 +115,15 @@ const HeaderWrapper = styled.header`
   & h1 {
     width: 100%;
     text-align: center;
+    @media (max-width: 230px) {
+      text-align: end;
+    }
   }
   img {
-    position: absolute;
+    @media (min-width: 200px) {
+      position: absolute;
+    }
+    cursor: pointer;
   }
 `;
 
@@ -128,6 +145,8 @@ const InputField = styled.input`
   border-radius: 14px;
   border: none;
   background-color: var(--bg-color-content);
+  width: 100%;
+  max-width: 400px;
 `;
 const SelectField = styled.select`
   margin-bottom: 15px;
@@ -135,6 +154,14 @@ const SelectField = styled.select`
   border-radius: 14px;
   border: none;
   background-color: var(--bg-color-content);
+  width: 100%;
+  max-width: 400px;
+`;
+
+const ErrorMessage = styled.span`
+  margin-top: -20px;
+  color: var(--bg-color-action);
+  font-size: 0.8em;
 `;
 
 const Listheader = styled.h2`
@@ -159,7 +186,8 @@ const AddButton = styled.button`
 const CreateButton = styled.button`
   margin-top: 2rem;
   width: 50%;
-  height: 2rem;
+  max-width: 250px;
+  height: 2.5rem;
   justify-self: center;
   background-color: var(--bg-color-action);
   border: none;
