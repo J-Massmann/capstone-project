@@ -17,12 +17,15 @@ export default function FormNewTrip() {
     },
   });
   const onSubmit = data => {
-    console.log(data);
     const handleData = {
       destination: data.destination,
       isTripFuture: data.isTripFuture === 'true' ? true : false,
       locations: [locations],
     };
+    console.log(handleData);
+    document.getElementById('destination').value = '';
+    document.getElementById('status').value = true;
+    updateLocations([]);
     console.log(handleData);
   };
 
@@ -31,15 +34,18 @@ export default function FormNewTrip() {
 
   function handleChange(event) {
     setLocationName(event.target.value);
-    console.log(locationName);
   }
   function handleAdd() {
     updateLocations([...locations, locationName]);
-    console.log(locations);
+    setLocationName('');
   }
 
   return (
-    <FormContainer autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
+    <FormContainer
+      id="newTripForm"
+      autoComplete="off"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <LabelHeader htmlFor="destination">Destination</LabelHeader>
       <InputField
         id="destination"
@@ -54,10 +60,10 @@ export default function FormNewTrip() {
         })}
       />
       <LabelHeader htmlFor="status">status</LabelHeader>
-      <select id="status" {...register('isTripFuture')}>
+      <SelectField id="status" {...register('isTripFuture')}>
         <option value={true}>Trip in the future</option>
         <option value={false}>Trip in the past</option>
-      </select>
+      </SelectField>
       <LabelHeader htmlFor="locations">locations</LabelHeader>
       <InputField
         id="locations"
@@ -67,15 +73,16 @@ export default function FormNewTrip() {
         onChange={handleChange}
       />
       <button type="button" onClick={handleAdd}>
-        Add
+        Add to list
       </button>
-      <ul>
+      <Listheader>List of locations:</Listheader>
+      <ListWrapper>
         {locations.length < 1
           ? null
           : locations.map((location, index) => <li key={index}>{location}</li>)}
-      </ul>
+      </ListWrapper>
 
-      <button type="submit">Create</button>
+      <CreateButton type="submit">Create</CreateButton>
     </FormContainer>
   );
 }
@@ -93,4 +100,19 @@ const LabelHeader = styled.label`
 
 const InputField = styled.input`
   margin-bottom: 15px;
+`;
+const SelectField = styled.select`
+  margin-bottom: 15px;
+`;
+
+const Listheader = styled.h2`
+  margin-bottom: 0;
+`;
+
+const ListWrapper = styled.ul`
+  margin: 0;
+`;
+
+const CreateButton = styled.button`
+  margin-top: 2rem;
 `;
