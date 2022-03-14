@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, reset } from 'react-hook-form';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useImmer } from 'use-immer';
 import x_icon from '../img/icon_x.svg';
+import { nanoid } from 'nanoid';
+import Modal from '../components/Modal.js';
+import { useState } from 'react';
 
-export default function FormNewTrip() {
+export default function FormNewTrip({ onAddNewDestination }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -17,34 +20,37 @@ export default function FormNewTrip() {
       locations: '',
     },
   });
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const [locations, updateLocations] = useImmer([]);
   const onSubmit = data => {
     const handleData = {
-      destination: data.destination,
+      id: nanoid(),
+      place: data.destination,
       isTripFuture: data.isTripFuture === 'true' ? true : false,
-      locations: [locations],
+      locations: locations,
     };
-    console.log(handleData);
-    document.getElementById('destination').value = '';
-    document.getElementById('status').value = true;
+    onAddNewDestination(handleData);
+    reset();
     updateLocations([]);
-    console.log(handleData);
-    setTimeout(() => {
-      navigate(-1);
-    }, 2500);
+    showSubmitMessage();
   };
 
-  const [locations, updateLocations] = useImmer([]);
-  const [locationName, setLocationName] = useState('');
-
-  function handleChange(event) {
-    setLocationName(event.target.value);
-  }
-  function handleAdd() {
-    updateLocations([...locations, locationName]);
-    setLocationName('');
+  function handleAdd(e) {
+    const currentLocation = document.getElementById('locations');
+    if (currentLocation.value !== '') {
+      updateLocations([...locations, currentLocation.value]);
+      currentLocation.value = '';
+    }
   }
 
-  const navigate = useNavigate();
+  function showSubmitMessage() {
+    setIsOpen(true);
+    setTimeout(() => {
+      setIsOpen(false);
+      navigate(-1);
+    }, 2000);
+  }
 
   return (
     <>
@@ -91,14 +97,14 @@ export default function FormNewTrip() {
           id="locations"
           type="text"
           placeholder="Add a place you want to vist..."
-          value={locationName}
-          {...register('locations')}
-          onChange={handleChange}
+          {...register('locations', {
+            minLength: 1,
+            message: 'You have to type in a location',
+          })}
         />
         <AddButton type="button" onClick={handleAdd}>
           Add to list
         </AddButton>
-
         <Listheader>List of Locations:</Listheader>
         <ListWrapper>
           {locations.length < 1
@@ -110,6 +116,7 @@ export default function FormNewTrip() {
 
         <CreateButton type="submit">Create</CreateButton>
       </FormContainer>
+      <Modal open={isOpen}>Your Trip has been saved!</Modal>
     </>
   );
 }

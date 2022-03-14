@@ -38,6 +38,12 @@ export default function App() {
     });
   }
 
+  function addNewDestination(newData) {
+    updateDestinations(draft => {
+      draft.push(newData);
+    });
+  }
+
   return (
     <AppGrid>
       <Routes>
@@ -59,7 +65,10 @@ export default function App() {
           path="/pasttrips"
           element={<PastTrips destinations={destinations} />}
         />
-        <Route path="/newtrip" element={<FormNewTrip />} />
+        <Route
+          path="/newtrip"
+          element={<FormNewTrip onAddNewDestination={addNewDestination} />}
+        />
       </Routes>
     </AppGrid>
   );

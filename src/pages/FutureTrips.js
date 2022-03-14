@@ -4,10 +4,11 @@ import TripCard from '../components/TripCard.js';
 import ToggleBar from '../components/ToggleBar.js';
 import AddIcon from '../img/Add_Icon.svg';
 
-export default function FutureTrips({ destinations, handleTripStatus }) {
+export default function FutureTrips({ destinations }) {
   const futureDestinations = destinations.filter(destination => {
     return destination.isTripFuture;
   });
+  console.log(destinations);
 
   return (
     <>
