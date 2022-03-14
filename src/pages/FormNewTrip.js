@@ -28,6 +28,9 @@ export default function FormNewTrip() {
     document.getElementById('status').value = true;
     updateLocations([]);
     console.log(handleData);
+    setTimeout(() => {
+      navigate(-1);
+    }, 2500);
   };
 
   const [locations, updateLocations] = useImmer([]);
@@ -73,7 +76,11 @@ export default function FormNewTrip() {
             },
           })}
         />
-        <ErrorMessage>{errors.destination?.message}</ErrorMessage>
+        {errors.destination?.message ? (
+          <ErrorMessage>{errors.destination?.message}</ErrorMessage>
+        ) : (
+          ''
+        )}
         <LabelHeader htmlFor="status">Status:</LabelHeader>
         <SelectField id="status" {...register('isTripFuture')}>
           <option value={true}>Trip in the future</option>
@@ -109,7 +116,6 @@ export default function FormNewTrip() {
 
 const HeaderWrapper = styled.header`
   display: flex;
-  margin-top: -15px;
   position: relative;
   align-items: center;
   & h1 {
