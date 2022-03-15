@@ -4,6 +4,8 @@ import PastTrips from './pages/PastTrips.js';
 import { nanoid } from 'nanoid';
 import { useImmer } from 'use-immer';
 import DetailTrip from './pages/DetailTrip.js';
+import FormNewTrip from './pages/FormNewTrip.js';
+import styled from 'styled-components';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer([
@@ -36,8 +38,14 @@ export default function App() {
     });
   }
 
+  function addNewDestination(newData) {
+    updateDestinations(draft => {
+      draft.push(newData);
+    });
+  }
+
   return (
-    <div>
+    <AppGrid>
       <Routes>
         <Route path="*" element={<Navigate to="/futuretrips" replace />} />
         <Route
@@ -57,7 +65,16 @@ export default function App() {
           path="/pasttrips"
           element={<PastTrips destinations={destinations} />}
         />
+        <Route
+          path="/newtrip"
+          element={<FormNewTrip onAddNewDestination={addNewDestination} />}
+        />
       </Routes>
-    </div>
+    </AppGrid>
   );
 }
+
+const AppGrid = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
+`;
