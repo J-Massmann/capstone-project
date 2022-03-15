@@ -93,6 +93,11 @@ export default function Form({ onAddNewDestination, onShowSubmitMessage }) {
       <InputField
         id="locations"
         type="text"
+        onKeyPress={e => {
+          if (e.key === 'Enter') {
+            handleAdd(e);
+          }
+        }}
         placeholder="Add a place you want to vist..."
         {...register('locations')}
       />
