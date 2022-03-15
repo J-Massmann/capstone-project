@@ -2,7 +2,11 @@ import styled from 'styled-components';
 
 export default function Modal({ open, children }) {
   if (!open) return null;
-  return <ModalWrapper>{children}</ModalWrapper>;
+  return (
+    <ModalWrapper aria-modal="true" aria-labelledby="New Trip has been saved">
+      {children}
+    </ModalWrapper>
+  );
 }
 
 const ModalWrapper = styled.div`
