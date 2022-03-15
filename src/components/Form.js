@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
+import { useState } from 'react';
 
 export default function Form({ onAddNewDestination, onShowSubmitMessage }) {
   const {
@@ -18,6 +19,7 @@ export default function Form({ onAddNewDestination, onShowSubmitMessage }) {
       locations: '',
     },
   });
+  const [counter, setCounter] = useState(40);
   const [locations, updateLocations] = useImmer([]);
   const onSubmit = data => {
     const handleData = {
@@ -53,12 +55,18 @@ export default function Form({ onAddNewDestination, onShowSubmitMessage }) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <LabelHeader htmlFor="destination">Destination:</LabelHeader>
+      <Counter name="counter of max characters for detination">
+        {counter}
+      </Counter>
       <InputField
         autoFocus
         id="destination"
         type="text"
         placeholder="e.g. Lissabon..."
         {...register('destination', {
+          onChange: e => {
+            setCounter(40 - e.target.value.length);
+          },
           required: {
             value: true,
             message: 'The name of your next destination must be filled!',
@@ -110,6 +118,12 @@ const FormContainer = styled.form`
   display: grid;
   grid-template-rows: repeat(8, auto);
   gap: 10px;
+`;
+
+const Counter = styled.span`
+  width: 100%;
+  max-width: 400px;
+  text-align: end;
 `;
 
 const LabelHeader = styled.label`
