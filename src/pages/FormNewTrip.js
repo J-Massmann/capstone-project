@@ -12,8 +12,10 @@ export default function FormNewTrip({ onAddNewDestination }) {
     register,
     handleSubmit,
     reset,
+    setError,
     formState: { errors },
   } = useForm({
+    mode: 'all',
     defaultValues: {
       destination: '',
       isTripFuture: 'true',
@@ -38,6 +40,10 @@ export default function FormNewTrip({ onAddNewDestination }) {
 
   function handleAdd(e) {
     const currentLocation = document.getElementById('locations');
+    setError('locations', {
+      minLength: 1,
+      message: 'You have to type in a location first',
+    });
     if (currentLocation.value !== '') {
       updateLocations([...locations, currentLocation.value]);
       currentLocation.value = '';
@@ -97,11 +103,11 @@ export default function FormNewTrip({ onAddNewDestination }) {
           id="locations"
           type="text"
           placeholder="Add a place you want to vist..."
-          {...register('locations', {
-            minLength: 1,
-            message: 'You have to type in a location',
-          })}
+          {...register('locations')}
         />
+        <ErrorMessage id="locationError">
+          {errors.locations?.message}
+        </ErrorMessage>
         <AddButton type="button" onClick={handleAdd}>
           Add to list
         </AddButton>
@@ -172,7 +178,7 @@ const SelectField = styled.select`
 `;
 
 const ErrorMessage = styled.span`
-  margin-top: -20px;
+  margin-top: ${props => (props.id === 'locationError' ? '-15px' : '-20px')};
   color: var(--bg-color-action);
   font-size: 0.8em;
 `;
