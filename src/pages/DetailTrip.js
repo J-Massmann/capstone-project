@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import goback from '../img/akar-icons_arrow-back.svg';
 import edit from '../img/Edit_Icon.svg';
@@ -18,7 +18,9 @@ export default function DetailTrip({ destinations, handleTripStatus }) {
         <section key={trip.id}>
           <SubHeaderWrapper>
             <h1>{trip.place}</h1>
-            <img src={edit} alt="edit_icon" />
+            <Link to={`/edit/${trip.place}`}>
+              <img src={edit} alt="edit_icon" />
+            </Link>
           </SubHeaderWrapper>
           <Subheader2>Locations:</Subheader2>
           <ul>

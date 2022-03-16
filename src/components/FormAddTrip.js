@@ -4,7 +4,10 @@ import { useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 
-export default function Form({ onAddNewDestination, onShowSubmitMessage }) {
+export default function FormAddTrip({
+  onAddNewDestination,
+  onShowSubmitMessage,
+}) {
   const {
     register,
     handleSubmit,

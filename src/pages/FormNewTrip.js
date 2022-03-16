@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import x_icon from '../img/icon_x.svg';
 import Modal from '../components/Modal.js';
 import { useState } from 'react';
-import Form from '../components/Form.js';
+import FormAddTrip from '../components/FormAddTrip.js';
 
 export default function FormNewTrip({ onAddNewDestination }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ export default function FormNewTrip({ onAddNewDestination }) {
         <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
         <h1>New Trip</h1>
       </HeaderWrapper>
-      <Form
+      <FormAddTrip
         onAddNewDestination={onAddNewDestination}
         onShowSubmitMessage={showSubmitMessage}
       />

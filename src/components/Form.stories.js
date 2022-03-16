@@ -1,9 +1,9 @@
-import Form from './Form.js';
+import FormAddTrip from './FormAddTrip.js';
 
 export default {
   title: 'Components/Form',
-  component: Form,
+  component: FormAddTrip,
 };
 
-const Template = () => <Form />;
+const Template = () => <FormAddTrip />;
 export const Default = Template.bind({});

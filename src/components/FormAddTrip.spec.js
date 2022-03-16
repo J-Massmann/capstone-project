@@ -1,4 +1,4 @@
-import Form from './Form.js';
+import FormAddTrip from './FormAddTrip.js';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
@@ -6,7 +6,7 @@ describe('Form', () => {
   it('renders two inputs, a selct and two button', () => {
     render(
       <MemoryRouter>
-        <Form />
+        <FormAddTrip />
       </MemoryRouter>
     );
     const input1 = screen.getByLabelText(/destination/i);
