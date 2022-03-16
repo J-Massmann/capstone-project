@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export default function Modal({ open, children }) {
   if (!open) return null;
   return (
-    <ModalWrapper aria-modal="true" aria-labelledby="New Trip has been saved">
+    <ModalWrapper aria-modal="true" aria-label="New Trip has been saved">
       {children}
     </ModalWrapper>
   );
