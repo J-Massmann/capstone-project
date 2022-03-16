@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import x_icon from '../img/icon_x.svg';
-import FormEditTrip from '../components/ForEditTrip.js';
+import FormEditTrip from '../components/FormEditTrip.js';
 import Modal from '../components/Modal.js';
 
 export default function EditTrips({ destinations, onEditDestination }) {

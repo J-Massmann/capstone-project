@@ -1,13 +1,22 @@
-import FormAddTrip from './FormAddTrip.js';
+import FormEditTrip from './FormEditTrip.js';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
-describe('FormAdd', () => {
-  render(
-    <MemoryRouter>
-      <FormAddTrip />
-    </MemoryRouter>
-  );
+describe(
+  'FormEdit',
+  () => {
+    const testDestination = {
+      id: 123,
+      place: 'Barcelona',
+      isTripFuture: true,
+      locations: ['Park Güell', 'Camp Nou'],
+    };
+    render(
+      <MemoryRouter>
+        <FormEditTrip destination={testDestination} />
+      </MemoryRouter>
+    );
+  },
   it('renders two inputs, a select and two buttons', () => {
     const input1 = screen.getByLabelText(/destination/i);
     const input2 = screen.getByLabelText(/location/i);
@@ -18,5 +27,5 @@ describe('FormAdd', () => {
     expect(input2).toBeInTheDocument();
     expect(select).toBeInTheDocument();
     expect(buttons).toHaveLength(2);
-  });
-});
+  })
+);
