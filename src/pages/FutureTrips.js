@@ -8,7 +8,6 @@ export default function FutureTrips({ destinations }) {
   const futureDestinations = destinations.filter(destination => {
     return destination.isTripFuture;
   });
-  console.log(destinations);
 
   return (
     <>

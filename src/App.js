@@ -6,28 +6,35 @@ import { useImmer } from 'use-immer';
 import DetailTrip from './pages/DetailTrip.js';
 import FormNewTrip from './pages/FormNewTrip.js';
 import styled from 'styled-components';
+import { useEffect } from 'react';
 
 export default function App() {
-  const [destinations, updateDestinations] = useImmer([
-    {
-      id: nanoid(),
-      place: 'Barcelona',
-      locations: ['Sagrada Familia', 'Park Güell'],
-      isTripFuture: true,
-    },
-    {
-      id: nanoid(),
-      place: 'New York',
-      locations: ['Brooklyn Bridge', 'Central Park'],
-      isTripFuture: true,
-    },
-    {
-      id: nanoid(),
-      place: 'Tokyo',
-      locations: ['Senso-ji', 'Imperial Palace'],
-      isTripFuture: false,
-    },
-  ]);
+  const [destinations, updateDestinations] = useImmer(
+    loadFromLocal('Trips') ?? [
+      {
+        id: nanoid(),
+        place: 'Barcelona',
+        locations: ['Sagrada Familia', 'Park Güell'],
+        isTripFuture: true,
+      },
+      {
+        id: nanoid(),
+        place: 'New York',
+        locations: ['Brooklyn Bridge', 'Central Park'],
+        isTripFuture: true,
+      },
+      {
+        id: nanoid(),
+        place: 'Tokyo',
+        locations: ['Senso-ji', 'Imperial Palace'],
+        isTripFuture: false,
+      },
+    ]
+  );
+
+  useEffect(() => {
+    saveToLocal('Trips', destinations);
+  }, [destinations]);
 
   function handleTripStatus(destinationId) {
     updateDestinations(draft => {
@@ -42,6 +49,18 @@ export default function App() {
     updateDestinations(draft => {
       draft.push(newData);
     });
+  }
+
+  function saveToLocal(key, data) {
+    localStorage.setItem(key, JSON.stringify(data));
+  }
+
+  function loadFromLocal(key) {
+    try {
+      return JSON.parse(localStorage.getItem(key));
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

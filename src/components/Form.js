@@ -129,6 +129,9 @@ const Counter = styled.span`
   width: 100%;
   max-width: 400px;
   text-align: end;
+  font-size: 0.7em;
+  margin-bottom: -10px;
+  padding-right: 10px;
 `;
 
 const LabelHeader = styled.label`
