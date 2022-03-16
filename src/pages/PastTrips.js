@@ -19,7 +19,7 @@ export default function PastTrips({ destinations }) {
           pastDestinations.map(destination => (
             <Link
               key={destination.id}
-              to={`/futuretrips/${destination.place}`}
+              to={`/details/${destination.place}`}
               style={linkStyle}
             >
               <TripCard

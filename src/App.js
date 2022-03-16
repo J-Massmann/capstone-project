@@ -72,7 +72,7 @@ export default function App() {
           element={<FutureTrips destinations={destinations} />}
         />
         <Route
-          path="/futuretrips/:id"
+          path="/details/:id"
           element={
             <DetailTrip
               destinations={destinations}
