@@ -34,9 +34,11 @@ export default function FutureTrips({ destinations }) {
           <p>No future trips planned!</p>
         )}
       </DestinationWrapper>
-      <Link to="/newtrip">
-        <AddButton src={AddIcon} alt="Create new Trip" width={48} height={48} />
-      </Link>
+      <AddButton>
+        <Link to="/newtrip">
+          <img src={AddIcon} alt="Create new Trip" />
+        </Link>
+      </AddButton>
     </>
   );
 }
@@ -54,9 +56,12 @@ const linkStyle = {
   color: '#F3F4F6',
 };
 
-const AddButton = styled.img`
-  position: absolute;
+const AddButton = styled.button`
+  position: fixed;
   bottom: 15px;
   right: 15px;
   z-index: 2;
+  background: transparent;
+  border: transparent;
+  width: fit-content;
 `;

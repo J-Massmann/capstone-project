@@ -66,6 +66,7 @@ export default function FormAddTrip({
         id="destination"
         type="text"
         placeholder="e.g. Lissabon..."
+        maxLength={40}
         {...register('destination', {
           onChange: e => {
             setCounter(40 - e.target.value.length);
@@ -76,9 +77,9 @@ export default function FormAddTrip({
           },
           minLength: 1,
           maxLength: {
-            value: 40,
+            value: 39,
             message:
-              'Name of the your Destination is too long, try keeping it a littler shorter',
+              'You reached the max amount of allowed characters, try to keep it a littler shorter',
           },
         })}
       />
@@ -96,13 +97,20 @@ export default function FormAddTrip({
       <InputField
         id="locations"
         type="text"
+        maxLength={50}
         onKeyPress={e => {
           if (e.key === 'Enter') {
             handleAdd(e);
           }
         }}
         placeholder="Add a place you want to vist..."
-        {...register('locations')}
+        {...register('locations', {
+          maxLength: {
+            value: 49,
+            message:
+              'You reached the max amount of allowed characters, try to keep it a littler shorter',
+          },
+        })}
       />
       <ErrorMessage id="locationError">
         {errors.locations?.message}
