@@ -1,26 +1,48 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import goback from '../img/akar-icons_arrow-back.svg';
+import home from '../img/Home_Icon.svg';
 import edit from '../img/Edit_Icon.svg';
+import deleteIcon from '../img/Delete_Icon.svg';
 import { ToggleButton } from '../components/ToggleBar.js';
+import { useState } from 'react';
+import { DeleteModal } from '../components/Modal.js';
 
-export default function DetailTrip({ destinations, handleTripStatus }) {
+export default function DetailTrip({
+  destinations,
+  handleTripStatus,
+  onDeleteDestination,
+}) {
   const { id } = useParams();
   const detailDestination = destinations.filter(destination => {
     return destination.place === id;
   });
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  function handleDeleteDestination(id) {
+    onDeleteDestination(id);
+    navigate(-1);
+  }
 
   return (
     <>
-      <GoBack src={goback} alt="go back" onClick={() => navigate(-1)} />
+      <Heading>
+        <Button delete onClick={() => setIsOpen(true)}>
+          <img src={deleteIcon} alt="delete_trip" />
+        </Button>
+        <h1>Your Trips</h1>
+        <Button>
+          <img src={home} alt="go_back" onClick={() => navigate(-1)} />
+        </Button>
+      </Heading>
       {detailDestination.map(trip => (
-        <section key={trip.id}>
+        <Wrapper key={trip.id}>
           <SubHeaderWrapper>
-            <h1>{trip.place}</h1>
-            <Link to={`/edit/${trip.place}`}>
-              <img src={edit} alt="edit_icon" />
-            </Link>
+            <h2>{trip.place}</h2>
+            <Button>
+              <Link to={`/edit/${trip.place}`}>
+                <img src={edit} alt="edit_icon" />
+              </Link>
+            </Button>
           </SubHeaderWrapper>
           <Subheader2>Locations:</Subheader2>
           <ul>
@@ -34,17 +56,40 @@ export default function DetailTrip({ destinations, handleTripStatus }) {
             isTripFuture={trip.isTripFuture}
             onHandleTripStatus={() => handleTripStatus(trip.id)}
           />
-        </section>
+        </Wrapper>
       ))}
+      <DeleteModal
+        open={isOpen}
+        setOpen={setIsOpen}
+        handleDelete={() => handleDeleteDestination(detailDestination[0].id)}
+      >
+        Are you sure that you want to delete the trip?
+      </DeleteModal>
     </>
   );
 }
-
-const SubHeaderWrapper = styled.header`
+const Heading = styled.header`
   display: flex;
   position: relative;
   align-items: center;
-  & h1 {
+  justify-content: center;
+`;
+
+const Wrapper = styled.section`
+  display: block;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  @media (min-width: 550px) {
+    width: 550px;
+  }
+`;
+
+const SubHeaderWrapper = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  h2 {
     width: 100%;
     margin-bottom: 0;
     font-size: 2em;
@@ -53,17 +98,9 @@ const SubHeaderWrapper = styled.header`
       text-align: end;
     }
   }
-  img {
-    @media (min-width: 200px) {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-    }
-    cursor: pointer;
-  }
 `;
 
-const Subheader2 = styled.h2`
+const Subheader2 = styled.h3`
   margin-bottom: 10px;
   margin-top: 10px;
   text-decoration: underline;
@@ -73,6 +110,14 @@ const Subheader3 = styled.p`
   margin: 0;
 `;
 
-const GoBack = styled.img`
+const Button = styled.button`
+  width: fit-content;
+  background: transparent;
+  border: transparent;
   cursor: pointer;
+  @media (min-width: 266px) {
+    position: absolute;
+    right: ${props => (props.delete ? '' : '0')};
+    left: ${props => (props.delete ? '0' : '')};
+  }
 `;
