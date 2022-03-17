@@ -7,6 +7,7 @@ import DetailTrip from './pages/DetailTrip.js';
 import FormNewTrip from './pages/FormNewTrip.js';
 import styled from 'styled-components';
 import { useEffect } from 'react';
+import EditTrips from './pages/EditTrip.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -51,6 +52,17 @@ export default function App() {
     });
   }
 
+  function editDestination(handleData) {
+    updateDestinations(draft => {
+      const destination = draft.find(
+        destination => destination.id === handleData.id
+      );
+      destination.place = handleData.place;
+      destination.locations = handleData.locations;
+      destination.isTripFuture = handleData.isTripFuture;
+    });
+  }
+
   function saveToLocal(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
   }
@@ -72,11 +84,20 @@ export default function App() {
           element={<FutureTrips destinations={destinations} />}
         />
         <Route
-          path="/futuretrips/:id"
+          path="/details/:id"
           element={
             <DetailTrip
               destinations={destinations}
               handleTripStatus={handleTripStatus}
+            />
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={
+            <EditTrips
+              destinations={destinations}
+              onEditDestination={editDestination}
             />
           }
         />

@@ -20,7 +20,7 @@ export default function FutureTrips({ destinations }) {
           futureDestinations.map(destination => (
             <Link
               key={destination.id}
-              to={`/futuretrips/${destination.place}`}
+              to={`/details/${destination.place}`}
               style={linkStyle}
             >
               <TripCard
@@ -35,13 +35,7 @@ export default function FutureTrips({ destinations }) {
         )}
       </DestinationWrapper>
       <Link to="/newtrip">
-        <AddButton
-          src={AddIcon}
-          alt="Create new Trip"
-          to="/newtrip"
-          width={48}
-          height={48}
-        />
+        <AddButton src={AddIcon} alt="Create new Trip" width={48} height={48} />
       </Link>
     </>
   );
