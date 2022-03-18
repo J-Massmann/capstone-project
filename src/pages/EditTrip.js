@@ -25,7 +25,9 @@ export default function EditTrips({ destinations, onEditDestination }) {
       {detailDestination.map(trip => (
         <div key={trip.id}>
           <HeaderWrapper>
-            <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
+            <Button onClick={() => navigate(-1)}>
+              <img src={x_icon} alt="cancel" />
+            </Button>
             <h1> {trip.place}</h1>
           </HeaderWrapper>
           <FormEditTrip
@@ -53,10 +55,12 @@ const HeaderWrapper = styled.header`
       text-align: end;
     }
   }
-  img {
-    @media (min-width: 200px) {
-      position: absolute;
-    }
-    cursor: pointer;
-  }
+`;
+
+const Button = styled.button`
+  width: fit-content;
+  height: fit-content;
+  background: transparent;
+  border: transparent;
+  cursor: pointer;
 `;

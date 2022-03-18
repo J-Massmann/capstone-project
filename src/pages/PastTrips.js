@@ -30,22 +30,13 @@ export default function PastTrips({ destinations }) {
             </Link>
           ))
         ) : (
-          <p>
-            You haven't selected any destinations where you have been.
-            <br />
-            Go check the current trips to get some inspiration for you next
-            trip!
-          </p>
+          <p>No trips in the past!</p>
         )}
-        <Link to="/newtrip">
-          <AddButton
-            src={AddIcon}
-            alt="Create new Trip"
-            to="/newtrip"
-            width={48}
-            height={48}
-          />
-        </Link>
+        <AddButton>
+          <Link to="/newtrip">
+            <img src={AddIcon} alt="Create new Trip" />
+          </Link>
+        </AddButton>
       </DestinationWrapper>
     </>
   );
@@ -65,9 +56,12 @@ const linkStyle = {
   color: '#F3F4F6',
 };
 
-const AddButton = styled.img`
-  position: absolute;
+const AddButton = styled.button`
+  position: fixed;
   bottom: 15px;
   right: 15px;
   z-index: 2;
+  background: transparent;
+  border: transparent;
+  width: fit-content;
 `;

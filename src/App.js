@@ -63,6 +63,15 @@ export default function App() {
     });
   }
 
+  function deleteDestination(destinationId) {
+    updateDestinations((draft, index) => {
+      const destination = draft.find(
+        destination => destination.id === destinationId
+      );
+      draft.splice(destination[index], 1);
+    });
+  }
+
   function saveToLocal(key, data) {
     localStorage.setItem(key, JSON.stringify(data));
   }
@@ -89,6 +98,7 @@ export default function App() {
             <DetailTrip
               destinations={destinations}
               handleTripStatus={handleTripStatus}
+              onDeleteDestination={deleteDestination}
             />
           }
         />
