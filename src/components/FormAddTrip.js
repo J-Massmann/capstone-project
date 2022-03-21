@@ -4,8 +4,9 @@ import { useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { DateRangePicker } from 'react-date-range';
-import 'react-date-range/dist/styles.css';
-import 'react-date-range/dist/theme/default.css';
+import { addDays, format, isWeekend } from 'date-fns';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 export default function FormAddTrip({
   onAddNewDestination,
@@ -25,6 +26,7 @@ export default function FormAddTrip({
       locations: '',
     },
   });
+
   const [counter, setCounter] = useState(40);
   const [locations, updateLocations] = useImmer([]);
   const onSubmit = data => {
@@ -53,96 +55,107 @@ export default function FormAddTrip({
       });
     }
   }
+
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  const selectionRange = {
+  function handleSelect(ranges) {
+    setStartDate(ranges.selection.startDate);
+    setEndDate(ranges.selection.endDate);
+    console.log(startDate, endDate);
+  }
+
+  const selectionRage = {
     startDate: startDate,
     endDate: endDate,
-    key: 'Selection',
+    key: 'selection',
   };
 
   return (
-    <FormContainer
-      id="newTripForm"
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <>
       <DateRangePicker
-        ranges={[selectionRange]}
+        ranges={[selectionRage]}
+        onChange={handleSelect}
         rangeColors={['#FF5A72']}
-        background-color={'#bfc2c8'}
       />
-      <LabelHeader htmlFor="destination">Destination:</LabelHeader>
-      <Counter name="counter of max characters for detination">
-        {counter}
-      </Counter>
-      <InputField
-        autoFocus
-        id="destination"
-        type="text"
-        placeholder="e.g. Lissabon..."
-        maxLength={40}
-        {...register('destination', {
-          onChange: e => {
-            setCounter(40 - e.target.value.length);
-          },
-          required: {
-            value: true,
-            message: 'The name of your next destination must be filled!',
-          },
-          minLength: 1,
-          maxLength: {
-            value: 39,
-            message:
-              'You reached the max amount of allowed characters, try to keep it a littler shorter',
-          },
-        })}
-      />
-      {errors.destination?.message ? (
-        <ErrorMessage>{errors.destination?.message}</ErrorMessage>
-      ) : (
-        ''
-      )}
-      <LabelHeader htmlFor="status">Status:</LabelHeader>
-      <SelectField id="status" {...register('isTripFuture')}>
-        <option value={true}>Trip in the future</option>
-        <option value={false}>Trip in the past</option>
-      </SelectField>
-      <LabelHeader htmlFor="locations">Locations:</LabelHeader>
-      <InputField
-        id="locations"
-        type="text"
-        maxLength={50}
-        onKeyPress={e => {
-          if (e.key === 'Enter') {
-            handleAdd(e);
-          }
-        }}
-        placeholder="Add a place you want to vist..."
-        {...register('locations', {
-          maxLength: {
-            value: 49,
-            message:
-              'You reached the max amount of allowed characters, try to keep it a littler shorter',
-          },
-        })}
-      />
-      <ErrorMessage id="locationError">
-        {errors.locations?.message}
-      </ErrorMessage>
-      <AddButton type="button" onClick={handleAdd}>
-        Add to list
-      </AddButton>
-      <Listheader>List of Locations:</Listheader>
-      <ListWrapper>
-        {locations.length < 1
-          ? null
-          : locations.map((location, index) => <li key={index}>{location}</li>)}
-      </ListWrapper>
+      <FormContainer
+        id="newTripForm"
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <LabelHeader htmlFor="destination">Destination:</LabelHeader>
+        <Counter name="counter of max characters for detination">
+          {counter}
+        </Counter>
+        <InputField
+          autoFocus
+          id="destination"
+          type="text"
+          placeholder="e.g. Lissabon..."
+          maxLength={40}
+          {...register('destination', {
+            onChange: e => {
+              setCounter(40 - e.target.value.length);
+            },
+            required: {
+              value: true,
+              message: 'The name of your next destination must be filled!',
+            },
+            minLength: 1,
+            maxLength: {
+              value: 39,
+              message:
+                'You reached the max amount of allowed characters, try to keep it a littler shorter',
+            },
+          })}
+        />
+        {errors.destination?.message ? (
+          <ErrorMessage>{errors.destination?.message}</ErrorMessage>
+        ) : (
+          ''
+        )}
+        <LabelHeader htmlFor="status">Status:</LabelHeader>
+        <SelectField id="status" {...register('isTripFuture')}>
+          <option value={true}>Trip in the future</option>
+          <option value={false}>Trip in the past</option>
+        </SelectField>
+        <LabelHeader htmlFor="locations">Locations:</LabelHeader>
+        <InputField
+          id="locations"
+          type="text"
+          maxLength={50}
+          onKeyPress={e => {
+            if (e.key === 'Enter') {
+              handleAdd(e);
+            }
+          }}
+          placeholder="Add a place you want to vist..."
+          {...register('locations', {
+            maxLength: {
+              value: 49,
+              message:
+                'You reached the max amount of allowed characters, try to keep it a littler shorter',
+            },
+          })}
+        />
+        <ErrorMessage id="locationError">
+          {errors.locations?.message}
+        </ErrorMessage>
+        <AddButton type="button" onClick={handleAdd}>
+          Add to list
+        </AddButton>
+        <Listheader>List of Locations:</Listheader>
+        <ListWrapper>
+          {locations.length < 1
+            ? null
+            : locations.map((location, index) => (
+                <li key={index}>{location}</li>
+              ))}
+        </ListWrapper>
 
-      <CreateButton type="submit">Create</CreateButton>
-    </FormContainer>
+        <CreateButton type="submit">Create</CreateButton>
+      </FormContainer>
+    </>
   );
 }
 
