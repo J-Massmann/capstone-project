@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import { useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
-import { DateRangePicker } from 'react-date-range';
-import { addDays, format, isWeekend } from 'date-fns';
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import { DateRangeInput } from '@datepicker-react/styled';
+import { useReducer } from 'react';
+import { ThemeProvider } from 'styled-components';
 
 export default function FormAddTrip({
   onAddNewDestination,
@@ -56,33 +55,68 @@ export default function FormAddTrip({
     }
   }
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const initialState = {
+    startDate: null,
+    endDate: null,
+    focusedInput: null,
+  };
 
-  function handleSelect(ranges) {
-    setStartDate(ranges.selection.startDate);
-    setEndDate(ranges.selection.endDate);
-    console.log(startDate, endDate);
+  function reducer(state, action) {
+    switch (action.type) {
+      case 'focusChange':
+        return { ...state, focusedInput: action.payload };
+      case 'dateChange':
+        return action.payload;
+      default:
+        throw new Error();
+    }
   }
 
-  const selectionRage = {
-    startDate: startDate,
-    endDate: endDate,
-    key: 'selection',
-  };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
 
   return (
     <>
-      <DateRangePicker
-        ranges={[selectionRage]}
-        onChange={handleSelect}
-        rangeColors={['#FF5A72']}
-      />
       <FormContainer
         id="newTripForm"
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <DateWrapper>
+          <ThemeProvider
+            theme={{
+              reactDatepicker: {
+                colors: {
+                  accessibility: '#D80249',
+                  selectedDay: '#f7518b',
+                  selectedDayHover: '#F75D95',
+                  primaryColor: '#d8366f',
+                },
+                inputLabelBackground: '#bfc2c8',
+                inputLabelBorderRadius: '15px',
+                inputBackground: 'transparent',
+                inputBorderRadius: '15px',
+                inputPlaceholderColor: '#2A3036',
+                inputMinHeight: '28',
+              },
+            }}
+          >
+            <DateRangeInput
+              onDatesChange={data =>
+                dispatch({ type: 'dateChange', payload: data })
+              }
+              onFocusChange={focusedInput =>
+                dispatch({ type: 'focusChange', payload: focusedInput })
+              }
+              startDate={state.startDate} // Date or null
+              endDate={state.endDate} // Date or null
+              focusedInput={state.focusedInput} // START_DATE, END_DATE or null
+              numberOfMonths={1}
+              vertical={true}
+            />
+          </ThemeProvider>
+        </DateWrapper>
+
         <LabelHeader htmlFor="destination">Destination:</LabelHeader>
         <Counter name="counter of max characters for detination">
           {counter}
@@ -163,6 +197,10 @@ const FormContainer = styled.form`
   display: grid;
   grid-template-rows: repeat(8, auto);
   gap: 10px;
+`;
+
+const DateWrapper = styled.div`
+  max-width: 400px;
 `;
 
 const Counter = styled.span`
