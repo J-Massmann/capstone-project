@@ -5,6 +5,14 @@ import ToggleBar from '../components/ToggleBar.js';
 import AddIcon from '../img/Add_Icon.svg';
 
 export default function FutureTrips({ destinations }) {
+  let today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1;
+  let dd = today.getDate();
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+  today = dd + '/' + mm + '/' + '/' + yyyy;
+  console.log(today >= '20/03/2022');
   const futureDestinations = destinations.filter(destination => {
     return destination.isTripFuture;
   });

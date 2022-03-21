@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { useImmer } from 'use-immer';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { DateRangePicker } from 'react-date-range';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css';
 
 export default function FormAddTrip({
   onAddNewDestination,
@@ -50,6 +53,14 @@ export default function FormAddTrip({
       });
     }
   }
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const selectionRange = {
+    startDate: startDate,
+    endDate: endDate,
+    key: 'Selection',
+  };
 
   return (
     <FormContainer
@@ -57,6 +68,11 @@ export default function FormAddTrip({
       autoComplete="off"
       onSubmit={handleSubmit(onSubmit)}
     >
+      <DateRangePicker
+        ranges={[selectionRange]}
+        rangeColors={['#FF5A72']}
+        background-color={'#bfc2c8'}
+      />
       <LabelHeader htmlFor="destination">Destination:</LabelHeader>
       <Counter name="counter of max characters for detination">
         {counter}
