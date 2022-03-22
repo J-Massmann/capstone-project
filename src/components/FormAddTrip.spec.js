@@ -8,15 +8,15 @@ describe('FormAdd', () => {
       <FormAddTrip />
     </MemoryRouter>
   );
-  it('renders two inputs, a select and two buttons', () => {
+  it('renders four inputs and two buttons', () => {
     const input1 = screen.getByLabelText(/destination/i);
     const input2 = screen.getByLabelText(/location/i);
-    const select = screen.getByLabelText(/status/i);
+    const dateInputs = screen.getAllByLabelText(/date/i);
     const buttons = screen.getAllByRole('button');
 
     expect(input1).toBeInTheDocument();
     expect(input2).toBeInTheDocument();
-    expect(select).toBeInTheDocument();
+    expect(dateInputs).toHaveLength(2);
     expect(buttons).toHaveLength(2);
   });
 });
