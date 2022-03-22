@@ -1,22 +1,27 @@
-import FormAddTrip from './FormAddTrip.js';
+import Form from './Form.js';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 describe('FormAdd', () => {
+  const initialValues = {
+    startDate: new Date(2022, 5, 10),
+    endDate: new Date(2022, 6, 10),
+    focusedInput: null,
+  };
   render(
     <MemoryRouter>
-      <FormAddTrip />
+      <Form initialState={initialValues} />
     </MemoryRouter>
   );
-  it('renders two inputs, a select and two buttons', () => {
+  it('renders four inputs and two buttons', () => {
     const input1 = screen.getByLabelText(/destination/i);
     const input2 = screen.getByLabelText(/location/i);
-    const select = screen.getByLabelText(/status/i);
+    const dateInputs = screen.getAllByLabelText(/date/i);
     const buttons = screen.getAllByRole('button');
 
     expect(input1).toBeInTheDocument();
     expect(input2).toBeInTheDocument();
-    expect(select).toBeInTheDocument();
+    expect(dateInputs).toHaveLength(2);
     expect(buttons).toHaveLength(2);
   });
 });

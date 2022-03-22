@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
-import { nanoid } from 'nanoid';
 import { useImmer } from 'use-immer';
 import DetailTrip from './pages/DetailTrip.js';
 import FormNewTrip from './pages/FormNewTrip.js';
@@ -11,26 +10,7 @@ import EditTrips from './pages/EditTrip.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
-    loadFromLocal('Trips') ?? [
-      {
-        id: nanoid(),
-        place: 'Barcelona',
-        locations: ['Sagrada Familia', 'Park Güell'],
-        isTripFuture: true,
-      },
-      {
-        id: nanoid(),
-        place: 'New York',
-        locations: ['Brooklyn Bridge', 'Central Park'],
-        isTripFuture: true,
-      },
-      {
-        id: nanoid(),
-        place: 'Tokyo',
-        locations: ['Senso-ji', 'Imperial Palace'],
-        isTripFuture: false,
-      },
-    ]
+    loadFromLocal('Trips') ?? []
   );
 
   useEffect(() => {

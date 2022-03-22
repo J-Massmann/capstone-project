@@ -18,28 +18,6 @@ export default function ToggleBar() {
   );
 }
 
-export function ToggleButton({ isTripFuture, onHandleTripStatus }) {
-  return (
-    <div>
-      <ToggleStatusButton
-        status="future"
-        className={isTripFuture === true ? 'active' : ''}
-        aria-label="toggleTripStatus"
-        onClick={onHandleTripStatus}
-      >
-        future
-      </ToggleStatusButton>
-      <ToggleStatusButton
-        className={isTripFuture === true ? '' : 'active'}
-        aria-label="toggleTripStatus"
-        onClick={onHandleTripStatus}
-      >
-        past
-      </ToggleStatusButton>
-    </div>
-  );
-}
-
 const ToggleBarWrapper = styled.nav`
   display: flex;
   justify-content: center;
@@ -58,19 +36,6 @@ const LinkButton = styled(NavLink)`
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  &.active {
-    background-color: var(--bg-color-action);
-  }
-`;
-
-const ToggleStatusButton = styled.button`
-  max-width: 100px;
-  width: 30%;
-  min-width: 45px;
-  padding: 5px;
-  border-radius: ${props =>
-    props.status === 'future' ? `10px 0 0 10px` : `0 10px 10px 0`};
-  border: 1px solid var(--bg-color-main);
   &.active {
     background-color: var(--bg-color-action);
   }

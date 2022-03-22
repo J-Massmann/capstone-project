@@ -5,8 +5,9 @@ import ToggleBar from '../components/ToggleBar.js';
 import AddIcon from '../img/Add_Icon.svg';
 
 export default function PastTrips({ destinations }) {
-  const pastDestinations = destinations.filter(destination => {
-    return destination.isTripFuture === false;
+  const today = new Date();
+  const pastDestinations = destinations?.filter(destination => {
+    return destination.endDate < today;
   });
   return (
     <>
@@ -15,7 +16,7 @@ export default function PastTrips({ destinations }) {
       </header>
       <ToggleBar />
       <DestinationWrapper>
-        {pastDestinations.length > 0 ? (
+        {pastDestinations?.length > 0 ? (
           pastDestinations.map(destination => (
             <Link
               key={destination.id}
@@ -26,6 +27,8 @@ export default function PastTrips({ destinations }) {
                 key={destination.id}
                 id={destination.id}
                 place={destination.place}
+                startDate={destination.startDate}
+                endDate={destination.endDate}
               />
             </Link>
           ))
