@@ -5,16 +5,9 @@ import ToggleBar from '../components/ToggleBar.js';
 import AddIcon from '../img/Add_Icon.svg';
 
 export default function FutureTrips({ destinations }) {
-  let today = new Date();
-  const yyyy = today.getFullYear();
-  let mm = today.getMonth() + 1;
-  let dd = today.getDate();
-  if (dd < 10) dd = '0' + dd;
-  if (mm < 10) mm = '0' + mm;
-  today = dd + '/' + mm + '/' + '/' + yyyy;
-  console.log(today >= '20/03/2022');
-  const futureDestinations = destinations.filter(destination => {
-    return destination.isTripFuture;
+  const today = new Date();
+  const futureDestinations = destinations?.filter(destination => {
+    return destination.endDate >= today;
   });
 
   return (
@@ -24,7 +17,7 @@ export default function FutureTrips({ destinations }) {
       </header>
       <ToggleBar />
       <DestinationWrapper>
-        {futureDestinations.length > 0 ? (
+        {futureDestinations?.length > 0 ? (
           futureDestinations.map(destination => (
             <Link
               key={destination.id}
@@ -35,6 +28,8 @@ export default function FutureTrips({ destinations }) {
                 key={destination.id}
                 id={destination.id}
                 place={destination.place}
+                startDate={destination.startDate}
+                endDate={destination.endDate}
               />
             </Link>
           ))

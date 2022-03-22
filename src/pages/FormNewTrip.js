@@ -14,7 +14,7 @@ export default function FormNewTrip({ onAddNewDestination }) {
     setTimeout(() => {
       setIsOpen(false);
       navigate(-1);
-    }, 4000);
+    }, 2500);
   }
 
   return (

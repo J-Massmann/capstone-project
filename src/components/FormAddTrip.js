@@ -22,7 +22,6 @@ export default function FormAddTrip({
     mode: 'all',
     defaultValues: {
       destination: '',
-      isTripFuture: 'true',
       locations: '',
     },
   });
@@ -31,21 +30,23 @@ export default function FormAddTrip({
     endDate: null,
     focusedInput: null,
   };
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [stateDate, dispatch] = useReducer(reducer, initialState);
   const [counter, setCounter] = useState(40);
   const [locations, updateLocations] = useImmer([]);
   const onSubmit = data => {
+    console.log(data);
     const handleData = {
       id: nanoid(),
       place: data.destination,
-      isTripFuture: data.isTripFuture === 'true' ? true : false,
+      startDate: stateDate.startDate,
+      endDate: stateDate.endDate,
       locations: locations,
     };
     onAddNewDestination(handleData);
     reset();
     updateLocations([]);
     onShowSubmitMessage();
-    console.log(data);
+    console.log(handleData);
   };
 
   function handleAdd(e) {
@@ -62,10 +63,10 @@ export default function FormAddTrip({
     }
   }
 
-  function reducer(state, action) {
+  function reducer(stateDate, action) {
     switch (action.type) {
       case 'focusChange':
-        return { ...state, focusedInput: action.payload };
+        return { ...stateDate, focusedInput: action.payload };
       case 'dateChange':
         return action.payload;
       default:
@@ -91,6 +92,7 @@ export default function FormAddTrip({
       inputCalendarWrapperTop: '7px',
       inputCalendarIconColor: '#2A3036',
       inputFontWeight: '400',
+      datepickerZIndex: '2',
     },
   };
 
@@ -101,8 +103,8 @@ export default function FormAddTrip({
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <LabelHeader htmlFor="destination">Destination:</LabelHeader>
         <Wrapper>
+          <LabelHeader htmlFor="destination">Destination:</LabelHeader>
           <Counter name="counter of max characters for detination">
             {counter}
           </Counter>
@@ -134,33 +136,35 @@ export default function FormAddTrip({
             ''
           )}
         </Wrapper>
-        <LabelHeader htmlFor="date">Date:</LabelHeader>
         <Wrapper>
-          <Controller
-            control={control}
-            name="DateRangeInput"
-            render={() => (
-              <ThemeProvider theme={theme}>
-                <DateRangeInput
-                  id="date"
-                  onDatesChange={data =>
-                    dispatch({ type: 'dateChange', payload: data })
-                  }
-                  onFocusChange={focusedInput =>
-                    dispatch({ type: 'focusChange', payload: focusedInput })
-                  }
-                  startDate={state.startDate}
-                  endDate={state.endDate}
-                  focusedInput={state.focusedInput}
-                  numberOfMonths={1}
-                  vertical={true}
-                />
-              </ThemeProvider>
-            )}
-          />
+          <LabelHeader htmlFor="date">Date:</LabelHeader>
+          <DateWrapper>
+            <Controller
+              control={control}
+              name="DateRangeInput"
+              render={() => (
+                <ThemeProvider theme={theme}>
+                  <DateRangeInput
+                    id="date"
+                    onDatesChange={data =>
+                      dispatch({ type: 'dateChange', payload: data })
+                    }
+                    onFocusChange={focusedInput =>
+                      dispatch({ type: 'focusChange', payload: focusedInput })
+                    }
+                    startDate={stateDate.startDate}
+                    endDate={stateDate.endDate}
+                    focusedInput={stateDate.focusedInput}
+                    numberOfMonths={3}
+                    vertical={true}
+                  />
+                </ThemeProvider>
+              )}
+            />
+          </DateWrapper>
         </Wrapper>
-        <LabelHeader htmlFor="locations">Locations:</LabelHeader>
         <Wrapper>
+          <LabelHeader htmlFor="locations">Locations:</LabelHeader>
           <InputField
             id="locations"
             type="text"
@@ -204,7 +208,7 @@ export default function FormAddTrip({
 const FormContainer = styled.form`
   display: grid;
   grid-template-rows: repeat(6, auto);
-  gap: 10px;
+  gap: 25px;
 `;
 
 const Wrapper = styled.div`
@@ -212,15 +216,18 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
+const DateWrapper = styled.div`
+  margin-top: 10px;
+`;
+
 const Counter = styled.span`
   position: absolute;
-  top: -20px;
+  right: 5px;
+  top: 30px;
   width: 100%;
   max-width: 400px;
   text-align: end;
   font-size: 0.7em;
-  margin-bottom: -10px;
-  padding-right: 10px;
 `;
 
 const LabelHeader = styled.label`
@@ -231,6 +238,7 @@ const LabelHeader = styled.label`
 
 const InputField = styled.input`
   padding: 6px 12px;
+  margin-top: 10px;
   border-radius: 14px;
   border: none;
   background-color: var(--bg-color-content);

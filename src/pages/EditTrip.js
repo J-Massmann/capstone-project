@@ -17,7 +17,7 @@ export default function EditTrips({ destinations, onEditDestination }) {
     setTimeout(() => {
       setIsOpen(false);
       navigate(-1);
-    }, 4000);
+    }, 2500);
   }
 
   return (

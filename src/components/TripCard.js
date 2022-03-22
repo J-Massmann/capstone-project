@@ -1,9 +1,25 @@
 import styled from 'styled-components';
 
-export default function TripCard({ id, place }) {
+export default function TripCard({ id, place, startDate, endDate }) {
+  const startYYYY = startDate.getFullYear();
+  let startMM = startDate.getMonth() + 1;
+  let startDD = startDate.getDate();
+  if (startDD < 10) startDD = '0' + startDD;
+  if (startMM < 10) startMM = '0' + startMM;
+  const displayStartDate = startDD + '.' + startMM + '.' + startYYYY;
+
+  const endYYYY = endDate.getFullYear();
+  let endMM = endDate.getMonth() + 1;
+  let endDD = endDate.getDate();
+  if (endDD < 10) endDD = '0' + endDD;
+  if (endMM < 10) endMM = '0' + endMM;
+  const displayEndDate = endDD + '.' + endMM + '.' + endYYYY;
   return (
     <Wrapper key={id}>
       <h2>{place}</h2>
+      <p>
+        {displayStartDate} - {displayEndDate}
+      </p>
     </Wrapper>
   );
 }
