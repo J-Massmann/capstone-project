@@ -10,6 +10,8 @@ export default function FutureTrips({ destinations }) {
     return new Date(destination.endDate) >= today;
   });
 
+  console.log(new Date(2022, 6, 10));
+
   return (
     <>
       <header>

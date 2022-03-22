@@ -1,22 +1,31 @@
-import FormAddTrip from './FormAddTrip.js';
-import FormEditTrip from './FormEditTrip.js';
+import Form from './Form.js';
 
 export default {
   title: 'Components/Form',
-  component: FormAddTrip,
+  component: Form,
 };
 
-const TemplateAdd = () => <FormAddTrip />;
+const TemplateAdd = args => <Form {...args} />;
 export const Default = TemplateAdd.bind({});
+Default.args = {
+  initialState: {
+    startDate: '',
+    endDate: '',
+    focusedInput: '',
+  },
+};
 
-const templateEdit = args => <FormEditTrip {...args} />;
+const templateEdit = args => <Form {...args} />;
 export const Edit = templateEdit.bind({});
 Edit.args = {
   destination: {
     id: 123,
     place: 'Barcelona',
-    startDate: new Date(2022, 6, 10),
-    endDate: new Date(2022, 7, 10),
     locations: ['Park Güell'],
+  },
+  initialState: {
+    startDate: new Date(2022, 5, 10),
+    endDate: new Date(2022, 6, 10),
+    focusedInput: null,
   },
 };

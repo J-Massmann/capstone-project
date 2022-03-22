@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import x_icon from '../img/icon_x.svg';
-import FormEditTrip from '../components/FormEditTrip.js';
+import Form from '../components/Form.js';
 import Modal from '../components/Modal.js';
 
 export default function EditTrips({ destinations, onEditDestination }) {
@@ -19,6 +19,28 @@ export default function EditTrips({ destinations, onEditDestination }) {
       navigate(-1);
     }, 2500);
   }
+  const initialValues = {
+    startDate: new Date(detailDestination[0].startDate),
+    endDate: new Date(detailDestination[0].endDate),
+    focusedInput: null,
+  };
+
+  const defaultValues = {
+    destination: detailDestination[0].place,
+    locations: '',
+  };
+
+  const onSubmit = (data, stateDate, locations) => {
+    const finalData = {
+      id: detailDestination[0].id,
+      place: data.destination,
+      startDate: stateDate.startDate,
+      endDate: stateDate.endDate,
+      locations: locations,
+    };
+    onEditDestination(finalData);
+    showSubmitMessage();
+  };
 
   return (
     <>
@@ -30,10 +52,12 @@ export default function EditTrips({ destinations, onEditDestination }) {
             </Button>
             <h1> {trip.place}</h1>
           </HeaderWrapper>
-          <FormEditTrip
-            onEditDestination={onEditDestination}
+          <Form
             destination={trip}
-            onShowSubmitMessage={showSubmitMessage}
+            initialState={initialValues}
+            preloadedValues={defaultValues}
+            initialCount={40 - trip.place.length}
+            submit={onSubmit}
           />
         </div>
       ))}

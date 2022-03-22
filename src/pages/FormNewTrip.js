@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import x_icon from '../img/icon_x.svg';
 import Modal from '../components/Modal.js';
 import { useState } from 'react';
-import FormAddTrip from '../components/FormAddTrip.js';
+import Form from '../components/Form.js';
+import { nanoid } from 'nanoid';
 
 export default function FormNewTrip({ onAddNewDestination }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,16 +18,31 @@ export default function FormNewTrip({ onAddNewDestination }) {
     }, 2500);
   }
 
+  const initialValues = {
+    startDate: null,
+    endDate: null,
+    focusedInput: null,
+  };
+
+  const onSubmit = (data, stateDate, locations) => {
+    const finalData = {
+      id: nanoid(),
+      place: data.destination,
+      startDate: stateDate.startDate,
+      endDate: stateDate.endDate,
+      locations: locations,
+    };
+    onAddNewDestination(finalData);
+    showSubmitMessage();
+  };
+
   return (
     <>
       <HeaderWrapper>
         <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
         <h1>New Trip</h1>
       </HeaderWrapper>
-      <FormAddTrip
-        onAddNewDestination={onAddNewDestination}
-        onShowSubmitMessage={showSubmitMessage}
-      />
+      <Form initialState={initialValues} initialCount={40} submit={onSubmit} />
       <Modal open={isOpen}>Your Trip has been saved!</Modal>
     </>
   );

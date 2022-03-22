@@ -1,51 +1,38 @@
 import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { useImmer } from 'use-immer';
-import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { DateRangeInput } from '@datepicker-react/styled';
 import { useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
 
-export default function FormAddTrip({
-  onAddNewDestination,
-  onShowSubmitMessage,
+export default function Form({
+  initialState,
+  initialCount,
+  destination,
+  submit,
+  preloadedValues,
 }) {
   const {
     register,
     handleSubmit,
     control,
-    reset,
     setError,
     formState: { errors },
   } = useForm({
     mode: 'all',
-    defaultValues: {
-      destination: '',
-      locations: '',
-    },
+    defaultValues: preloadedValues
+      ? preloadedValues
+      : { destination: '', locations: '' },
   });
-  const initialState = {
-    startDate: null,
-    endDate: null,
-    focusedInput: null,
-  };
+
   const [stateDate, dispatch] = useReducer(reducer, initialState);
-  const [counter, setCounter] = useState(40);
-  const [locations, updateLocations] = useImmer([]);
+  const [counter, setCounter] = useState(initialCount);
+  const [locations, updateLocations] = useImmer(
+    destination?.locations ? destination.locations : []
+  );
   const onSubmit = data => {
-    const handleData = {
-      id: nanoid(),
-      place: data.destination,
-      startDate: stateDate.startDate,
-      endDate: stateDate.endDate,
-      locations: locations,
-    };
-    onAddNewDestination(handleData);
-    reset();
-    updateLocations([]);
-    onShowSubmitMessage();
-    console.log(handleData);
+    submit(data, stateDate, locations);
   };
 
   function handleAdd(e) {

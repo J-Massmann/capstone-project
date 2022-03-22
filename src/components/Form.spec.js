@@ -1,11 +1,16 @@
-import FormAddTrip from './FormAddTrip.js';
+import Form from './Form.js';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 
 describe('FormAdd', () => {
+  const initialValues = {
+    startDate: new Date(2022, 5, 10),
+    endDate: new Date(2022, 6, 10),
+    focusedInput: null,
+  };
   render(
     <MemoryRouter>
-      <FormAddTrip />
+      <Form initialState={initialValues} />
     </MemoryRouter>
   );
   it('renders four inputs and two buttons', () => {
