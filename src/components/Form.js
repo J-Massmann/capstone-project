@@ -7,6 +7,8 @@ import { useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
 
 export default function Form({
+  ButtonName,
+  formName,
   initialState,
   initialCount,
   destination,
@@ -85,6 +87,7 @@ export default function Form({
   return (
     <>
       <FormContainer
+        aria-label={formName}
         id="newTripForm"
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
@@ -185,7 +188,7 @@ export default function Form({
           </ListWrapper>
         </Wrapper>
 
-        <CreateButton type="submit">Create</CreateButton>
+        <CreateButton type="submit">{ButtonName}</CreateButton>
       </FormContainer>
     </>
   );

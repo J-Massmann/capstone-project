@@ -42,7 +42,13 @@ export default function FormNewTrip({ onAddNewDestination }) {
         <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
         <h1>New Trip</h1>
       </HeaderWrapper>
-      <Form initialState={initialValues} initialCount={40} submit={onSubmit} />
+      <Form
+        formName={'Add a new Trip to your App'}
+        ButtonName={'Create'}
+        initialState={initialValues}
+        initialCount={40}
+        submit={onSubmit}
+      />
       <Modal open={isOpen}>Your Trip has been saved!</Modal>
     </>
   );

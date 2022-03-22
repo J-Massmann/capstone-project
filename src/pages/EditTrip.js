@@ -53,6 +53,8 @@ export default function EditTrips({ destinations, onEditDestination }) {
             <h1> {trip.place}</h1>
           </HeaderWrapper>
           <Form
+            formName={'Edit a trip'}
+            ButtonName={'Save'}
             destination={trip}
             initialState={initialValues}
             preloadedValues={defaultValues}
