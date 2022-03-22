@@ -1,7 +1,9 @@
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import { useImmer } from 'use-immer';
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
+import { DateRangeInput } from '@datepicker-react/styled';
+import { ThemeProvider } from 'styled-components';
 
 export default function FormEditTrip({
   destination,
@@ -11,6 +13,7 @@ export default function FormEditTrip({
   const {
     register,
     handleSubmit,
+    control,
     setError,
     formState: { errors },
   } = useForm({
@@ -18,10 +21,15 @@ export default function FormEditTrip({
     defaultValues: {
       id: destination.id,
       destination: destination.place,
-      isTripFuture: destination.isTripFuture,
       locations: '',
     },
   });
+  const initialState = {
+    startDate: new Date(destination.startDate),
+    endDate: new Date(destination.endDate),
+    focusedInput: null,
+  };
+  const [stateDate, dispatch] = useReducer(reducer, initialState);
   const initialCount = 40 - destination.place.length;
   const [counter, setCounter] = useState(initialCount);
   const [locations, updateLocations] = useImmer(destination.locations);
@@ -30,7 +38,8 @@ export default function FormEditTrip({
     const handleData = {
       id: destination.id,
       place: data.destination,
-      isTripFuture: data.isTripFuture === 'true' ? true : false,
+      startDate: stateDate.startDate,
+      endDate: stateDate.endDate,
       locations: locations,
     };
     onEditDestination(handleData);
@@ -50,90 +59,172 @@ export default function FormEditTrip({
       });
     }
   }
-  return (
-    <FormContainer
-      id="newTripForm"
-      autoComplete="off"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <LabelHeader htmlFor="destination">Destination:</LabelHeader>
-      <Counter name="counter of max characters for detination">
-        {counter}
-      </Counter>
-      <InputField
-        autoFocus
-        id="destination"
-        type="text"
-        placeholder="e.g. Lissabon..."
-        {...register('destination', {
-          onChange: e => {
-            setCounter(40 - e.target.value.length);
-          },
-          required: {
-            value: true,
-            message: 'The name of your next destination must be filled!',
-          },
-          minLength: 1,
-          maxLength: {
-            value: 40,
-            message:
-              'Name of the your Destination is too long, try keeping it a littler shorter',
-          },
-        })}
-      />
-      {errors.destination?.message ? (
-        <ErrorMessage>{errors.destination?.message}</ErrorMessage>
-      ) : (
-        ''
-      )}
-      <LabelHeader htmlFor="status">Status:</LabelHeader>
-      <SelectField id="status" {...register('isTripFuture')}>
-        <option value={true}>Trip in the future</option>
-        <option value={false}>Trip in the past</option>
-      </SelectField>
-      <LabelHeader htmlFor="locations">Locations:</LabelHeader>
-      <InputField
-        id="locations"
-        type="text"
-        onKeyPress={e => {
-          if (e.key === 'Enter') {
-            handleAdd(e);
-          }
-        }}
-        placeholder="Add a place you want to vist..."
-        {...register('locations')}
-      />
-      <ErrorMessage id="locationError">
-        {errors.locations?.message}
-      </ErrorMessage>
-      <AddButton type="button" onClick={handleAdd}>
-        Add to list
-      </AddButton>
-      <Listheader>List of Locations:</Listheader>
-      <ListWrapper>
-        {locations.length < 1
-          ? null
-          : locations.map((location, index) => <li key={index}>{location}</li>)}
-      </ListWrapper>
 
-      <CreateButton type="submit">Save</CreateButton>
-    </FormContainer>
+  const theme = {
+    reactDatepicker: {
+      colors: {
+        accessibility: '#D80249',
+        selectedDay: '#f7518b',
+        selectedDayHover: '#F75D95',
+        primaryColor: '#d8366f',
+      },
+      inputLabelBackground: '#bfc2c8',
+      inputLabelBorderRadius: '15px',
+      inputBackground: 'transparent',
+      inputBorderRadius: '15px',
+      inputPlaceholderColor: '#2A3036',
+      inputMinHeight: '28',
+      inputPadding: '0 8px 4px 32px',
+      inputCalendarWrapperTop: '7px',
+      inputCalendarIconColor: '#2A3036',
+      inputFontWeight: '400',
+      datepickerZIndex: '2',
+    },
+  };
+
+  function reducer(stateDate, action) {
+    switch (action.type) {
+      case 'focusChange':
+        return { ...stateDate, focusedInput: action.payload };
+      case 'dateChange':
+        return action.payload;
+      default:
+        throw new Error();
+    }
+  }
+
+  return (
+    <>
+      <FormContainer
+        id="newTripForm"
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Wrapper>
+          <LabelHeader htmlFor="destination">Destination:</LabelHeader>
+          <Counter name="counter of max characters for detination">
+            {counter}
+          </Counter>
+          <InputField
+            autoFocus
+            id="destination"
+            type="text"
+            placeholder="e.g. Lissabon..."
+            maxLength={40}
+            {...register('destination', {
+              onChange: e => {
+                setCounter(40 - e.target.value.length);
+              },
+              required: {
+                value: true,
+                message: 'The name of your next destination must be filled!',
+              },
+              minLength: 1,
+              maxLength: {
+                value: 39,
+                message:
+                  'You reached the max amount of allowed characters, try to keep it a littler shorter',
+              },
+            })}
+          />
+          {errors.destination?.message ? (
+            <ErrorMessage>{errors.destination?.message}</ErrorMessage>
+          ) : (
+            ''
+          )}
+        </Wrapper>
+        <Wrapper>
+          <LabelHeader htmlFor="date">Date:</LabelHeader>
+          <DateWrapper>
+            <Controller
+              control={control}
+              name="DateRangeInput"
+              render={() => (
+                <ThemeProvider theme={theme}>
+                  <DateRangeInput
+                    id="date"
+                    onDatesChange={data =>
+                      dispatch({ type: 'dateChange', payload: data })
+                    }
+                    onFocusChange={focusedInput =>
+                      dispatch({ type: 'focusChange', payload: focusedInput })
+                    }
+                    startDate={stateDate.startDate}
+                    endDate={stateDate.endDate}
+                    focusedInput={stateDate.focusedInput}
+                    numberOfMonths={3}
+                    vertical={true}
+                  />
+                </ThemeProvider>
+              )}
+            />
+          </DateWrapper>
+        </Wrapper>
+        <Wrapper>
+          <LabelHeader htmlFor="locations">Locations:</LabelHeader>
+          <InputField
+            id="locations"
+            type="text"
+            maxLength={50}
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                handleAdd(e);
+              }
+            }}
+            placeholder="Add a place you want to vist..."
+            {...register('locations', {
+              maxLength: {
+                value: 49,
+                message:
+                  'You reached the max amount of allowed characters, try to keep it a littler shorter',
+              },
+            })}
+          />
+          <ErrorMessage id="locationError">
+            {errors.locations?.message}
+          </ErrorMessage>
+          <AddButton type="button" onClick={handleAdd}>
+            Add to list
+          </AddButton>
+          <Listheader>List of Locations:</Listheader>
+          <ListWrapper>
+            {locations.length < 1
+              ? null
+              : locations.map((location, index) => (
+                  <li key={index}>{location}</li>
+                ))}
+          </ListWrapper>
+        </Wrapper>
+
+        <CreateButton type="submit">Create</CreateButton>
+      </FormContainer>
+    </>
   );
 }
 
 const FormContainer = styled.form`
   display: grid;
-  grid-template-rows: repeat(8, auto);
-  gap: 10px;
+  grid-template-rows: repeat(6, auto);
+  gap: 25px;
+`;
+
+const Wrapper = styled.div`
+  max-width: 400px;
+  position: relative;
+`;
+
+const DateWrapper = styled.div`
+  margin-top: 10px;
 `;
 
 const Counter = styled.span`
+  position: absolute;
+  right: 5px;
+  top: 30px;
   width: 100%;
   max-width: 400px;
   text-align: end;
   font-size: 0.7em;
-  margin-bottom: -10px;
-  padding-right: 10px;
 `;
 
 const LabelHeader = styled.label`
@@ -143,17 +234,8 @@ const LabelHeader = styled.label`
 `;
 
 const InputField = styled.input`
-  margin-bottom: ${props => (props.id === 'locations' ? '5px' : '15px')};
   padding: 6px 12px;
-  border-radius: 14px;
-  border: none;
-  background-color: var(--bg-color-content);
-  width: 100%;
-  max-width: 400px;
-`;
-const SelectField = styled.select`
-  margin-bottom: 15px;
-  padding: 8px;
+  margin-top: 10px;
   border-radius: 14px;
   border: none;
   background-color: var(--bg-color-content);
@@ -161,14 +243,14 @@ const SelectField = styled.select`
   max-width: 400px;
 `;
 
-const ErrorMessage = styled.span`
-  margin-top: ${props => (props.id === 'locationError' ? '-15px' : '-20px')};
+const ErrorMessage = styled.p`
+  margin: 0;
   color: var(--bg-color-action);
   font-size: 0.8em;
 `;
 
 const Listheader = styled.h2`
-  margin: 0;
+  margin: 5px;
   font-size: 1rem;
 `;
 
@@ -177,13 +259,13 @@ const ListWrapper = styled.ul`
 `;
 
 const AddButton = styled.button`
-  margin-top: -8px;
   width: fit-content;
   height: 2rem;
   padding: 7px;
   background-color: var(--bg-color-action);
   border: none;
   border-radius: 10px;
+  margin-top: 10px;
 `;
 
 const CreateButton = styled.button`

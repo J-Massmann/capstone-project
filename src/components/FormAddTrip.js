@@ -34,7 +34,6 @@ export default function FormAddTrip({
   const [counter, setCounter] = useState(40);
   const [locations, updateLocations] = useImmer([]);
   const onSubmit = data => {
-    console.log(data);
     const handleData = {
       id: nanoid(),
       place: data.destination,
