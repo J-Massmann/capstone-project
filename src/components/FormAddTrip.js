@@ -26,7 +26,12 @@ export default function FormAddTrip({
       locations: '',
     },
   });
-
+  const initialState = {
+    startDate: null,
+    endDate: null,
+    focusedInput: null,
+  };
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [counter, setCounter] = useState(40);
   const [locations, updateLocations] = useImmer([]);
   const onSubmit = data => {
@@ -57,12 +62,6 @@ export default function FormAddTrip({
     }
   }
 
-  const initialState = {
-    startDate: null,
-    endDate: null,
-    focusedInput: null,
-  };
-
   function reducer(state, action) {
     switch (action.type) {
       case 'focusChange':
@@ -73,9 +72,6 @@ export default function FormAddTrip({
         throw new Error();
     }
   }
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
 
   const theme = {
     reactDatepicker: {
@@ -106,7 +102,7 @@ export default function FormAddTrip({
         onSubmit={handleSubmit(onSubmit)}
       >
         <LabelHeader htmlFor="destination">Destination:</LabelHeader>
-        <div>
+        <Wrapper>
           <Counter name="counter of max characters for detination">
             {counter}
           </Counter>
@@ -137,9 +133,9 @@ export default function FormAddTrip({
           ) : (
             ''
           )}
-        </div>
+        </Wrapper>
         <LabelHeader htmlFor="date">Date:</LabelHeader>
-        <DateWrapper>
+        <Wrapper>
           <Controller
             control={control}
             name="DateRangeInput"
@@ -162,9 +158,9 @@ export default function FormAddTrip({
               </ThemeProvider>
             )}
           />
-        </DateWrapper>
+        </Wrapper>
         <LabelHeader htmlFor="locations">Locations:</LabelHeader>
-        <div>
+        <Wrapper>
           <InputField
             id="locations"
             type="text"
@@ -197,7 +193,7 @@ export default function FormAddTrip({
                   <li key={index}>{location}</li>
                 ))}
           </ListWrapper>
-        </div>
+        </Wrapper>
 
         <CreateButton type="submit">Create</CreateButton>
       </FormContainer>
@@ -211,13 +207,14 @@ const FormContainer = styled.form`
   gap: 10px;
 `;
 
-const DateWrapper = styled.div`
+const Wrapper = styled.div`
   max-width: 400px;
+  position: relative;
 `;
 
 const Counter = styled.span`
   position: absolute;
-  top: 21%;
+  top: -20px;
   width: 100%;
   max-width: 400px;
   text-align: end;
