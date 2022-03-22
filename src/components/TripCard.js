@@ -1,16 +1,18 @@
 import styled from 'styled-components';
 
 export default function TripCard({ id, place, startDate, endDate }) {
-  const startYYYY = startDate.getFullYear();
-  let startMM = startDate.getMonth() + 1;
-  let startDD = startDate.getDate();
+  const currentStartDate = new Date(startDate);
+  const startYYYY = currentStartDate.getFullYear();
+  let startMM = currentStartDate.getMonth() + 1;
+  let startDD = currentStartDate.getDate();
   if (startDD < 10) startDD = '0' + startDD;
   if (startMM < 10) startMM = '0' + startMM;
   const displayStartDate = startDD + '.' + startMM + '.' + startYYYY;
 
-  const endYYYY = endDate.getFullYear();
-  let endMM = endDate.getMonth() + 1;
-  let endDD = endDate.getDate();
+  const currentEndDate = new Date(endDate);
+  const endYYYY = currentEndDate.getFullYear();
+  let endMM = currentEndDate.getMonth() + 1;
+  let endDD = currentEndDate.getDate();
   if (endDD < 10) endDD = '0' + endDD;
   if (endMM < 10) endMM = '0' + endMM;
   const displayEndDate = endDD + '.' + endMM + '.' + endYYYY;

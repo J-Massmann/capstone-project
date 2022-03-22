@@ -7,7 +7,7 @@ import AddIcon from '../img/Add_Icon.svg';
 export default function FutureTrips({ destinations }) {
   const today = new Date();
   const futureDestinations = destinations?.filter(destination => {
-    return destination.endDate >= today;
+    return new Date(destination.endDate) >= today;
   });
 
   return (

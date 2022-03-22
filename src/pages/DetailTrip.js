@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import home from '../img/Home_Icon.svg';
 import edit from '../img/Edit_Icon.svg';
 import deleteIcon from '../img/Delete_Icon.svg';
-import { ToggleButton } from '../components/ToggleBar.js';
 import { useState } from 'react';
 import { DeleteModal } from '../components/Modal.js';
 
