@@ -15,7 +15,8 @@ Edit.args = {
   destination: {
     id: 123,
     place: 'Barcelona',
-    isTripFuture: false,
+    startDate: new Date(2022, 6, 10),
+    endDate: new Date(2022, 7, 10),
     locations: ['Park Güell'],
   },
 };
