@@ -1,7 +1,7 @@
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useImmer } from 'use-immer';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { DateRangeInput } from '@datepicker-react/styled';
 import { useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
@@ -18,7 +18,6 @@ export default function Form({
   const {
     register,
     handleSubmit,
-    control,
     setError,
     formState: { errors },
   } = useForm({
@@ -62,13 +61,11 @@ export default function Form({
     }
   }
 
-  console.log(stateDate);
-
   function inputDates() {
     console.log('click', disable, stateDate.startDate);
-    stateDate.startDate instanceof Date && stateDate.endDate instanceof Date
-      ? setDisable(false)
-      : setDisable(true);
+    stateDate.startDate === null && stateDate.endDate === null
+      ? setDisable(true)
+      : setDisable(false);
   }
   const theme = {
     reactDatepicker: {
@@ -99,7 +96,6 @@ export default function Form({
         id="newTripForm"
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
-        // onChange={inputDates}
       >
         <Wrapper>
           <LabelHeader htmlFor="destination">Destination:</LabelHeader>
@@ -142,10 +138,6 @@ export default function Form({
             ''
           )}
           <DateWrapper>
-            {/* <Controller
-              control={control}
-              name="DateRangeInput"
-              render={() => ( */}
             <ThemeProvider theme={theme}>
               <DateRangeInput
                 id="date"
@@ -163,8 +155,6 @@ export default function Form({
                 vertical={true}
               />
             </ThemeProvider>
-            {/* )}
-            /> */}
           </DateWrapper>
         </Wrapper>
         <Wrapper>
