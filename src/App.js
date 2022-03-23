@@ -7,7 +7,6 @@ import FormNewTrip from './pages/FormNewTrip.js';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import EditTrips from './pages/EditTrip.js';
-import produce from 'immer';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(

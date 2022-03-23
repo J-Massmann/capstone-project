@@ -5,6 +5,9 @@ import { useState } from 'react';
 import { DateRangeInput } from '@datepicker-react/styled';
 import { useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
+import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import mapboxgl from 'mapbox-gl';
 
 export default function Form({
   ButtonName,
@@ -15,6 +18,21 @@ export default function Form({
   submit,
   preloadedValues,
 }) {
+  mapboxgl.accessToken =
+    'pk.eyJ1Ijoiai1tYXNzbWFubiIsImEiOiJjbDAyYzl5MHUwNW4yM2xxYmNrY3ViMmQ3In0.OFJuoFCLObuzC-2xN6gzZA';
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken,
+    types: 'country, region, place',
+  });
+  geocoder.addTo('#geocoder');
+  const results = document.getElementById('result');
+  geocoder.on('result', e => {
+    results.innerText = JSON.stringify(e.result, null, 2);
+  });
+  geocoder.on('clear', () => {
+    results.innerText = '';
+  });
+
   const {
     register,
     handleSubmit,
@@ -91,6 +109,8 @@ export default function Form({
 
   return (
     <>
+      <div id="geocoder"></div>
+      <pre id="result"></pre>
       <FormContainer
         aria-label={formName}
         id="newTripForm"
