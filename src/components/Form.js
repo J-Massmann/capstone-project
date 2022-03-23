@@ -1,4 +1,4 @@
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useImmer } from 'use-immer';
 import { useState } from 'react';
@@ -18,7 +18,6 @@ export default function Form({
   const {
     register,
     handleSubmit,
-    control,
     setError,
     formState: { errors },
   } = useForm({
@@ -27,12 +26,12 @@ export default function Form({
       ? preloadedValues
       : { destination: '', locations: '' },
   });
-
   const [stateDate, dispatch] = useReducer(reducer, initialState);
   const [counter, setCounter] = useState(initialCount);
   const [locations, updateLocations] = useImmer(
     destination?.locations ? destination.locations : []
   );
+  const [disable, setDisable] = useState(true);
   const onSubmit = data => {
     submit(data, stateDate, locations);
   };
@@ -62,6 +61,12 @@ export default function Form({
     }
   }
 
+  function inputDates() {
+    console.log('click', disable, stateDate.startDate);
+    stateDate.startDate === null && stateDate.endDate === null
+      ? setDisable(true)
+      : setDisable(false);
+  }
   const theme = {
     reactDatepicker: {
       colors: {
@@ -127,29 +132,29 @@ export default function Form({
         </Wrapper>
         <Wrapper>
           <LabelHeader htmlFor="date">Date:</LabelHeader>
+          {errors.DateRangeInput?.message ? (
+            <ErrorMessage>{errors.DateRangeInput?.message}</ErrorMessage>
+          ) : (
+            ''
+          )}
           <DateWrapper>
-            <Controller
-              control={control}
-              name="DateRangeInput"
-              render={() => (
-                <ThemeProvider theme={theme}>
-                  <DateRangeInput
-                    id="date"
-                    onDatesChange={data =>
-                      dispatch({ type: 'dateChange', payload: data })
-                    }
-                    onFocusChange={focusedInput =>
-                      dispatch({ type: 'focusChange', payload: focusedInput })
-                    }
-                    startDate={stateDate.startDate}
-                    endDate={stateDate.endDate}
-                    focusedInput={stateDate.focusedInput}
-                    numberOfMonths={3}
-                    vertical={true}
-                  />
-                </ThemeProvider>
-              )}
-            />
+            <ThemeProvider theme={theme}>
+              <DateRangeInput
+                id="date"
+                onDatesChange={data => {
+                  inputDates();
+                  dispatch({ type: 'dateChange', payload: data });
+                }}
+                onFocusChange={focusedInput =>
+                  dispatch({ type: 'focusChange', payload: focusedInput })
+                }
+                startDate={stateDate.startDate}
+                endDate={stateDate.endDate}
+                focusedInput={stateDate.focusedInput}
+                numberOfMonths={3}
+                vertical={true}
+              />
+            </ThemeProvider>
           </DateWrapper>
         </Wrapper>
         <Wrapper>
@@ -188,7 +193,9 @@ export default function Form({
           </ListWrapper>
         </Wrapper>
 
-        <CreateButton type="submit">{ButtonName}</CreateButton>
+        <CreateButton disabled={disable} type="submit">
+          {ButtonName}
+        </CreateButton>
       </FormContainer>
     </>
   );

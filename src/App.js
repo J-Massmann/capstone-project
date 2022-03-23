@@ -7,6 +7,7 @@ import FormNewTrip from './pages/FormNewTrip.js';
 import styled from 'styled-components';
 import { useEffect } from 'react';
 import EditTrips from './pages/EditTrip.js';
+import produce from 'immer';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -44,11 +45,11 @@ export default function App() {
   }
 
   function deleteDestination(destinationId) {
-    updateDestinations((draft, index) => {
-      const destination = draft.find(
-        destination => destination.id === destinationId
+    updateDestinations(draft => {
+      draft.splice(
+        draft.findIndex(destination => destination.id === destinationId),
+        1
       );
-      draft.splice(destination[index], 1);
     });
   }
 
