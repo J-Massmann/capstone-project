@@ -6,13 +6,9 @@ import deleteIcon from '../img/Delete_Icon.svg';
 import { useState } from 'react';
 import { DeleteModal } from '../components/Modal.js';
 
-export default function DetailTrip({
-  destinations,
-  handleTripStatus,
-  onDeleteDestination,
-}) {
+export default function DetailTrip({ destinations, onDeleteDestination }) {
   const { id } = useParams();
-  const detailDestination = destinations.filter(destination => {
+  const detailDestination = destinations?.filter(destination => {
     return destination.place === id;
   });
   const navigate = useNavigate();
@@ -21,7 +17,7 @@ export default function DetailTrip({
     onDeleteDestination(id);
     navigate(-1);
   }
-  const startDate = new Date(detailDestination[0].startDate);
+  const startDate = new Date(detailDestination[0]?.startDate);
   const startYYYY = startDate.getFullYear();
   let startMM = startDate.getMonth() + 1;
   let startDD = startDate.getDate();
@@ -29,7 +25,7 @@ export default function DetailTrip({
   if (startMM < 10) startMM = '0' + startMM;
   const displayStartDate = startDD + '.' + startMM + '.' + startYYYY;
 
-  const endDate = new Date(detailDestination[0].endDate);
+  const endDate = new Date(detailDestination[0]?.endDate);
   const endYYYY = endDate.getFullYear();
   let endMM = endDate.getMonth() + 1;
   let endDD = endDate.getDate();
