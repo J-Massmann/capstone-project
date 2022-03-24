@@ -24,10 +24,10 @@ export default function FormNewTrip({ onAddNewDestination }) {
     focusedInput: null,
   };
 
-  const onSubmit = (data, stateDate, locations) => {
+  const onSubmit = (destinationMapbox, stateDate, locations) => {
     const finalData = {
       id: nanoid(),
-      place: data.destination,
+      place: destinationMapbox,
       startDate: stateDate.startDate,
       endDate: stateDate.endDate,
       locations: locations,

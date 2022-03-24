@@ -1,40 +1,58 @@
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { useImmer } from 'use-immer';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DateRangeInput } from '@datepicker-react/styled';
 import { useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
-import mapboxgl from 'mapbox-gl';
+import './Form.css';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+import mapboxgl from '!mapbox-gl';
 
 export default function Form({
   ButtonName,
   formName,
   initialState,
-  initialCount,
   destination,
   submit,
   preloadedValues,
 }) {
   mapboxgl.accessToken =
     'pk.eyJ1Ijoiai1tYXNzbWFubiIsImEiOiJjbDAyYzl5MHUwNW4yM2xxYmNrY3ViMmQ3In0.OFJuoFCLObuzC-2xN6gzZA';
-  const geocoder = new MapboxGeocoder({
-    accessToken: mapboxgl.accessToken,
-    types: 'country, region, place',
-  });
-  geocoder.addTo('#geocoder');
-  const results = document.getElementById('result');
-  geocoder.on('result', e => {
-    results.innerText = JSON.stringify(e.result, null, 2);
-  });
-  geocoder.on('clear', () => {
-    results.innerText = '';
-  });
+  const [locations, updateLocations] = useImmer(
+    destination?.locations ? destination.locations : []
+  );
+  const [destinationMapbox, setDestinationMapbox] = useState('');
+  const [locationMapbox, setLocationMapbox] = useState('');
+  useEffect(() => {
+    const geocoderDestination = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      types: 'country, region, place',
+      limit: 5,
+      placeholder: 'e.g. Lissabon',
+      minLength: 2,
+    });
+    geocoderDestination.on('result', e => {
+      setDestinationMapbox(e.result.text);
+    });
+    geocoderDestination.addTo('#geocoderdestination');
+
+    const geocoderLocations = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      types: 'region, place, poi',
+      limit: 5,
+      placeholder: 'Add a place you want to vist...',
+      minLength: 2,
+      clearOnBlur: true,
+    });
+    geocoderLocations.on('result', e => {
+      setLocationMapbox(e.result.text);
+    });
+    geocoderLocations.addTo('#geocoderlocation');
+  }, []);
 
   const {
-    register,
     handleSubmit,
     setError,
     formState: { errors },
@@ -45,21 +63,21 @@ export default function Form({
       : { destination: '', locations: '' },
   });
   const [stateDate, dispatch] = useReducer(reducer, initialState);
-  const [counter, setCounter] = useState(initialCount);
-  const [locations, updateLocations] = useImmer(
-    destination?.locations ? destination.locations : []
-  );
-  const [disable, setDisable] = useState(true);
-  const onSubmit = data => {
-    submit(data, stateDate, locations);
+  const [destinationError, setDestinationError] = useState(false);
+
+  const onSubmit = () => {
+    submit(destinationMapbox, stateDate, locations);
   };
 
-  function handleAdd(e) {
-    e.preventDefault();
-    const currentLocation = document.getElementById('locations');
-    if (currentLocation.value !== '') {
-      updateLocations([...locations, currentLocation.value]);
-      currentLocation.value = '';
+  function handleMapboxInput(e) {
+    e.target.value === ''
+      ? setDestinationError(true)
+      : setDestinationError(false);
+  }
+
+  function handleAdd() {
+    if (locationMapbox !== '') {
+      updateLocations([...locations, locationMapbox]);
     } else {
       setError('locations', {
         minLength: 1,
@@ -79,12 +97,6 @@ export default function Form({
     }
   }
 
-  function inputDates() {
-    console.log('click', disable, stateDate.startDate);
-    stateDate.startDate === null && stateDate.endDate === null
-      ? setDisable(true)
-      : setDisable(false);
-  }
   const theme = {
     reactDatepicker: {
       colors: {
@@ -109,8 +121,6 @@ export default function Form({
 
   return (
     <>
-      <div id="geocoder"></div>
-      <pre id="result"></pre>
       <FormContainer
         aria-label={formName}
         id="newTripForm"
@@ -118,34 +128,15 @@ export default function Form({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Wrapper>
-          <LabelHeader htmlFor="destination">Destination:</LabelHeader>
-          <Counter name="counter of max characters for detination">
-            {counter}
-          </Counter>
-          <InputField
-            autoFocus
-            id="destination"
-            type="text"
-            placeholder="e.g. Lissabon..."
-            maxLength={40}
-            {...register('destination', {
-              onChange: e => {
-                setCounter(40 - e.target.value.length);
-              },
-              required: {
-                value: true,
-                message: 'The name of your next destination must be filled!',
-              },
-              minLength: 1,
-              maxLength: {
-                value: 39,
-                message:
-                  'You reached the max amount of allowed characters, try to keep it a littler shorter',
-              },
-            })}
-          />
-          {errors.destination?.message ? (
-            <ErrorMessage>{errors.destination?.message}</ErrorMessage>
+          <LabelHeader htmlFor="geocoderdestination">Destination:</LabelHeader>
+          <GeoCoderDestination
+            id="geocoderdestination"
+            onInput={e => handleMapboxInput(e)}
+          ></GeoCoderDestination>
+          {destinationError ? (
+            <ErrorMessage>
+              The name of your next destination must be filled!
+            </ErrorMessage>
           ) : (
             ''
           )}
@@ -162,7 +153,6 @@ export default function Form({
               <DateRangeInput
                 id="date"
                 onDatesChange={data => {
-                  inputDates();
                   dispatch({ type: 'dateChange', payload: data });
                 }}
                 onFocusChange={focusedInput =>
@@ -179,7 +169,15 @@ export default function Form({
         </Wrapper>
         <Wrapper>
           <LabelHeader htmlFor="locations">Locations:</LabelHeader>
-          <InputField
+          <GeocoderLocations
+            id="geocoderlocation"
+            onKeyPress={e => {
+              if (e.key === 'Enter') {
+                handleAdd();
+              }
+            }}
+          />
+          {/* <InputField
             id="locations"
             type="text"
             maxLength={50}
@@ -196,7 +194,7 @@ export default function Form({
                   'You reached the max amount of allowed characters, try to keep it a littler shorter',
               },
             })}
-          />
+          /> */}
           <ErrorMessage id="locationError">
             {errors.locations?.message}
           </ErrorMessage>
@@ -213,7 +211,16 @@ export default function Form({
           </ListWrapper>
         </Wrapper>
 
-        <CreateButton disabled={disable} type="submit">
+        <CreateButton
+          disabled={
+            destinationMapbox !== '' &&
+            stateDate.startDate !== null &&
+            stateDate.endDate !== null
+              ? false
+              : true
+          }
+          type="submit"
+        >
           {ButtonName}
         </CreateButton>
       </FormContainer>
@@ -232,18 +239,12 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const DateWrapper = styled.div`
+const GeoCoderDestination = styled.div`
   margin-top: 10px;
 `;
 
-const Counter = styled.span`
-  position: absolute;
-  right: 5px;
-  top: 30px;
-  width: 100%;
-  max-width: 400px;
-  text-align: end;
-  font-size: 0.7em;
+const DateWrapper = styled.div`
+  margin-top: 10px;
 `;
 
 const LabelHeader = styled.label`
@@ -252,14 +253,18 @@ const LabelHeader = styled.label`
   font-size: 1.5rem;
 `;
 
-const InputField = styled.input`
-  padding: 6px 12px;
+// const InputField = styled.input`
+//   padding: 6px 12px;
+//   margin-top: 10px;
+//   border-radius: 14px;
+//   border: none;
+//   background-color: var(--bg-color-content);
+//   width: 100%;
+//   max-width: 400px;
+// `;
+
+const GeocoderLocations = styled.div`
   margin-top: 10px;
-  border-radius: 14px;
-  border: none;
-  background-color: var(--bg-color-content);
-  width: 100%;
-  max-width: 400px;
 `;
 
 const ErrorMessage = styled.p`
