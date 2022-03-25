@@ -24,10 +24,10 @@ export default function FormNewTrip({ onAddNewDestination }) {
     focusedInput: null,
   };
 
-  const onSubmit = (data, stateDate, locations) => {
+  const onSubmit = (destinationMapbox, stateDate, locations) => {
     const finalData = {
       id: nanoid(),
-      place: data.destination,
+      place: destinationMapbox,
       startDate: stateDate.startDate,
       endDate: stateDate.endDate,
       locations: locations,
@@ -44,10 +44,10 @@ export default function FormNewTrip({ onAddNewDestination }) {
       </HeaderWrapper>
       <Form
         formName={'Add a new Trip to your App'}
-        ButtonName={'Create'}
+        buttonName={'Create'}
         initialState={initialValues}
         initialCount={40}
-        submit={onSubmit}
+        onCreateTrips={onSubmit}
       />
       <Modal open={isOpen}>Your Trip has been saved!</Modal>
     </>

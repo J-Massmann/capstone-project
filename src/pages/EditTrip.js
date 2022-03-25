@@ -10,6 +10,7 @@ export default function EditTrips({ destinations, onEditDestination }) {
   const detailDestination = destinations.filter(destination => {
     return destination.place === id;
   });
+  console.log(detailDestination[0].startDate);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   function showSubmitMessage() {
@@ -19,6 +20,7 @@ export default function EditTrips({ destinations, onEditDestination }) {
       navigate(-1);
     }, 2500);
   }
+
   const initialValues = {
     startDate: new Date(detailDestination[0].startDate),
     endDate: new Date(detailDestination[0].endDate),
@@ -30,10 +32,10 @@ export default function EditTrips({ destinations, onEditDestination }) {
     locations: '',
   };
 
-  const onSubmit = (data, stateDate, locations) => {
+  const onSubmit = (destinationMapbox, stateDate, locations) => {
     const finalData = {
       id: detailDestination[0].id,
-      place: data.destination,
+      place: destinationMapbox,
       startDate: stateDate.startDate,
       endDate: stateDate.endDate,
       locations: locations,
@@ -54,12 +56,12 @@ export default function EditTrips({ destinations, onEditDestination }) {
           </HeaderWrapper>
           <Form
             formName={'Edit a trip'}
-            ButtonName={'Save'}
+            buttonName={'Save'}
             destination={trip}
             initialState={initialValues}
             preloadedValues={defaultValues}
             initialCount={40 - trip.place.length}
-            submit={onSubmit}
+            onCreateTrips={onSubmit}
           />
         </div>
       ))}
