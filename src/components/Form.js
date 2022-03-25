@@ -7,8 +7,7 @@ import { useReducer } from 'react';
 import { ThemeProvider } from 'styled-components';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import './Form.css';
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import mapboxgl from '!mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 
 export default function Form({
   ButtonName,
@@ -135,19 +134,18 @@ export default function Form({
           {destinationMapbox === '' ? (
             ''
           ) : (
-            <label htmlFor="destinationResult">
-              <InputField
-                id="destinationResult"
-                readOnly
-                disabled
-                value={preloadedValues.destination}
-              />
-            </label>
+            <InputField
+              id="geocoderdestination"
+              readOnly
+              disabled
+              value={preloadedValues.destination}
+            />
           )}
 
           <GeoCoderDestination
             display={destinationMapbox !== '' ? 'none' : 'displayed'}
-            id="geocoderdestination"
+            id={'geocoderdestination'}
+            aria-label="geocoderdestination"
             onInput={e => handleMapboxInput(e)}
           ></GeoCoderDestination>
           {destinationError ? (
