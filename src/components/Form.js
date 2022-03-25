@@ -23,8 +23,13 @@ export default function Form({
   const [locations, updateLocations] = useImmer(
     destination?.locations ? destination.locations : []
   );
-  const [destinationMapbox, setDestinationMapbox] = useState('');
+  const [destinationMapbox, setDestinationMapbox] = useState(
+    preloadedValues?.destination === undefined
+      ? ''
+      : preloadedValues.destination
+  );
   const [locationMapbox, setLocationMapbox] = useState('');
+
   useEffect(() => {
     const geocoderDestination = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
@@ -49,6 +54,7 @@ export default function Form({
     geocoderLocations.on('result', e => {
       setLocationMapbox(e.result.text);
     });
+
     geocoderLocations.addTo('#geocoderlocation');
   }, []);
 
@@ -58,9 +64,6 @@ export default function Form({
     formState: { errors },
   } = useForm({
     mode: 'all',
-    defaultValues: preloadedValues
-      ? preloadedValues
-      : { destination: '', locations: '' },
   });
   const [stateDate, dispatch] = useReducer(reducer, initialState);
   const [destinationError, setDestinationError] = useState(false);
@@ -129,7 +132,21 @@ export default function Form({
       >
         <Wrapper>
           <LabelHeader htmlFor="geocoderdestination">Destination:</LabelHeader>
+          {destinationMapbox === '' ? (
+            ''
+          ) : (
+            <label htmlFor="destinationResult">
+              <InputField
+                id="destinationResult"
+                readOnly
+                disabled
+                value={preloadedValues.destination}
+              />
+            </label>
+          )}
+
           <GeoCoderDestination
+            display={destinationMapbox !== '' ? 'none' : 'displayed'}
             id="geocoderdestination"
             onInput={e => handleMapboxInput(e)}
           ></GeoCoderDestination>
@@ -177,24 +194,6 @@ export default function Form({
               }
             }}
           />
-          {/* <InputField
-            id="locations"
-            type="text"
-            maxLength={50}
-            onKeyPress={e => {
-              if (e.key === 'Enter') {
-                handleAdd(e);
-              }
-            }}
-            placeholder="Add a place you want to vist..."
-            {...register('locations', {
-              maxLength: {
-                value: 49,
-                message:
-                  'You reached the max amount of allowed characters, try to keep it a littler shorter',
-              },
-            })}
-          /> */}
           <ErrorMessage id="locationError">
             {errors.locations?.message}
           </ErrorMessage>
@@ -241,6 +240,7 @@ const Wrapper = styled.div`
 
 const GeoCoderDestination = styled.div`
   margin-top: 10px;
+  display: ${props => (props.display === 'none' ? 'none' : '')};
 `;
 
 const DateWrapper = styled.div`
@@ -253,15 +253,15 @@ const LabelHeader = styled.label`
   font-size: 1.5rem;
 `;
 
-// const InputField = styled.input`
-//   padding: 6px 12px;
-//   margin-top: 10px;
-//   border-radius: 14px;
-//   border: none;
-//   background-color: var(--bg-color-content);
-//   width: 100%;
-//   max-width: 400px;
-// `;
+const InputField = styled.input`
+  padding: 6px 12px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  background-color: var(--bg-color-content);
+  width: 100%;
+  max-width: 400px;
+`;
 
 const GeocoderLocations = styled.div`
   margin-top: 10px;
