@@ -66,6 +66,11 @@ export default function DetailTrip({ destinations, onDeleteDestination }) {
           </ul>
         </Wrapper>
       ))}
+      <CreateButton>
+        <LinkDayPlaner to={`/details/${id}/dayplaner`}>
+          Plan your days
+        </LinkDayPlaner>
+      </CreateButton>
       <DeleteModal
         open={isOpen}
         setOpen={setIsOpen}
@@ -124,4 +129,23 @@ const Button = styled.button`
     right: ${props => (props.delete ? '' : '0')};
     left: ${props => (props.delete ? '0' : '')};
   }
+`;
+
+const CreateButton = styled.button`
+  width: 50%;
+  max-width: 250px;
+  height: 2.5rem;
+  justify-self: center;
+  background-color: var(--bg-color-action);
+  border: none;
+  border-radius: 10px;
+  position: fixed;
+  bottom: 15px;
+`;
+
+const LinkDayPlaner = styled(Link)`
+  width: 100%;
+  display: block;
+  text-decoration: none;
+  color: var(--bg-color-main);
 `;
