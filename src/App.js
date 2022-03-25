@@ -17,15 +17,6 @@ export default function App() {
     saveToLocal('Trips', destinations);
   }, [destinations]);
 
-  function handleTripStatus(destinationId) {
-    updateDestinations(draft => {
-      const destination = draft.find(
-        destination => destination.id === destinationId
-      );
-      destination.isTripFuture = !destination.isTripFuture;
-    });
-  }
-
   function addNewDestination(newData) {
     updateDestinations(draft => {
       draft.push(newData);
@@ -39,7 +30,8 @@ export default function App() {
       );
       destination.place = handleData.place;
       destination.locations = handleData.locations;
-      destination.isTripFuture = handleData.isTripFuture;
+      destination.startDate = handleData.startDate;
+      destination.endDate = handleData.endDate;
     });
   }
 
@@ -77,7 +69,6 @@ export default function App() {
           element={
             <DetailTrip
               destinations={destinations}
-              handleTripStatus={handleTripStatus}
               onDeleteDestination={deleteDestination}
             />
           }

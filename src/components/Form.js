@@ -25,7 +25,7 @@ export default function Form({
   const [destinationMapbox, setDestinationMapbox] = useState(
     preloadedValues?.destination === undefined
       ? ''
-      : preloadedValues.destination
+      : preloadedValues?.destination
   );
   const [locationMapbox, setLocationMapbox] = useState('');
 
@@ -70,6 +70,7 @@ export default function Form({
   const onSubmit = () => {
     submit(destinationMapbox, stateDate, locations);
   };
+  console.log(stateDate);
 
   function handleMapboxInput(e) {
     e.target.value === ''
@@ -130,22 +131,23 @@ export default function Form({
         onSubmit={handleSubmit(onSubmit)}
       >
         <Wrapper>
-          <LabelHeader htmlFor="geocoderdestination">Destination:</LabelHeader>
-          {destinationMapbox === '' ? (
+          <LabelHeader htmlFor="destinationresult">Destination:</LabelHeader>
+          {preloadedValues?.destination === undefined ? (
             ''
           ) : (
             <InputField
-              id="geocoderdestination"
+              id="destinationresult"
               readOnly
               disabled
-              value={preloadedValues.destination}
+              value={preloadedValues?.destination}
             />
           )}
 
           <GeoCoderDestination
-            display={destinationMapbox !== '' ? 'none' : 'displayed'}
+            display={
+              preloadedValues?.destination === undefined ? 'displayed' : 'none'
+            }
             id={'geocoderdestination'}
-            aria-label="geocoderdestination"
             onInput={e => handleMapboxInput(e)}
           ></GeoCoderDestination>
           {destinationError ? (
