@@ -8,9 +8,6 @@ import { ThemeProvider } from 'styled-components';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import './Form.css';
 import mapboxgl from 'mapbox-gl';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export default function Form({
   ButtonName,
@@ -20,7 +17,7 @@ export default function Form({
   submit,
   preloadedValues,
 }) {
-  mapboxgl.accessToken = process.env;
+  mapboxgl.accessToken = process.env.REACT_APP_ACCESSTOKEN;
 
   const [locations, updateLocations] = useImmer(
     destination?.locations ? destination.locations : []
