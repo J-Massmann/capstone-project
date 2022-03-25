@@ -10,18 +10,16 @@ import './Form.css';
 import mapboxgl from 'mapbox-gl';
 
 export default function Form({
-  ButtonName,
+  buttonName,
   formName,
   initialState,
   destination,
-  submit,
+  onCreateTrips,
   preloadedValues,
 }) {
   mapboxgl.accessToken = process.env.REACT_APP_ACCESSTOKEN;
 
-  const [locations, updateLocations] = useImmer(
-    destination?.locations ? destination.locations : []
-  );
+  const [locations, updateLocations] = useImmer(destination?.locations ?? []);
   const [destinationMapbox, setDestinationMapbox] = useState(
     preloadedValues?.destination === undefined
       ? ''
@@ -68,9 +66,8 @@ export default function Form({
   const [destinationError, setDestinationError] = useState(false);
 
   const onSubmit = () => {
-    submit(destinationMapbox, stateDate, locations);
+    onCreateTrips(destinationMapbox, stateDate, locations);
   };
-  console.log(stateDate);
 
   function handleMapboxInput(e) {
     e.target.value === ''
@@ -220,7 +217,7 @@ export default function Form({
           }
           type="submit"
         >
-          {ButtonName}
+          {buttonName}
         </CreateButton>
       </FormContainer>
     </>

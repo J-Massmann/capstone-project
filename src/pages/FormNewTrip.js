@@ -44,10 +44,10 @@ export default function FormNewTrip({ onAddNewDestination }) {
       </HeaderWrapper>
       <Form
         formName={'Add a new Trip to your App'}
-        ButtonName={'Create'}
+        buttonName={'Create'}
         initialState={initialValues}
         initialCount={40}
-        submit={onSubmit}
+        onCreateTrips={onSubmit}
       />
       <Modal open={isOpen}>Your Trip has been saved!</Modal>
     </>

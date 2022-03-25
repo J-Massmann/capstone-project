@@ -56,12 +56,12 @@ export default function EditTrips({ destinations, onEditDestination }) {
           </HeaderWrapper>
           <Form
             formName={'Edit a trip'}
-            ButtonName={'Save'}
+            buttonName={'Save'}
             destination={trip}
             initialState={initialValues}
             preloadedValues={defaultValues}
             initialCount={40 - trip.place.length}
-            submit={onSubmit}
+            onCreateTrips={onSubmit}
           />
         </div>
       ))}
