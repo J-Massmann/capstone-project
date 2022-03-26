@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Dayplaner from './pages/DayPlaner.js';
 import DetailTrip from './pages/DetailTrip.js';
 import EditTrips from './pages/EditTrip.js';
+import FormNewDay from './pages/FormNewDay.js';
 import FormNewTrip from './pages/FormNewTrip.js';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
@@ -22,6 +23,13 @@ export default function App() {
     updateDestinations(draft => {
       draft.push(newData);
     });
+  }
+
+  function getCurrentDestination(id) {
+    const detailDestination = destinations?.filter(destination => {
+      return destination.place === id;
+    });
+    return detailDestination;
   }
 
   function editDestination(handleData) {
@@ -69,15 +77,24 @@ export default function App() {
           path="/details/:id"
           element={
             <DetailTrip
-              destinations={destinations}
+              onGetCurrentDestination={getCurrentDestination}
               onDeleteDestination={deleteDestination}
             />
           }
         />
         <Route
           path="/details/:id/dayplaner"
-          element={<Dayplaner destinations={destinations} />}
+          element={
+            <Dayplaner onGetCurrentDestination={getCurrentDestination} />
+          }
         />
+        <Route
+          path="/details/:id/dayplaner/plannewday"
+          element={
+            <FormNewDay onGetCurrentDestination={getCurrentDestination} />
+          }
+        />
+
         <Route
           path="/edit/:id"
           element={

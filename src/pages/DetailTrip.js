@@ -6,11 +6,12 @@ import deleteIcon from '../img/Delete_Icon.svg';
 import { useState } from 'react';
 import { DeleteModal } from '../components/Modal.js';
 
-export default function DetailTrip({ destinations, onDeleteDestination }) {
+export default function DetailTrip({
+  onGetCurrentDestination,
+  onDeleteDestination,
+}) {
   const { id } = useParams();
-  const detailDestination = destinations?.filter(destination => {
-    return destination.place === id;
-  });
+  const detailDestination = onGetCurrentDestination(id);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   function handleDeleteDestination(id) {

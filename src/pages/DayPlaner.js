@@ -4,12 +4,10 @@ import home from '../img/Home_Icon.svg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import DayCard from '../components/DayCard.js';
 
-export default function Dayplaner({ destinations }) {
+export default function Dayplaner({ onGetCurrentDestination }) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const detailDestination = destinations?.filter(destination => {
-    return destination.place === id;
-  });
+  const detailDestination = onGetCurrentDestination(id);
 
   const startDate = new Date(detailDestination[0]?.startDate);
   const startYYYY = startDate.getFullYear();
@@ -72,6 +70,11 @@ export default function Dayplaner({ destinations }) {
           <p>You haven't planned any of your days in {id}</p>
         )}
       </CardWrapper>
+      <CreateButton>
+        <LinkForm to={`/details/${id}/dayplaner/plannewday`}>
+          Plan another day
+        </LinkForm>
+      </CreateButton>
     </>
   );
 }
@@ -114,4 +117,23 @@ const Subheader = styled.h2`
 const CardWrapper = styled.section`
   display: grid;
   gap: 10px;
+`;
+
+const CreateButton = styled.button`
+  width: 50%;
+  max-width: 250px;
+  height: 2.5rem;
+  justify-self: center;
+  background-color: var(--bg-color-action);
+  border: none;
+  border-radius: 10px;
+  position: fixed;
+  bottom: 15px;
+`;
+
+const LinkForm = styled(Link)`
+  width: 100%;
+  display: block;
+  text-decoration: none;
+  color: var(--bg-color-main);
 `;
