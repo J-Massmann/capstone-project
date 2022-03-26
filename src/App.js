@@ -1,12 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useImmer } from 'use-immer';
+import styled from 'styled-components';
+import Dayplaner from './pages/DayPlaner.js';
+import DetailTrip from './pages/DetailTrip.js';
+import EditTrips from './pages/EditTrip.js';
+import FormNewTrip from './pages/FormNewTrip.js';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
-import { useImmer } from 'use-immer';
-import DetailTrip from './pages/DetailTrip.js';
-import FormNewTrip from './pages/FormNewTrip.js';
-import styled from 'styled-components';
-import { useEffect } from 'react';
-import EditTrips from './pages/EditTrip.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -72,6 +73,10 @@ export default function App() {
               onDeleteDestination={deleteDestination}
             />
           }
+        />
+        <Route
+          path="/details/:id/dayplaner"
+          element={<Dayplaner destinations={destinations} />}
         />
         <Route
           path="/edit/:id"
