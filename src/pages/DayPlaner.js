@@ -59,14 +59,18 @@ export default function Dayplaner({ destinations }) {
         </p>
       </Wrapper>
       <CardWrapper>
-        {testData.map(data => (
-          <DayCard
-            key={data.id}
-            dayNumber={data.id}
-            routeNumber={data.route}
-            date={data.date}
-          />
-        ))}
+        {testData?.length > 0 ? (
+          testData?.map(data => (
+            <DayCard
+              key={data.id}
+              dayNumber={data.id}
+              routeNumber={data.route}
+              date={data.date}
+            />
+          ))
+        ) : (
+          <p>You haven't planned any of your days in {id}</p>
+        )}
       </CardWrapper>
     </>
   );
@@ -105,9 +109,6 @@ const Subheader = styled.h2`
   margin-bottom: 0;
   font-size: 2em;
   font-weight: bold;
-  @media (max-width: 230px) {
-    text-align: end;
-  }
 `;
 
 const CardWrapper = styled.section`
