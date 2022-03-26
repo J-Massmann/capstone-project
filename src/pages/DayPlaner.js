@@ -3,38 +3,28 @@ import goback from '../img/go-back.svg';
 import home from '../img/Home_Icon.svg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import DayCard from '../components/DayCard.js';
+import getDisplayDate from '../components/hooks/getDisplayDate.js';
+import { useImmer } from 'use-immer';
 
 export default function Dayplaner({ onGetCurrentDestination }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const detailDestination = onGetCurrentDestination(id);
+  const [daysData, updatedaysData] = useImmer([]);
 
-  const startDate = new Date(detailDestination[0]?.startDate);
-  const startYYYY = startDate.getFullYear();
-  let startMM = startDate.getMonth() + 1;
-  let startDD = startDate.getDate();
-  if (startDD < 10) startDD = '0' + startDD;
-  if (startMM < 10) startMM = '0' + startMM;
-  const displayStartDate = startDD + '.' + startMM + '.' + startYYYY;
-
-  const endDate = new Date(detailDestination[0]?.endDate);
-  const endYYYY = endDate.getFullYear();
-  let endMM = endDate.getMonth() + 1;
-  let endDD = endDate.getDate();
-  if (endDD < 10) endDD = '0' + endDD;
-  if (endMM < 10) endMM = '0' + endMM;
-  const displayEndDate = endDD + '.' + endMM + '.' + endYYYY;
+  const displayStartDate = getDisplayDate(detailDestination[0]?.startDate);
+  const displayEndDate = getDisplayDate(detailDestination[0]?.endDate);
 
   const testData = [
     {
       id: 1,
       route: 1,
-      date: `${startDD}.${startMM}.`,
+      date: displayStartDate,
     },
     {
       id: 2,
       route: 2,
-      date: `${endDD}.${endMM}.`,
+      date: displayEndDate,
     },
   ];
   return (
@@ -43,7 +33,7 @@ export default function Dayplaner({ onGetCurrentDestination }) {
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Day-Planer</h1>
+        <h1>Day Planer</h1>
         <Button>
           <Link to={`/futuretrips`}>
             <img src={home} alt="home" />

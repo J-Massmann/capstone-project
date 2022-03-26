@@ -15,6 +15,8 @@ export default function App() {
     loadFromLocal('Trips') ?? []
   );
 
+  console.log(destinations);
+
   useEffect(() => {
     saveToLocal('Trips', destinations);
   }, [destinations]);

@@ -29,6 +29,7 @@ export default function FormNewDay({ onGetCurrentDestination }) {
         currentDestination={currentDestination}
         formName={'Plan a day'}
         buttonName={'Create'}
+        // setNewDay={onSubmit}
       />
       <Modal open={isOpen}>The plan has been saved!</Modal>
     </>

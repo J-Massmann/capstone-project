@@ -14,13 +14,12 @@ export default function FormDay({ currentDestination, formName, buttonName }) {
       isChecked: false,
     }))
   );
-  const [checkedLocations, updateCheckedLocations] = useImmer([]);
-  console.log(checkedLocations);
+  const [daysData, updatedaysData] = useImmer([]);
+  console.log(daysData);
 
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm({
     mode: 'all',
@@ -36,7 +35,7 @@ export default function FormDay({ currentDestination, formName, buttonName }) {
   }
 
   const onSubmit = data => {
-    updateCheckedLocations({
+    updatedaysData({
       date: data.date,
       locations: formLocations
         .filter(location => location.isChecked === true)
@@ -68,6 +67,7 @@ export default function FormDay({ currentDestination, formName, buttonName }) {
             ))}
             <option value={endDate}>{getDisplayDate(endDate)}</option>
           </StyledSelect>
+          {errors?.date && <ErrorMessage>{errors?.date.message}</ErrorMessage>}
         </Wrapper>
         <Wrapper>
           {formLocations?.map((loc, index) => (
@@ -142,4 +142,10 @@ const CreateButton = styled.button`
   background-color: var(--bg-color-action);
   border: none;
   border-radius: 10px;
+`;
+
+const ErrorMessage = styled.p`
+  margin: 0;
+  color: var(--bg-color-action);
+  font-size: 0.8em;
 `;
