@@ -2,24 +2,20 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import getDates from './hooks/getDates.js';
 import getDisplayDate from './hooks/getDisplayDate.js';
-import { useState } from 'react';
 import { useImmer } from 'use-immer';
 
 export default function FormDay({ currentDestination, formName, buttonName }) {
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
   const dates = getDates(startDate, endDate);
-  console.log(currentDestination[0]);
-  const [isChecked, setIsChecked] = useState(false);
   const [formLocations, updateFormLocations] = useImmer(
     currentDestination[0].locations.map(loc => ({
       location: loc,
       isChecked: false,
     }))
   );
-  console.log(formLocations);
   const [checkedLocations, updateCheckedLocations] = useImmer([]);
-  // const statusClassName = isChecked ? 'active' : '';
+  console.log(checkedLocations);
 
   const {
     register,
@@ -38,17 +34,31 @@ export default function FormDay({ currentDestination, formName, buttonName }) {
       currentLocation.isChecked = !currentLocation.isChecked;
     });
   }
+
+  const onSubmit = data => {
+    updateCheckedLocations({
+      date: data.date,
+      locations: formLocations
+        .filter(location => location.isChecked === true)
+        .map(location => location.location),
+    });
+  };
   return (
     <>
       <FormContainer
         aria-label={formName}
         id="newDayForm"
         autoComplete="off"
-        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <Wrapper>
           <LabelHeader htmlFor="select date">Date</LabelHeader>
-          <StyledSelect name="date" id="select date">
+          <StyledSelect
+            name="date"
+            id="select date"
+            autoFocus
+            {...register('date', { required: 'Please select a date' })}
+          >
             <option value={''}>--Select a date--</option>
             <option value={startDate}>{getDisplayDate(startDate)}</option>
             {dates.map((date, index) => (
