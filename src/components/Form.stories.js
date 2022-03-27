@@ -1,7 +1,7 @@
 import Form from './Form.js';
 
 export default {
-  title: 'Components/Form',
+  title: 'Component/Form',
   component: Form,
 };
 

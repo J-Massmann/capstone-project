@@ -10,6 +10,7 @@ export default function FormDay({
   buttonName,
   setNewDay,
 }) {
+  console.log(currentDestination);
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
   const dates = getDates(startDate, endDate);
