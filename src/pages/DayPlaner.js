@@ -9,23 +9,11 @@ export default function Dayplaner({ onGetCurrentDestination }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const detailDestination = onGetCurrentDestination(id);
-  // console.log(detailDestination);
 
   const displayStartDate = getDisplayDate(detailDestination[0]?.startDate);
   const displayEndDate = getDisplayDate(detailDestination[0]?.endDate);
-
-  const testData = [
-    {
-      id: 1,
-      route: 1,
-      date: displayStartDate,
-    },
-    {
-      id: 2,
-      route: 2,
-      date: displayEndDate,
-    },
-  ];
+  const routes = detailDestination[0]?.routes;
+  console.log(routes);
   return (
     <>
       <Heading>
@@ -46,14 +34,9 @@ export default function Dayplaner({ onGetCurrentDestination }) {
         </p>
       </Wrapper>
       <CardWrapper>
-        {detailDestination?.routes ? (
-          detailDestination?.routes?.map(data => (
-            <DayCard
-              key={data.index}
-              dayNumber={data.index + 1}
-              routeNumber={data.route}
-              date={data.date}
-            />
+        {detailDestination[0]?.routes.length > 0 ? (
+          detailDestination[0]?.routes?.map((data, index) => (
+            <DayCard routeNumber={index + 1} data={data} />
           ))
         ) : (
           <p>You haven't planned any of your days in {id}</p>

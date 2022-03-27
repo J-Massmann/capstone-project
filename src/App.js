@@ -15,8 +15,6 @@ export default function App() {
     loadFromLocal('Trips') ?? []
   );
 
-  console.log(destinations);
-
   useEffect(() => {
     saveToLocal('Trips', destinations);
   }, [destinations]);
@@ -51,7 +49,7 @@ export default function App() {
       const destination = draft.find(
         destination => destination.id === handleData.id
       );
-      destination.routes = routes;
+      destination.routes = [...destination.routes, routes];
     });
   }
 

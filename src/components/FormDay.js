@@ -19,8 +19,6 @@ export default function FormDay({
       isChecked: false,
     }))
   );
-  // const [route, updateRoute] = useImmer([]);
-  // console.log(route);
 
   const {
     register,
@@ -38,15 +36,6 @@ export default function FormDay({
       currentLocation.isChecked = !currentLocation.isChecked;
     });
   }
-
-  // const onSubmit = data => {
-  //   updateRoute({
-  //     date: data.date,
-  //     locations: formLocations
-  //       .filter(location => location.isChecked === true)
-  //       .map(location => location.location),
-  //   });
-  // };
 
   const onSubmit = data => {
     setNewDay(data, formLocations);
@@ -68,13 +57,11 @@ export default function FormDay({
             {...register('date', { required: 'Please select a date' })}
           >
             <option value={''}>--Select a date--</option>
-            <option value={startDate}>{getDisplayDate(startDate)}</option>
             {dates.map((date, index) => (
               <option key={index} value={date}>
                 {getDisplayDate(date)}
               </option>
             ))}
-            <option value={endDate}>{getDisplayDate(endDate)}</option>
           </StyledSelect>
           {errors?.date && <ErrorMessage>{errors?.date.message}</ErrorMessage>}
         </Wrapper>

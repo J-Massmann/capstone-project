@@ -25,16 +25,13 @@ export default function FormNewDay({
   }
 
   const onSubmit = (data, formLocations) => {
-    const routes = [
-      {
-        date: data.date,
-        locations: formLocations
-          .filter(location => location.isChecked === true)
-          .map(location => location.location),
-      },
-    ];
+    const routes = {
+      date: data.date,
+      locations: formLocations
+        .filter(location => location.isChecked === true)
+        .map(location => location.location),
+    };
     onEditDestination(currentDestination[0], routes);
-    console.log(currentDestination[0], routes);
     showSubmitMessage();
   };
 

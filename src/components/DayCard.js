@@ -1,12 +1,13 @@
 import styled from 'styled-components';
+import getDisplayDate from './hooks/getDisplayDate.js';
 
-export default function DayCard({ dayNumber, routeNumber, date }) {
+export default function DayCard({ routeNumber, data }) {
+  console.log(data);
+  const date = getDisplayDate(data.date);
   return (
     <Wrapper>
-      <h3>Day {dayNumber}</h3>
-      <span>
-        Route {routeNumber} - {date}
-      </span>
+      <h3>Route {routeNumber} </h3>
+      <span>{date}</span>
     </Wrapper>
   );
 }
