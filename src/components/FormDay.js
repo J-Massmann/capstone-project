@@ -19,6 +19,12 @@ export default function FormDay({
       isChecked: false,
     }))
   );
+  const plannedDays = currentDestination[0].routes.map(day =>
+    new Date(day.date).getTime()
+  );
+  const filteredDates = dates.filter(
+    day => !plannedDays.includes(day.getTime())
+  );
 
   const {
     register,
@@ -57,7 +63,7 @@ export default function FormDay({
             {...register('date', { required: 'Please select a date' })}
           >
             <option value={''}>--Select a date--</option>
-            {dates.map((date, index) => (
+            {filteredDates.map((date, index) => (
               <option key={index} value={date}>
                 {getDisplayDate(date)}
               </option>

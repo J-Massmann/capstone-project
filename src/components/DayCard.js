@@ -2,10 +2,9 @@ import styled from 'styled-components';
 import getDisplayDate from './hooks/getDisplayDate.js';
 
 export default function DayCard({ routeNumber, data }) {
-  console.log(data);
   const date = getDisplayDate(data.date);
   return (
-    <Wrapper>
+    <Wrapper key={routeNumber}>
       <h3>Route {routeNumber} </h3>
       <span>{date}</span>
     </Wrapper>
