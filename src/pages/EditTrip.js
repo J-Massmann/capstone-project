@@ -10,7 +10,6 @@ export default function EditTrips({ destinations, onEditDestination }) {
   const detailDestination = destinations.filter(destination => {
     return destination.place === id;
   });
-  console.log(detailDestination[0].startDate);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   function showSubmitMessage() {

@@ -4,7 +4,12 @@ import getDates from './hooks/getDates.js';
 import getDisplayDate from './hooks/getDisplayDate.js';
 import { useImmer } from 'use-immer';
 
-export default function FormDay({ currentDestination, formName, buttonName }) {
+export default function FormDay({
+  currentDestination,
+  formName,
+  buttonName,
+  setNewDay,
+}) {
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
   const dates = getDates(startDate, endDate);
@@ -14,8 +19,8 @@ export default function FormDay({ currentDestination, formName, buttonName }) {
       isChecked: false,
     }))
   );
-  const [daysData, updatedaysData] = useImmer([]);
-  console.log(daysData);
+  // const [route, updateRoute] = useImmer([]);
+  // console.log(route);
 
   const {
     register,
@@ -34,13 +39,17 @@ export default function FormDay({ currentDestination, formName, buttonName }) {
     });
   }
 
+  // const onSubmit = data => {
+  //   updateRoute({
+  //     date: data.date,
+  //     locations: formLocations
+  //       .filter(location => location.isChecked === true)
+  //       .map(location => location.location),
+  //   });
+  // };
+
   const onSubmit = data => {
-    updatedaysData({
-      date: data.date,
-      locations: formLocations
-        .filter(location => location.isChecked === true)
-        .map(location => location.location),
-    });
+    setNewDay(data, formLocations);
   };
   return (
     <>

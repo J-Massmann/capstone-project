@@ -4,13 +4,12 @@ import home from '../img/Home_Icon.svg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import DayCard from '../components/DayCard.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
-import { useImmer } from 'use-immer';
 
 export default function Dayplaner({ onGetCurrentDestination }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const detailDestination = onGetCurrentDestination(id);
-  const [daysData, updatedaysData] = useImmer([]);
+  // console.log(detailDestination);
 
   const displayStartDate = getDisplayDate(detailDestination[0]?.startDate);
   const displayEndDate = getDisplayDate(detailDestination[0]?.endDate);
@@ -47,11 +46,11 @@ export default function Dayplaner({ onGetCurrentDestination }) {
         </p>
       </Wrapper>
       <CardWrapper>
-        {testData?.length > 0 ? (
-          testData?.map(data => (
+        {detailDestination?.routes ? (
+          detailDestination?.routes?.map(data => (
             <DayCard
-              key={data.id}
-              dayNumber={data.id}
+              key={data.index}
+              dayNumber={data.index + 1}
               routeNumber={data.route}
               date={data.date}
             />

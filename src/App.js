@@ -46,6 +46,15 @@ export default function App() {
     });
   }
 
+  function editRoute(handleData, routes) {
+    updateDestinations(draft => {
+      const destination = draft.find(
+        destination => destination.id === handleData.id
+      );
+      destination.routes = routes;
+    });
+  }
+
   function deleteDestination(destinationId) {
     updateDestinations(draft => {
       draft.splice(
@@ -93,7 +102,10 @@ export default function App() {
         <Route
           path="/details/:id/dayplaner/plannewday"
           element={
-            <FormNewDay onGetCurrentDestination={getCurrentDestination} />
+            <FormNewDay
+              onGetCurrentDestination={getCurrentDestination}
+              onEditDestination={editRoute}
+            />
           }
         />
 

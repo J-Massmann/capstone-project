@@ -5,11 +5,16 @@ import x_icon from '../img/icon_x.svg';
 import FormDay from '../components/FormDay.js';
 import Modal from '../components/Modal.js';
 
-export default function FormNewDay({ onGetCurrentDestination }) {
+export default function FormNewDay({
+  onEditDestination,
+  onGetCurrentDestination,
+}) {
   const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const currentDestination = onGetCurrentDestination(id);
+  const [currentDestination, setCurrentDestination] = useState(
+    onGetCurrentDestination(id)
+  );
 
   function showSubmitMessage() {
     setIsOpen(true);
@@ -18,6 +23,20 @@ export default function FormNewDay({ onGetCurrentDestination }) {
       navigate(-1);
     }, 2500);
   }
+
+  const onSubmit = (data, formLocations) => {
+    const routes = [
+      {
+        date: data.date,
+        locations: formLocations
+          .filter(location => location.isChecked === true)
+          .map(location => location.location),
+      },
+    ];
+    onEditDestination(currentDestination[0], routes);
+    console.log(currentDestination[0], routes);
+    showSubmitMessage();
+  };
 
   return (
     <>
@@ -29,7 +48,7 @@ export default function FormNewDay({ onGetCurrentDestination }) {
         currentDestination={currentDestination}
         formName={'Plan a day'}
         buttonName={'Create'}
-        // setNewDay={onSubmit}
+        setNewDay={onSubmit}
       />
       <Modal open={isOpen}>The plan has been saved!</Modal>
     </>

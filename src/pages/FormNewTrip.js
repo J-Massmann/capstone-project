@@ -31,6 +31,7 @@ export default function FormNewTrip({ onAddNewDestination }) {
       startDate: stateDate.startDate,
       endDate: stateDate.endDate,
       locations: locations,
+      routes: '',
     };
     onAddNewDestination(finalData);
     showSubmitMessage();
