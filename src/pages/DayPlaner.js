@@ -37,7 +37,15 @@ export default function Dayplaner({ onGetCurrentDestination }) {
       <CardWrapper>
         {sortedRoutes?.length > 0 ? (
           sortedRoutes?.map((data, index) => (
-            <DayCard key={index} routeNumber={index + 1} data={data} />
+            <Link
+              key={data.date}
+              to={`/details/${id}/day_${index + 1}(${getDisplayDate(
+                data.date
+              )})`}
+              style={linkStyle}
+            >
+              <DayCard key={index} routeNumber={index + 1} data={data} />
+            </Link>
           ))
         ) : (
           <p>You haven't planned any of your days in {id}</p>
@@ -91,6 +99,11 @@ const CardWrapper = styled.section`
   display: grid;
   gap: 10px;
 `;
+
+const linkStyle = {
+  textDecoration: 'none',
+  color: '#F3F4F6',
+};
 
 const CreateButton = styled.button`
   width: 50%;
