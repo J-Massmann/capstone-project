@@ -8,7 +8,8 @@ export default {
 const Template = args => <DayCard {...args} />;
 export const Default = Template.bind({});
 Default.args = {
-  dayNumber: 1,
   routeNumber: 1,
-  date: '26.03.2022',
+  data: {
+    date: 'Mon May 02 2022 00:00:00 GMT+0200 (Central European Summer Time)',
+  },
 };

@@ -1,14 +1,20 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import x_icon from '../img/icon_x.svg';
-import Modal from '../components/Modal.js';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import Form from '../components/Form.js';
-import { nanoid } from 'nanoid';
+import x_icon from '../img/icon_x.svg';
+import FormDay from '../components/FormDay.js';
+import Modal from '../components/Modal.js';
 
-export default function FormNewTrip({ onAddNewDestination }) {
+export default function FormNewDay({
+  onEditDestination,
+  onGetCurrentDestination,
+}) {
+  const { id } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
+  const [currentDestination, setCurrentDestination] = useState(
+    onGetCurrentDestination(id)
+  );
 
   function showSubmitMessage() {
     setIsOpen(true);
@@ -18,22 +24,14 @@ export default function FormNewTrip({ onAddNewDestination }) {
     }, 2500);
   }
 
-  const initialValues = {
-    startDate: null,
-    endDate: null,
-    focusedInput: null,
-  };
-
-  const onSubmit = (destinationMapbox, stateDate, locations) => {
-    const finalData = {
-      id: nanoid(),
-      place: destinationMapbox,
-      startDate: stateDate.startDate,
-      endDate: stateDate.endDate,
-      locations: locations,
-      routes: [],
+  const onSubmit = (data, formLocations) => {
+    const routes = {
+      date: data.date,
+      locations: formLocations
+        .filter(location => location.isChecked === true)
+        .map(location => location.location),
     };
-    onAddNewDestination(finalData);
+    onEditDestination(currentDestination[0], routes);
     showSubmitMessage();
   };
 
@@ -41,16 +39,15 @@ export default function FormNewTrip({ onAddNewDestination }) {
     <>
       <HeaderWrapper>
         <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
-        <h1>New Trip</h1>
+        <h1>Plan a day</h1>
       </HeaderWrapper>
-      <Form
-        formName={'Add a new Trip to your App'}
+      <FormDay
+        currentDestination={currentDestination}
+        formName={'Plan a day'}
         buttonName={'Create'}
-        initialState={initialValues}
-        initialCount={40}
-        onCreateTrips={onSubmit}
+        handleNewDay={onSubmit}
       />
-      <Modal open={isOpen}>Your Trip has been saved!</Modal>
+      <Modal open={isOpen}>The plan has been saved!</Modal>
     </>
   );
 }

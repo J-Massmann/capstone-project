@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Dayplaner from './pages/DayPlaner.js';
 import DetailTrip from './pages/DetailTrip.js';
 import EditTrips from './pages/EditTrip.js';
+import FormNewDay from './pages/FormNewDay.js';
 import FormNewTrip from './pages/FormNewTrip.js';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
@@ -24,6 +25,13 @@ export default function App() {
     });
   }
 
+  function getCurrentDestination(id) {
+    const detailDestination = destinations?.filter(destination => {
+      return destination.place === id;
+    });
+    return detailDestination;
+  }
+
   function editDestination(handleData) {
     updateDestinations(draft => {
       const destination = draft.find(
@@ -33,6 +41,15 @@ export default function App() {
       destination.locations = handleData.locations;
       destination.startDate = handleData.startDate;
       destination.endDate = handleData.endDate;
+    });
+  }
+
+  function editRoute(handleData, routes) {
+    updateDestinations(draft => {
+      const destination = draft.find(
+        destination => destination.id === handleData.id
+      );
+      destination.routes = [...destination.routes, routes];
     });
   }
 
@@ -69,15 +86,27 @@ export default function App() {
           path="/details/:id"
           element={
             <DetailTrip
-              destinations={destinations}
+              onGetCurrentDestination={getCurrentDestination}
               onDeleteDestination={deleteDestination}
             />
           }
         />
         <Route
           path="/details/:id/dayplaner"
-          element={<Dayplaner destinations={destinations} />}
+          element={
+            <Dayplaner onGetCurrentDestination={getCurrentDestination} />
+          }
         />
+        <Route
+          path="/details/:id/dayplaner/plannewday"
+          element={
+            <FormNewDay
+              onGetCurrentDestination={getCurrentDestination}
+              onEditDestination={editRoute}
+            />
+          }
+        />
+
         <Route
           path="/edit/:id"
           element={

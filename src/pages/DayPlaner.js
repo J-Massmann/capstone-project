@@ -3,49 +3,25 @@ import goback from '../img/go-back.svg';
 import home from '../img/Home_Icon.svg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import DayCard from '../components/DayCard.js';
+import getDisplayDate from '../components/hooks/getDisplayDate.js';
 
-export default function Dayplaner({ destinations }) {
+export default function Dayplaner({ onGetCurrentDestination }) {
   const navigate = useNavigate();
   const { id } = useParams();
-  const detailDestination = destinations?.filter(destination => {
-    return destination.place === id;
-  });
+  const detailDestination = onGetCurrentDestination(id);
 
-  const startDate = new Date(detailDestination[0]?.startDate);
-  const startYYYY = startDate.getFullYear();
-  let startMM = startDate.getMonth() + 1;
-  let startDD = startDate.getDate();
-  if (startDD < 10) startDD = '0' + startDD;
-  if (startMM < 10) startMM = '0' + startMM;
-  const displayStartDate = startDD + '.' + startMM + '.' + startYYYY;
-
-  const endDate = new Date(detailDestination[0]?.endDate);
-  const endYYYY = endDate.getFullYear();
-  let endMM = endDate.getMonth() + 1;
-  let endDD = endDate.getDate();
-  if (endDD < 10) endDD = '0' + endDD;
-  if (endMM < 10) endMM = '0' + endMM;
-  const displayEndDate = endDD + '.' + endMM + '.' + endYYYY;
-
-  const testData = [
-    {
-      id: 1,
-      route: 1,
-      date: `${startDD}.${startMM}.`,
-    },
-    {
-      id: 2,
-      route: 2,
-      date: `${endDD}.${endMM}.`,
-    },
-  ];
+  const displayStartDate = getDisplayDate(detailDestination[0]?.startDate);
+  const displayEndDate = getDisplayDate(detailDestination[0]?.endDate);
+  const sortedRoutes = detailDestination[0]?.routes
+    .slice()
+    .sort((dateA, dateB) => new Date(dateA.date) - new Date(dateB.date));
   return (
     <>
       <Heading>
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Day-Planer</h1>
+        <h1>Day Planer</h1>
         <Button>
           <Link to={`/futuretrips`}>
             <img src={home} alt="home" />
@@ -59,19 +35,19 @@ export default function Dayplaner({ destinations }) {
         </p>
       </Wrapper>
       <CardWrapper>
-        {testData?.length > 0 ? (
-          testData?.map(data => (
-            <DayCard
-              key={data.id}
-              dayNumber={data.id}
-              routeNumber={data.route}
-              date={data.date}
-            />
+        {sortedRoutes?.length > 0 ? (
+          sortedRoutes?.map((data, index) => (
+            <DayCard key={index} routeNumber={index + 1} data={data} />
           ))
         ) : (
           <p>You haven't planned any of your days in {id}</p>
         )}
       </CardWrapper>
+      <CreateButton>
+        <LinkForm to={`/details/${id}/dayplaner/plannewday`}>
+          Plan another day
+        </LinkForm>
+      </CreateButton>
     </>
   );
 }
@@ -114,4 +90,23 @@ const Subheader = styled.h2`
 const CardWrapper = styled.section`
   display: grid;
   gap: 10px;
+`;
+
+const CreateButton = styled.button`
+  width: 50%;
+  max-width: 250px;
+  height: 2.5rem;
+  justify-self: center;
+  background-color: var(--bg-color-action);
+  border: none;
+  border-radius: 10px;
+  position: fixed;
+  bottom: 15px;
+`;
+
+const LinkForm = styled(Link)`
+  width: 100%;
+  display: block;
+  text-decoration: none;
+  color: var(--bg-color-main);
 `;
