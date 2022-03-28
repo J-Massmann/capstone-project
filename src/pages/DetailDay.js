@@ -1,5 +1,6 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import edit from '../img/Edit_Icon.svg';
 import goback from '../img/go-back.svg';
 import home from '../img/Home_Icon.svg';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
@@ -13,7 +14,9 @@ export default function DetailDay({ onGetCurrentDestination }) {
   const route = detailDestination[0].routes.find(route => {
     return getDisplayDate(route.date) === date;
   });
-  console.log(route);
+  const dayDiff =
+    (new Date(route.date) - new Date(detailDestination[0].startDate)) /
+    86400000;
   return (
     <>
       <Heading>
@@ -28,7 +31,16 @@ export default function DetailDay({ onGetCurrentDestination }) {
         </Button>
       </Heading>
       <Wrapper>
-        <Subheader>{date}</Subheader>
+        <SubHeaderWrapper>
+          <h2>
+            Day {dayDiff + 1} - {date}
+          </h2>
+          <Button>
+            <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
+              <img src={edit} alt="edit_icon" />
+            </Link>
+          </Button>
+        </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
         {route?.locations.length > 0 ? (
           route.locations.map(location => (
@@ -71,18 +83,21 @@ const Wrapper = styled.main`
   }
 `;
 
-const Subheader = styled.h2`
-  width: 100%;
-  margin-bottom: 0;
-  font-size: 1.5em;
-  text-decoration: underline;
-  font-weight: bold;
+const SubHeaderWrapper = styled.div`
+  display: flex;
+  position: relative;
+  align-items: center;
+  h2 {
+    width: 100%;
+    margin-bottom: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
 `;
 
 const Subheader2 = styled.h3`
   width: 100%;
   margin-bottom: 0;
-  font-size: 1.5em;
   text-decoration: underline;
   font-weight: bold;
 `;

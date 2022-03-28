@@ -4,12 +4,21 @@ import { useState } from 'react';
 import x_icon from '../img/icon_x.svg';
 import FormDay from '../components/FormDay.js';
 import Modal from '../components/Modal.js';
+import getDisplayDate from '../components/hooks/getDisplayDate.js';
 
-export default function FormNewDay({ onAddRoute, onGetCurrentDestination }) {
+export default function EditDay({
+  onEditDestination,
+  onGetCurrentDestination,
+}) {
+  const { daydate } = useParams();
   const { id } = useParams();
+  const { date } = useParams();
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const currentDestination = onGetCurrentDestination(id);
+  const route = currentDestination[0].routes.find(route => {
+    return getDisplayDate(route.date) === date;
+  });
 
   function showSubmitMessage() {
     setIsOpen(true);
@@ -26,7 +35,7 @@ export default function FormNewDay({ onAddRoute, onGetCurrentDestination }) {
         .filter(location => location.isChecked === true)
         .map(location => location.location),
     };
-    onAddRoute(currentDestination[0], routes);
+    onEditDestination(currentDestination[0], routes);
     showSubmitMessage();
   };
 
@@ -34,15 +43,16 @@ export default function FormNewDay({ onAddRoute, onGetCurrentDestination }) {
     <>
       <HeaderWrapper>
         <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
-        <h1>Plan a day</h1>
+        <h1>Route {daydate}</h1>
       </HeaderWrapper>
       <FormDay
         currentDestination={currentDestination}
-        formName={'Plan a day'}
-        buttonName={'Create'}
+        formName={'Edit a day'}
+        buttonName={'Save'}
         handleNewDay={onSubmit}
+        initialValues={route}
       />
-      <Modal open={isOpen}>The plan has been saved!</Modal>
+      <Modal open={isOpen}>Your changes have been saved!</Modal>
     </>
   );
 }

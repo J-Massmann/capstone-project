@@ -23,4 +23,5 @@ Default.args = {
     new Date('2022-05-01T22:00:00.000Z'),
     new Date('2022-05-07T22:00:00.000Z')
   ),
+  buttonName: 'create',
 };

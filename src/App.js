@@ -10,6 +10,8 @@ import FormNewTrip from './pages/FormNewTrip.js';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
 import DetailDay from './pages/DetailDay.js';
+import EditDay from './pages/EditDay.js';
+import { current } from 'immer';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -45,12 +47,25 @@ export default function App() {
     });
   }
 
-  function editRoute(handleData, routes) {
+  function addRoute(handleData, routes) {
     updateDestinations(draft => {
       const destination = draft.find(
         destination => destination.id === handleData.id
       );
       destination.routes = [...destination.routes, routes];
+      console.log(destination);
+    });
+  }
+
+  function editRoute(handleData, routes) {
+    updateDestinations(draft => {
+      const destination = draft.find(
+        destination => destination.id === handleData.id
+      );
+      const currentRoute = destination.routes.find(
+        route => route.date === routes.date
+      );
+      currentRoute.locations = routes.locations;
     });
   }
 
@@ -106,11 +121,21 @@ export default function App() {
         />
 
         <Route
+          path="/details/:id/edit/day_:daydate(:date)"
+          element={
+            <EditDay
+              onGetCurrentDestination={getCurrentDestination}
+              onEditDestination={editRoute}
+            />
+          }
+        />
+
+        <Route
           path="/details/:id/dayplaner/plannewday"
           element={
             <FormNewDay
               onGetCurrentDestination={getCurrentDestination}
-              onEditDestination={editRoute}
+              onAddRoute={addRoute}
             />
           }
         />

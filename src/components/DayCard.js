@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 import getDisplayDate from './hooks/getDisplayDate.js';
 
-export default function DayCard({ routeNumber, data }) {
+export default function DayCard({ routeNumber, data, startDate }) {
   const date = getDisplayDate(data.date);
+  const daysDiff = (new Date(data.date) - new Date(startDate)) / 86400000;
   return (
     <Wrapper key={routeNumber}>
       <h3>Route {routeNumber} </h3>
-      <span>{date}</span>
+      <span>
+        Day {daysDiff + 1} - {date}
+      </span>
     </Wrapper>
   );
 }
