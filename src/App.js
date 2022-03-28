@@ -98,7 +98,13 @@ export default function App() {
             <Dayplaner onGetCurrentDestination={getCurrentDestination} />
           }
         />
-        <Route path="/details/:id/dayplaner/:day" element={<DetailDay />} />
+        <Route
+          path="/details/:id/day_:daydate(:date)"
+          element={
+            <DetailDay onGetCurrentDestination={getCurrentDestination} />
+          }
+        />
+
         <Route
           path="/details/:id/dayplaner/plannewday"
           element={

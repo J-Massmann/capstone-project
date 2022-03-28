@@ -39,7 +39,9 @@ export default function Dayplaner({ onGetCurrentDestination }) {
           sortedRoutes?.map((data, index) => (
             <Link
               key={data.date}
-              to={`/details/${id}/daplaner/day ${index + 1}`}
+              to={`/details/${id}/day_${index + 1}(${getDisplayDate(
+                data.date
+              )})`}
               style={linkStyle}
             >
               <DayCard key={index} routeNumber={index + 1} data={data} />
