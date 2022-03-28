@@ -8,9 +8,8 @@ export default function FormDay({
   currentDestination,
   formName,
   buttonName,
-  setNewDay,
+  handleNewDay,
 }) {
-  console.log(currentDestination);
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
   const dates = getDates(startDate, endDate);
@@ -45,7 +44,7 @@ export default function FormDay({
   }
 
   const onSubmit = data => {
-    setNewDay(data, formLocations);
+    handleNewDay(data, formLocations);
   };
   return (
     <>
@@ -55,7 +54,7 @@ export default function FormDay({
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <Wrapper>
+        <div>
           <LabelHeader htmlFor="select date">Date</LabelHeader>
           <StyledSelect
             name="date"
@@ -71,8 +70,8 @@ export default function FormDay({
             ))}
           </StyledSelect>
           {errors?.date && <ErrorMessage>{errors?.date.message}</ErrorMessage>}
-        </Wrapper>
-        <Wrapper>
+        </div>
+        <div>
           {formLocations?.map((loc, index) => (
             <LocationButton
               key={index}
@@ -84,7 +83,7 @@ export default function FormDay({
               {loc.location}
             </LocationButton>
           ))}
-        </Wrapper>
+        </div>
         <CreateButton>{buttonName}</CreateButton>
       </FormContainer>
     </>
@@ -99,11 +98,6 @@ const FormContainer = styled.form`
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-`;
-
-const Wrapper = styled.div`
-  max-width: 400px;
-  position: relative;
 `;
 
 const StyledSelect = styled.select`

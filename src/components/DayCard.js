@@ -3,7 +3,6 @@ import getDisplayDate from './hooks/getDisplayDate.js';
 
 export default function DayCard({ routeNumber, data }) {
   const date = getDisplayDate(data.date);
-  console.log(data);
   return (
     <Wrapper key={routeNumber}>
       <h3>Route {routeNumber} </h3>
