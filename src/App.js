@@ -9,6 +9,7 @@ import FormNewDay from './pages/FormNewDay.js';
 import FormNewTrip from './pages/FormNewTrip.js';
 import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
+import DetailDay from './pages/DetailDay.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -97,6 +98,7 @@ export default function App() {
             <Dayplaner onGetCurrentDestination={getCurrentDestination} />
           }
         />
+        <Route path="/details/:id/dayplaner/:day" element={<DetailDay />} />
         <Route
           path="/details/:id/dayplaner/plannewday"
           element={
