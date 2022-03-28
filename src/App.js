@@ -12,6 +12,7 @@ import PastTrips from './pages/PastTrips.js';
 import DetailDay from './pages/DetailDay.js';
 import EditDay from './pages/EditDay.js';
 import { current } from 'immer';
+import { ids } from 'webpack';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -59,10 +60,10 @@ export default function App() {
 
   function editRoute(handleData, routes) {
     updateDestinations(draft => {
-      const destination = draft.find(
+      const currentDestination = draft.find(
         destination => destination.id === handleData.id
       );
-      const currentRoute = destination.routes.find(
+      const currentRoute = currentDestination.routes.find(
         route => route.date === routes.date
       );
       currentRoute.locations = routes.locations;
@@ -73,6 +74,18 @@ export default function App() {
     updateDestinations(draft => {
       draft.splice(
         draft.findIndex(destination => destination.id === destinationId),
+        1
+      );
+    });
+  }
+
+  function deleteRoute(id, route) {
+    updateDestinations(draft => {
+      const currentDestination = draft.find(
+        destination => destination.id === id
+      );
+      currentDestination.routes.splice(
+        draft.findIndex(singleroute => singleroute.date === route.date),
         1
       );
     });
@@ -116,7 +129,10 @@ export default function App() {
         <Route
           path="/details/:id/day_:daydate(:date)"
           element={
-            <DetailDay onGetCurrentDestination={getCurrentDestination} />
+            <DetailDay
+              onGetCurrentDestination={getCurrentDestination}
+              onDeleteDay={deleteRoute}
+            />
           }
         />
 
