@@ -11,8 +11,6 @@ import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
 import DetailDay from './pages/DetailDay.js';
 import EditDay from './pages/EditDay.js';
-import { current } from 'immer';
-import { ids } from 'webpack';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -54,7 +52,6 @@ export default function App() {
         destination => destination.id === handleData.id
       );
       destination.routes = [...destination.routes, routes];
-      console.log(destination);
     });
   }
 
@@ -78,6 +75,7 @@ export default function App() {
       );
     });
   }
+  console.log(new Date(destinations[0].routes[0].date));
 
   function deleteRoute(id, route) {
     updateDestinations(draft => {
@@ -85,7 +83,11 @@ export default function App() {
         destination => destination.id === id
       );
       currentDestination.routes.splice(
-        draft.findIndex(singleroute => singleroute.date === route.date),
+        currentDestination.routes.findIndex(
+          singleroute =>
+            new Date(singleroute.date).getTime() ===
+            new Date(route.date).getTime()
+        ),
         1
       );
     });
@@ -134,7 +136,7 @@ export default function App() {
               onDeleteDay={deleteRoute}
             />
           }
-        />
+        ></Route>
 
         <Route
           path="/details/:id/edit/day_:daydate(:date)"

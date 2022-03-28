@@ -19,11 +19,11 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
   });
   const [isOpen, setIsOpen] = useState(false);
   const dayDiff =
-    (new Date(route.date) - new Date(currentDestination[0].startDate)) /
+    (new Date(route?.date) - new Date(currentDestination[0].startDate)) /
     86400000;
 
   function handleDeleteDay(id, route) {
-    onDeleteDay(id);
+    onDeleteDay(id, route);
     navigate(-1);
   }
   return (
