@@ -3,13 +3,17 @@ import { useForm } from 'react-hook-form';
 import getDates from './hooks/getDates.js';
 import getDisplayDate from './hooks/getDisplayDate.js';
 import { useImmer } from 'use-immer';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function FormDay({
   currentDestination,
   formName,
   buttonName,
   handleNewDay,
+  initialValues,
 }) {
+  const { date } = useParams();
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
   const dates = getDates(startDate, endDate);
@@ -32,7 +36,21 @@ export default function FormDay({
     formState: { errors },
   } = useForm({
     mode: 'all',
+    defaultValues: {
+      date: initialValues === undefined ? '' : initialValues.date,
+    },
   });
+
+  useEffect(() => {
+    updateFormLocations(draft => {
+      const currentLocation = draft.find(location =>
+        initialValues?.locations.includes(location.location)
+      );
+      if (currentLocation) {
+        currentLocation.isChecked = !currentLocation.isChecked;
+      }
+    });
+  }, [initialValues, updateFormLocations]);
 
   function handleToggle(e) {
     updateFormLocations(draft => {
@@ -55,20 +73,29 @@ export default function FormDay({
         onSubmit={handleSubmit(onSubmit)}
       >
         <div>
-          <LabelHeader htmlFor="select date">Date</LabelHeader>
-          <StyledSelect
-            name="date"
-            id="select date"
-            autoFocus
-            {...register('date', { required: 'Please select a date' })}
-          >
-            <option value={''}>--Select a date--</option>
-            {filteredDates.map((date, index) => (
-              <option key={index} value={date}>
-                {getDisplayDate(date)}
-              </option>
-            ))}
-          </StyledSelect>
+          {initialValues === undefined ? (
+            <>
+              <LabelHeader htmlFor="select date">Date</LabelHeader>
+              <StyledSelect
+                name="date"
+                id="select date"
+                autoFocus
+                {...register('date', { required: 'Please select a date' })}
+              >
+                <option value={''}>--Select a date--</option>
+                {filteredDates.map((date, index) => (
+                  <option key={index} value={date}>
+                    {getDisplayDate(date)}
+                  </option>
+                ))}
+              </StyledSelect>
+            </>
+          ) : (
+            <>
+              <LabelHeader htmlFor="date">Date</LabelHeader>
+              <InputField id={'date'} disabled value={date}></InputField>
+            </>
+          )}
           {errors?.date && <ErrorMessage>{errors?.date.message}</ErrorMessage>}
         </div>
         <div>
@@ -128,6 +155,16 @@ const LocationButton = styled.button`
   &.active {
     background-color: var(--bg-color-action);
   }
+`;
+
+const InputField = styled.input`
+  padding: 6px 12px;
+  margin-top: 10px;
+  border-radius: 14px;
+  border: none;
+  background-color: var(--bg-color-content);
+  width: 100%;
+  max-width: 400px;
 `;
 
 const CreateButton = styled.button`

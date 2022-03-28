@@ -44,7 +44,12 @@ export default function Dayplaner({ onGetCurrentDestination }) {
               )})`}
               style={linkStyle}
             >
-              <DayCard key={index} routeNumber={index + 1} data={data} />
+              <DayCard
+                key={index}
+                routeNumber={index + 1}
+                data={data}
+                startDate={detailDestination[0]?.startDate}
+              />
             </Link>
           ))
         ) : (
