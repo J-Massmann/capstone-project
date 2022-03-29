@@ -36,7 +36,10 @@ export default function Form({
       minLength: 2,
     });
     geocoderDestination.on('result', e => {
-      setDestinationMapbox(e.result.text);
+      setDestinationMapbox({
+        place: e.result.text,
+        coordinates: [e.result.center[1], e.result.center[0]],
+      });
     });
     geocoderDestination.addTo('#geocoderdestination');
 
@@ -68,6 +71,7 @@ export default function Form({
   const onSubmit = () => {
     onCreateTrips(destinationMapbox, stateDate, locations);
   };
+  console.log(destinationMapbox);
 
   function handleMapboxInput(e) {
     e.target.value === ''

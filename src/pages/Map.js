@@ -29,19 +29,17 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
-      <MapWrapper>
-        <MapContainer center={[51.505, -0.09]} zoom={13}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={[51.505, -0.09]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
-        </MapContainer>
-      </MapWrapper>
+      <MapContainerContainer center={[52.51667, 13.38333]} zoom={10}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[51.505, -0.09]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainerContainer>
     </>
   );
 }
@@ -63,6 +61,8 @@ const Button = styled.button`
     left: ${props => (props.goback ? '0' : '')};
   }
 `;
-const MapWrapper = styled.div`
-  height: 80vh;
+
+const MapContainerContainer = styled(MapContainer)`
+  height: 85vh;
+  border-radius: 10px;
 `;
