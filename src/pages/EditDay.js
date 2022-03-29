@@ -19,6 +19,7 @@ export default function EditDay({
   const route = currentDestination[0].routes.find(route => {
     return getDisplayDate(route.date) === date;
   });
+  console.log(route);
 
   function showSubmitMessage() {
     setIsOpen(true);

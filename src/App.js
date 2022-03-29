@@ -105,6 +105,8 @@ export default function App() {
     }
   }
 
+  console.log(destinations);
+
   return (
     <AppGrid>
       <Routes>
