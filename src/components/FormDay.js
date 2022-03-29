@@ -24,6 +24,7 @@ export default function FormDay({
       isChecked: false,
     }))
   );
+  console.log(initialValues);
   const plannedDays = currentDestination[0].routes.map(day =>
     new Date(day.date).getTime()
   );
@@ -45,7 +46,9 @@ export default function FormDay({
   useEffect(() => {
     updateFormLocations(draft => {
       const currentLocation = draft.find(location =>
-        initialValues?.locations.includes(location.location)
+        initialValues?.locations.map(
+          name => name.location === location.location
+        )
       );
       if (currentLocation) {
         currentLocation.isChecked = !currentLocation.isChecked;
@@ -60,6 +63,7 @@ export default function FormDay({
       currentLocation.isChecked = !currentLocation.isChecked;
     });
   }
+  console.log(formLocations);
 
   const onSubmit = data => {
     handleNewDay(data, formLocations);

@@ -24,7 +24,7 @@ export default function FormNewDay({ onAddRoute, onGetCurrentDestination }) {
       date: data.date,
       locations: formLocations
         .filter(location => location.isChecked === true)
-        .map(location => location.location),
+        .map(location => location),
     };
     onAddRoute(currentDestination[0], routes);
     showSubmitMessage();

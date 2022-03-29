@@ -15,6 +15,8 @@ export default function Map({ onGetCurrentDestination }) {
     return getDisplayDate(route.date) === date;
   });
   console.log(route);
+  const destinationCoordination = currentDestination[0].coordinates;
+  console.log(destinationCoordination);
 
   return (
     <>
@@ -29,16 +31,16 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
-      <MapContainerContainer center={[52.51667, 13.38333]} zoom={10}>
+      <MapContainerContainer center={destinationCoordination} zoom={10}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {route.locations.map(route => (
+          <Marker key={route.location} position={route.coordinates}>
+            <Popup>{route.location}</Popup>
+          </Marker>
+        ))}
       </MapContainerContainer>
     </>
   );
