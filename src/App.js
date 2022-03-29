@@ -75,7 +75,6 @@ export default function App() {
       );
     });
   }
-  console.log(new Date(destinations[0].routes[0].date));
 
   function deleteRoute(id, route) {
     updateDestinations(draft => {
