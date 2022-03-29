@@ -68,6 +68,11 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
           </Link>
         </EditButton>
       </Wrapper>
+      <GoToMapButton>
+        <LinkForm to={`/details/${id}/map/day_${daydate}(${date})`}>
+          Show on map
+        </LinkForm>
+      </GoToMapButton>
       <DeleteModal
         open={isOpen}
         setOpen={setIsOpen}
@@ -81,9 +86,8 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
 
 const Heading = styled.header`
   display: flex;
-  position: relative;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 const Button = styled.button`
@@ -91,11 +95,6 @@ const Button = styled.button`
   background: transparent;
   border: transparent;
   cursor: pointer;
-  @media (min-width: 266px) {
-    position: absolute;
-    right: ${props => (props.goback ? '' : '0')};
-    left: ${props => (props.goback ? '0' : '')};
-  }
 `;
 
 const Wrapper = styled.main`
@@ -114,6 +113,7 @@ const SubHeaderWrapper = styled.div`
   align-items: center;
   h2 {
     width: 100%;
+    margin-top: 0;
     margin-bottom: 0;
     font-size: 1.5em;
     font-weight: bold;
@@ -122,7 +122,7 @@ const SubHeaderWrapper = styled.div`
 
 const EditButton = styled.button`
   position: fixed;
-  bottom: 15px;
+  bottom: 30px;
   right: 15px;
   z-index: 2;
   background: transparent;
@@ -147,4 +147,23 @@ const Location = styled.p`
   height: 2.5em;
   max-width: 400px;
   text-align: center;
+`;
+
+const GoToMapButton = styled.button`
+  width: 50%;
+  max-width: 250px;
+  height: 2.5rem;
+  justify-self: center;
+  background-color: var(--bg-color-action);
+  border: none;
+  border-radius: 10px;
+  position: fixed;
+  bottom: 15px;
+`;
+
+const LinkForm = styled(Link)`
+  width: 100%;
+  display: block;
+  text-decoration: none;
+  color: var(--bg-color-main);
 `;

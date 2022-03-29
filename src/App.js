@@ -11,6 +11,7 @@ import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
 import DetailDay from './pages/DetailDay.js';
 import EditDay from './pages/EditDay.js';
+import Map from './pages/Map.js';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -135,6 +136,11 @@ export default function App() {
               onDeleteDay={deleteRoute}
             />
           }
+        ></Route>
+
+        <Route
+          path="/details/:id/map/day_:daydate(:date)"
+          element={<Map onGetCurrentDestination={getCurrentDestination} />}
         ></Route>
 
         <Route
