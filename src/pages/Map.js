@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import goback from '../img/go-back.svg';
 import home from '../img/Home_Icon.svg';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 export default function Map({ onGetCurrentDestination }) {
   const navigate = useNavigate();
@@ -29,6 +30,17 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
+      <MapContainer center={[13.38333, 52.51667]} zoom={13}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[13.38333, 52.51667]}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
+      </MapContainer>
     </>
   );
 }
