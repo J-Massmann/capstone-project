@@ -11,7 +11,6 @@ import FutureTrips from './pages/FutureTrips.js';
 import PastTrips from './pages/PastTrips.js';
 import DetailDay from './pages/DetailDay.js';
 import EditDay from './pages/EditDay.js';
-import { current } from 'immer';
 
 export default function App() {
   const [destinations, updateDestinations] = useImmer(
@@ -53,16 +52,15 @@ export default function App() {
         destination => destination.id === handleData.id
       );
       destination.routes = [...destination.routes, routes];
-      console.log(destination);
     });
   }
 
   function editRoute(handleData, routes) {
     updateDestinations(draft => {
-      const destination = draft.find(
+      const currentDestination = draft.find(
         destination => destination.id === handleData.id
       );
-      const currentRoute = destination.routes.find(
+      const currentRoute = currentDestination.routes.find(
         route => route.date === routes.date
       );
       currentRoute.locations = routes.locations;
@@ -73,6 +71,22 @@ export default function App() {
     updateDestinations(draft => {
       draft.splice(
         draft.findIndex(destination => destination.id === destinationId),
+        1
+      );
+    });
+  }
+
+  function deleteRoute(id, route) {
+    updateDestinations(draft => {
+      const currentDestination = draft.find(
+        destination => destination.id === id
+      );
+      currentDestination.routes.splice(
+        currentDestination.routes.findIndex(
+          singleroute =>
+            new Date(singleroute.date).getTime() ===
+            new Date(route.date).getTime()
+        ),
         1
       );
     });
@@ -116,9 +130,12 @@ export default function App() {
         <Route
           path="/details/:id/day_:daydate(:date)"
           element={
-            <DetailDay onGetCurrentDestination={getCurrentDestination} />
+            <DetailDay
+              onGetCurrentDestination={getCurrentDestination}
+              onDeleteDay={deleteRoute}
+            />
           }
-        />
+        ></Route>
 
         <Route
           path="/details/:id/edit/day_:daydate(:date)"

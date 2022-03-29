@@ -5,6 +5,7 @@ import edit from '../img/Edit_Icon.svg';
 import deleteIcon from '../img/Delete_Icon.svg';
 import { useState } from 'react';
 import { DeleteModal } from '../components/Modal.js';
+import getDisplayDate from '../components/hooks/getDisplayDate.js';
 
 export default function DetailTrip({
   onGetCurrentDestination,
@@ -19,20 +20,10 @@ export default function DetailTrip({
     navigate(-1);
   }
   const startDate = new Date(detailDestination[0]?.startDate);
-  const startYYYY = startDate.getFullYear();
-  let startMM = startDate.getMonth() + 1;
-  let startDD = startDate.getDate();
-  if (startDD < 10) startDD = '0' + startDD;
-  if (startMM < 10) startMM = '0' + startMM;
-  const displayStartDate = startDD + '.' + startMM + '.' + startYYYY;
+  const displayStartDate = getDisplayDate(startDate);
 
   const endDate = new Date(detailDestination[0]?.endDate);
-  const endYYYY = endDate.getFullYear();
-  let endMM = endDate.getMonth() + 1;
-  let endDD = endDate.getDate();
-  if (endDD < 10) endDD = '0' + endDD;
-  if (endMM < 10) endMM = '0' + endMM;
-  const displayEndDate = endDD + '.' + endMM + '.' + endYYYY;
+  const displayEndDate = getDisplayDate(endDate);
 
   return (
     <>

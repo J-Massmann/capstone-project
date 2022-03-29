@@ -1,22 +1,31 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import edit from '../img/Edit_Icon.svg';
+import edit from '../img/Edit_Icon_round.svg';
+import deleteIcon from '../img/Delete_Icon.svg';
 import goback from '../img/go-back.svg';
 import home from '../img/Home_Icon.svg';
+import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
+import { useState } from 'react';
 
-export default function DetailDay({ onGetCurrentDestination }) {
+export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
   const { daydate } = useParams();
   const { id } = useParams();
   const { date } = useParams();
   const navigate = useNavigate();
-  const detailDestination = onGetCurrentDestination(id);
-  const route = detailDestination[0].routes.find(route => {
+  const currentDestination = onGetCurrentDestination(id);
+  const route = currentDestination[0].routes.find(route => {
     return getDisplayDate(route.date) === date;
   });
+  const [isOpen, setIsOpen] = useState(false);
   const dayDiff =
-    (new Date(route.date) - new Date(detailDestination[0].startDate)) /
+    (new Date(route?.date) - new Date(currentDestination[0].startDate)) /
     86400000;
+
+  function handleDeleteDay(id, route) {
+    onDeleteDay(id, route);
+    navigate(-1);
+  }
   return (
     <>
       <Heading>
@@ -36,9 +45,13 @@ export default function DetailDay({ onGetCurrentDestination }) {
             Day {dayDiff + 1} - {date}
           </h2>
           <Button>
-            <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
-              <img src={edit} alt="edit_icon" />
-            </Link>
+            <img
+              height="42"
+              width="46"
+              src={deleteIcon}
+              alt="delete_trip"
+              onClick={() => setIsOpen(true)}
+            />
           </Button>
         </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
@@ -49,7 +62,19 @@ export default function DetailDay({ onGetCurrentDestination }) {
         ) : (
           <p>You haven't added any locations to your Route</p>
         )}
+        <EditButton>
+          <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
+            <img src={edit} alt="edit_icon" />
+          </Link>
+        </EditButton>
       </Wrapper>
+      <DeleteModal
+        open={isOpen}
+        setOpen={setIsOpen}
+        handleDelete={() => handleDeleteDay(currentDestination[0].id, route)}
+      >
+        Are you sure that you want to delete the trip?
+      </DeleteModal>
     </>
   );
 }
@@ -93,6 +118,16 @@ const SubHeaderWrapper = styled.div`
     font-size: 1.5em;
     font-weight: bold;
   }
+`;
+
+const EditButton = styled.button`
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  z-index: 2;
+  background: transparent;
+  border: transparent;
+  width: fit-content;
 `;
 
 const Subheader2 = styled.h3`
