@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { useRef, useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import goback from '../img/go-back.svg';
 import home from '../img/Home_Icon.svg';
@@ -30,17 +29,19 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
-      <MapContainer center={[13.38333, 52.51667]} zoom={13}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={[13.38333, 52.51667]}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <div>
+        <MapContainer center={[51.505, -0.09]} zoom={13}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={[51.505, -0.09]}>
+            <Popup>
+              A pretty CSS3 popup. <br /> Easily customizable.
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
     </>
   );
 }
