@@ -14,9 +14,7 @@ export default function Map({ onGetCurrentDestination }) {
   const route = currentDestination[0].routes.find(route => {
     return getDisplayDate(route.date) === date;
   });
-  console.log(route);
   const destinationCoordination = currentDestination[0].coordinates;
-  console.log(destinationCoordination);
 
   return (
     <>

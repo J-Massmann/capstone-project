@@ -24,7 +24,6 @@ export default function FormDay({
       isChecked: false,
     }))
   );
-  console.log(initialValues);
   const plannedDays = currentDestination[0].routes.map(day =>
     new Date(day.date).getTime()
   );
@@ -63,7 +62,6 @@ export default function FormDay({
       currentLocation.isChecked = !currentLocation.isChecked;
     });
   }
-  console.log(formLocations);
 
   const onSubmit = data => {
     handleNewDay(data, formLocations);

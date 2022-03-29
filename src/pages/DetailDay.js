@@ -22,8 +22,6 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
     (new Date(route?.date) - new Date(currentDestination[0].startDate)) /
     86400000;
 
-  console.log(route);
-
   function handleDeleteDay(id, route) {
     onDeleteDay(id, route);
     navigate(-1);
