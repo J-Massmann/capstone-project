@@ -21,7 +21,7 @@ export default function Dayplaner({ onGetCurrentDestination }) {
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Day Planer</h1>
+        <Header>Day Planer</Header>
         <Button>
           <Link to={`/futuretrips`}>
             <img src={home} alt="home" />
@@ -72,6 +72,22 @@ const Heading = styled.header`
   justify-content: center;
 `;
 
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
+`;
+
 const Button = styled.button`
   width: fit-content;
   background: transparent;
@@ -94,10 +110,21 @@ const Wrapper = styled.main`
 `;
 
 const Subheader = styled.h2`
-  width: 100%;
+  width: fit-content;
   margin-bottom: 0;
   font-size: 2em;
   font-weight: bold;
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
 `;
 
 const CardWrapper = styled.section`

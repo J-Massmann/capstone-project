@@ -22,7 +22,7 @@ export default function Map({ onGetCurrentDestination }) {
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Route {daydate}</h1>
+        <Header>Route {daydate}</Header>
         <Button>
           <Link to={`/futuretrips`}>
             <img src={home} alt="home" />
@@ -47,6 +47,22 @@ const Heading = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
 `;
 
 const Button = styled.button`

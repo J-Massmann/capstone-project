@@ -42,7 +42,7 @@ export default function FormNewTrip({ onAddNewDestination }) {
     <>
       <HeaderWrapper>
         <img src={x_icon} alt="cancel" onClick={() => navigate(-1)} />
-        <h1>New Trip</h1>
+        <Header>New Trip</Header>
       </HeaderWrapper>
       <Form
         formName={'Add a new Trip to your App'}
@@ -56,20 +56,34 @@ export default function FormNewTrip({ onAddNewDestination }) {
   );
 }
 
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  text-align: center;
+  width: 50%;
+  @media (max-width: 230px) {
+    text-align: end;
+  }
+`;
+
 const HeaderWrapper = styled.header`
   display: flex;
   position: relative;
   align-items: center;
-  & h1 {
-    width: 100%;
-    text-align: center;
-    @media (max-width: 230px) {
-      text-align: end;
-    }
-  }
+  justify-content: center;
   img {
     @media (min-width: 200px) {
       position: absolute;
+      left: 5px;
     }
     cursor: pointer;
   }

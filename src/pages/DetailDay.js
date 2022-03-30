@@ -31,7 +31,7 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Route {daydate}</h1>
+        <Header>Route {daydate}</Header>
         <Button onClick={() => setIsOpen(true)}>
           <img src={deleteIcon} alt="delete_route" />
         </Button>
@@ -78,6 +78,22 @@ const Heading = styled.header`
   justify-content: space-between;
 `;
 
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
+`;
+
 const Button = styled.button`
   width: fit-content;
   background: transparent;
@@ -103,7 +119,7 @@ const SubHeaderWrapper = styled.div`
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 1.5em;
+    font-size: 1.4em;
     font-weight: bold;
   }
 `;
@@ -113,7 +129,7 @@ const Subheader2 = styled.h3`
   margin-bottom: 0;
   text-decoration: underline;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
 `;
 
 const Location = styled.p`

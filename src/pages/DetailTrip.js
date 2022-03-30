@@ -92,13 +92,15 @@ const MainHedaer = styled.h1`
   box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
   background-size: 51% 20px;
   background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
 `;
 
 const Wrapper = styled.section`
   display: block;
   width: 100%;
   margin-right: auto;
-  margin-left: 1em;
+  margin-left: auto;
   @media (min-width: 550px) {
     width: 535px;
   }
@@ -143,7 +145,6 @@ const Button = styled.button`
   border: transparent;
   cursor: pointer;
   height: fit-content;
-  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.3);
   @media (min-width: 266px) {
     position: absolute;
     right: ${props => (props.delete ? '' : '0')};
