@@ -101,6 +101,7 @@ export default function FormDay({
           {errors?.date && <ErrorMessage>{errors?.date.message}</ErrorMessage>}
         </div>
         <div>
+          <Subheader>Choose locations for the day</Subheader>
           {formLocations?.map((loc, index) => (
             <LocationButton
               key={index}
@@ -145,6 +146,15 @@ const LabelHeader = styled.label`
   font-size: 1.5rem;
 `;
 
+const Subheader = styled.h3`
+  width: 100%;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 1.5rem;
+`;
+
 const LocationButton = styled.button`
   padding: 6px 12px;
   margin-top: 10px;
@@ -152,7 +162,7 @@ const LocationButton = styled.button`
   border: none;
   background-color: var(--bg-color-content);
   width: 100%;
-  height: 2.5em;
+  height: 2rem;
   max-width: 400px;
   &.active {
     background-color: var(--bg-color-action);

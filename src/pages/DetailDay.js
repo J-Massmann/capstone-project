@@ -1,9 +1,8 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import edit from '../img/Edit_Icon_round.svg';
+import edit from '../img/Edit_Icon.svg';
 import deleteIcon from '../img/Delete_Icon.svg';
 import goback from '../img/go-back.svg';
-import home from '../img/Home_Icon.svg';
 import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
 import { useState } from 'react';
@@ -33,10 +32,8 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
         <h1>Route {daydate}</h1>
-        <Button>
-          <Link to={`/futuretrips`}>
-            <img src={home} alt="home" />
-          </Link>
+        <Button onClick={() => setIsOpen(true)}>
+          <img src={deleteIcon} alt="delete_route" />
         </Button>
       </Heading>
       <Wrapper>
@@ -45,13 +42,9 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
             Day {dayDiff + 1} - {date}
           </h2>
           <Button>
-            <img
-              height="42"
-              width="46"
-              src={deleteIcon}
-              alt="delete_trip"
-              onClick={() => setIsOpen(true)}
-            />
+            <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
+              <img src={edit} alt="edit_route" />
+            </Link>
           </Button>
         </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
@@ -62,11 +55,6 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
         ) : (
           <p>You haven't added any locations to your Route</p>
         )}
-        <EditButton>
-          <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
-            <img src={edit} alt="edit_icon" />
-          </Link>
-        </EditButton>
       </Wrapper>
       <GoToMapButton>
         <LinkForm to={`/details/${id}/map/day_${daydate}(${date})`}>
@@ -135,6 +123,7 @@ const Subheader2 = styled.h3`
   margin-bottom: 0;
   text-decoration: underline;
   font-weight: bold;
+  font-size: 1.5rem;
 `;
 
 const Location = styled.p`
@@ -144,9 +133,10 @@ const Location = styled.p`
   background-color: var(--bg-color-content);
   color: var(--bg-color-main);
   width: 100%;
-  height: 2.5em;
+  height: 2rem;
   max-width: 400px;
   text-align: center;
+  font-size: 13px;
 `;
 
 const GoToMapButton = styled.button`

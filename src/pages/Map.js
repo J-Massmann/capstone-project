@@ -29,7 +29,7 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
-      <MapContainerContainer center={destinationCoordination} zoom={10}>
+      <Container center={destinationCoordination} zoom={12}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -39,15 +39,14 @@ export default function Map({ onGetCurrentDestination }) {
             <Popup>{route.location}</Popup>
           </Marker>
         ))}
-      </MapContainerContainer>
+      </Container>
     </>
   );
 }
 const Heading = styled.header`
   display: flex;
-  position: relative;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 `;
 
 const Button = styled.button`
@@ -55,14 +54,9 @@ const Button = styled.button`
   background: transparent;
   border: transparent;
   cursor: pointer;
-  @media (min-width: 266px) {
-    position: absolute;
-    right: ${props => (props.goback ? '' : '0')};
-    left: ${props => (props.goback ? '0' : '')};
-  }
 `;
 
-const MapContainerContainer = styled(MapContainer)`
+const Container = styled(MapContainer)`
   height: 85vh;
   border-radius: 10px;
 `;
