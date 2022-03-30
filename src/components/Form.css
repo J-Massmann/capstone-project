@@ -5,6 +5,15 @@
   width: 100%;
 }
 
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 #geocoder {
   z-index: 1;
 }

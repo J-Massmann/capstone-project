@@ -164,6 +164,7 @@ const LocationButton = styled.button`
   width: 100%;
   height: 2rem;
   max-width: 400px;
+  transition: all ease-in-out 0.5s;
   &:active {
     transform: scale(0.9);
     filter: brightness(90%);

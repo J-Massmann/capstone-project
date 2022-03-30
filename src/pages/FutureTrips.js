@@ -67,4 +67,9 @@ const AddButton = styled.button`
   background: transparent;
   border: transparent;
   width: fit-content;
+  &img {
+    &:active {
+      transform: scale(0.9);
+    }
+  }
 `;

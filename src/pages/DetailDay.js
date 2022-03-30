@@ -108,16 +108,6 @@ const SubHeaderWrapper = styled.div`
   }
 `;
 
-const EditButton = styled.button`
-  position: fixed;
-  bottom: 30px;
-  right: 15px;
-  z-index: 2;
-  background: transparent;
-  border: transparent;
-  width: fit-content;
-`;
-
 const Subheader2 = styled.h3`
   width: 100%;
   margin-bottom: 0;
@@ -149,6 +139,10 @@ const GoToMapButton = styled.button`
   border-radius: 10px;
   position: fixed;
   bottom: 15px;
+  &:active {
+    transform: scale(0.9);
+    filter: brightness(90%);
+  }
 `;
 
 const LinkForm = styled(Link)`

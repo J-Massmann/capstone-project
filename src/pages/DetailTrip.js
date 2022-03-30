@@ -133,6 +133,10 @@ const CreateButton = styled.button`
   border-radius: 10px;
   position: fixed;
   bottom: 15px;
+  &:active {
+    transform: scale(0.9);
+    filter: brightness(90%);
+  }
 `;
 
 const LinkDayPlaner = styled(Link)`
