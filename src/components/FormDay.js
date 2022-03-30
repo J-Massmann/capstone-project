@@ -182,6 +182,7 @@ const LocationButton = styled.button`
   height: 2rem;
   max-width: 400px;
   transition: all ease-in-out 0.5s;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
   &:active {
     transform: scale(0.9);
     filter: brightness(90%);
@@ -212,6 +213,7 @@ const CreateButton = styled.button`
   border: none;
   border-radius: 10px;
   transition: all 0.5s;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
   &.is_active {
     width: 40px;
     height: 40px;

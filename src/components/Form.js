@@ -308,6 +308,7 @@ const AddButton = styled.button`
   border: none;
   border-radius: 10px;
   margin-top: 10px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
 `;
 
 const CreateButton = styled.button`
@@ -320,6 +321,7 @@ const CreateButton = styled.button`
   background-color: var(--bg-color-action);
   border: none;
   border-radius: 10px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
   transition: all 0.5s;
   &.is_active {
     width: 40px;

@@ -36,10 +36,9 @@ const LinkButton = styled(NavLink)`
   text-decoration: none;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 3px 6px rgba(191, 194, 200, 0.4);
+  box-shadow: 6px 6px 12px 0 rgba(0, 0, 0, 0.25);
   &.active {
     background-color: var(--bg-color-action);
-    box-shadow: 0 6px 12px rgba(255, 90, 114, 0.6);
     font-weight: bold;
     font-size: 1rem;
   }

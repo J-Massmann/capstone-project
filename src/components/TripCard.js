@@ -18,5 +18,5 @@ const Wrapper = styled.section`
   border: 2px solid var(--bg-color-content);
   border-radius: 14px;
   padding: 0 5px;
-  box-shadow: 0 2px 5px rgba(191, 194, 200, 0.5);
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
 `;

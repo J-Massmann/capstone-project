@@ -120,6 +120,7 @@ const CreateButton = styled.button`
   border-radius: 10px;
   position: fixed;
   bottom: 15px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
   &:active {
     transform: scale(0.9);
     filter: brightness(90%);
