@@ -85,6 +85,7 @@ const HeaderWrapper = styled.header`
 `;
 
 const Button = styled.button`
+  position: absolute;
   width: fit-content;
   height: fit-content;
   background: transparent;

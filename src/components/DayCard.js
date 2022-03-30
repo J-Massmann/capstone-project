@@ -14,10 +14,11 @@ export default function DayCard({ routeNumber, data, startDate }) {
   );
 }
 
-const Wrapper = styled.article`
-  border: 1px solid var(--font-color);
+const Wrapper = styled.section`
+  border: 2px solid var(--bg-color-content);
   padding: 10px;
   border-radius: 14px;
+  box-shadow: 0 2px 5px rgba(191, 194, 200, 0.5);
   h3 {
     margin-top: 0px;
   }

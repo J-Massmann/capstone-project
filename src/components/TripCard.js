@@ -15,8 +15,8 @@ export default function TripCard({ id, place, startDate, endDate }) {
 }
 
 const Wrapper = styled.section`
-  border: 3px solid var(--bg-color-content);
-  border-radius: 10px;
+  border: 2px solid var(--bg-color-content);
+  border-radius: 14px;
   padding: 0 5px;
-  box-shadow: 0 2px 5px rgba(191, 194, 200, 0.6);
+  box-shadow: 0 2px 5px rgba(191, 194, 200, 0.5);
 `;

@@ -9,7 +9,6 @@ export default createGlobalStyle`
    --bg-color-main: #2A3036;
    --bg-color-action: #FF5A72;
    --bg-color-content: #bfc2c8;
-   --vg-color-boxshadow: rgba(191, 194, 200, 0.5);
    --font-color: #F3F4F6;
  }
 
