@@ -14,7 +14,7 @@ export default function Map({ onGetCurrentDestination }) {
   const route = currentDestination[0].routes.find(route => {
     return getDisplayDate(route.date) === date;
   });
-  console.log(route);
+  const destinationCoordination = currentDestination[0].coordinates;
 
   return (
     <>
@@ -29,19 +29,17 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
-      <div>
-        <MapContainer center={[51.505, -0.09]} zoom={13}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <Marker position={[51.505, -0.09]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+      <MapContainerContainer center={destinationCoordination} zoom={10}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {route.locations.map(route => (
+          <Marker key={route.location} position={route.coordinates}>
+            <Popup>{route.location}</Popup>
           </Marker>
-        </MapContainer>
-      </div>
+        ))}
+      </MapContainerContainer>
     </>
   );
 }
@@ -62,4 +60,9 @@ const Button = styled.button`
     right: ${props => (props.goback ? '' : '0')};
     left: ${props => (props.goback ? '0' : '')};
   }
+`;
+
+const MapContainerContainer = styled(MapContainer)`
+  height: 85vh;
+  border-radius: 10px;
 `;

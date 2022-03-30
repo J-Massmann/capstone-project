@@ -52,8 +52,8 @@ export default function DetailTrip({
           </p>
           <Subheader2>Locations:</Subheader2>
           <ul>
-            {trip.locations.map((location, index) => (
-              <li key={index}>{location}</li>
+            {trip.locations.map(location => (
+              <li key={location.place}>{location.place}</li>
             ))}
           </ul>
         </Wrapper>

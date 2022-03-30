@@ -36,7 +36,10 @@ export default function Form({
       minLength: 2,
     });
     geocoderDestination.on('result', e => {
-      setDestinationMapbox(e.result.text);
+      setDestinationMapbox({
+        place: e.result.text,
+        coordinates: [e.result.center[1], e.result.center[0]],
+      });
     });
     geocoderDestination.addTo('#geocoderdestination');
 
@@ -49,7 +52,10 @@ export default function Form({
       clearOnBlur: true,
     });
     geocoderLocations.on('result', e => {
-      setLocationMapbox(e.result.text);
+      setLocationMapbox({
+        place: e.result.text,
+        coordinates: [e.result.center[1], e.result.center[0]],
+      });
     });
 
     geocoderLocations.addTo('#geocoderlocation');
@@ -202,7 +208,7 @@ export default function Form({
             {locations.length < 1
               ? null
               : locations.map((location, index) => (
-                  <li key={index}>{location}</li>
+                  <li key={index}>{location.place}</li>
                 ))}
           </ListWrapper>
         </Wrapper>

@@ -5,7 +5,6 @@ import getDisplayDate from './hooks/getDisplayDate.js';
 import { useImmer } from 'use-immer';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import produce from 'immer';
 
 export default function FormDay({
   currentDestination,
@@ -14,18 +13,17 @@ export default function FormDay({
   handleNewDay,
   initialValues,
 }) {
-  console.log(initialValues);
   const { date } = useParams();
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
   const dates = getDates(startDate, endDate);
   const [formLocations, updateFormLocations] = useImmer(
     currentDestination[0].locations.map(loc => ({
-      location: loc,
+      location: loc.place,
+      coordinates: loc.coordinates,
       isChecked: false,
     }))
   );
-  console.log(formLocations);
   const plannedDays = currentDestination[0].routes.map(day =>
     new Date(day.date).getTime()
   );
@@ -47,7 +45,9 @@ export default function FormDay({
   useEffect(() => {
     updateFormLocations(draft => {
       const currentLocation = draft.find(location =>
-        initialValues?.locations.includes(location.location)
+        initialValues?.locations.map(
+          name => name.location === location.location
+        )
       );
       if (currentLocation) {
         currentLocation.isChecked = !currentLocation.isChecked;

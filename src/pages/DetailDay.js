@@ -56,8 +56,8 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
         </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
         {route?.locations.length > 0 ? (
-          route.locations.map(location => (
-            <Location key={location}>{location}</Location>
+          route?.locations.map((location, index) => (
+            <Location key={index}>{location.location}</Location>
           ))
         ) : (
           <p>You haven't added any locations to your Route</p>
