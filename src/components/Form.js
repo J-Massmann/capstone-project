@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import './Form.css';
 import mapboxgl from 'mapbox-gl';
+import success from '../img/success.svg';
 
 export default function Form({
   buttonName,
@@ -19,6 +20,7 @@ export default function Form({
 }) {
   mapboxgl.accessToken = process.env.REACT_APP_ACCESSTOKEN;
 
+  const [isSuccessfull, setisSuccessfull] = useState(false);
   const [locations, updateLocations] = useImmer(destination?.locations ?? []);
   const [destinationMapbox, setDestinationMapbox] = useState(
     preloadedValues?.destination === undefined
@@ -112,9 +114,9 @@ export default function Form({
         primaryColor: '#d8366f',
       },
       inputLabelBackground: '#bfc2c8',
-      inputLabelBorderRadius: '15px',
+      inputLabelBorderRadius: '14px',
       inputBackground: 'transparent',
-      inputBorderRadius: '15px',
+      inputBorderRadius: '14px',
       inputPlaceholderColor: '#2A3036',
       inputMinHeight: '28',
       inputPadding: '0 8px 4px 32px',
@@ -214,6 +216,8 @@ export default function Form({
         </Wrapper>
 
         <CreateButton
+          onClick={() => setisSuccessfull(true)}
+          className={isSuccessfull ? 'is_active' : ''}
           disabled={
             destinationMapbox !== '' &&
             stateDate.startDate !== null &&
@@ -223,7 +227,16 @@ export default function Form({
           }
           type="submit"
         >
-          {buttonName}
+          <Span className={isSuccessfull ? 'is_active' : ''}>{buttonName}</Span>
+          <ImgWrapper className={isSuccessfull ? 'is_active' : ''}>
+            <SuccessImg
+              width={40}
+              height={40}
+              src={success}
+              alt="success"
+              className={isSuccessfull ? 'is_active' : ''}
+            />
+          </ImgWrapper>
         </CreateButton>
       </FormContainer>
     </>
@@ -248,6 +261,7 @@ const GeoCoderDestination = styled.div`
 
 const DateWrapper = styled.div`
   margin-top: 10px;
+  background-color: transparent;
 `;
 
 const LabelHeader = styled.label`
@@ -268,6 +282,7 @@ const InputField = styled.input`
 
 const GeocoderLocations = styled.div`
   margin-top: 10px;
+  border-radius: 14px;
 `;
 
 const ErrorMessage = styled.p`
@@ -296,6 +311,7 @@ const AddButton = styled.button`
 `;
 
 const CreateButton = styled.button`
+  position: relative;
   margin-top: 2rem;
   width: 50%;
   max-width: 250px;
@@ -304,4 +320,46 @@ const CreateButton = styled.button`
   background-color: var(--bg-color-action);
   border: none;
   border-radius: 10px;
+  transition: all 0.5s;
+  &.is_active {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+  }
+`;
+const Span = styled.span`
+  transition: all 0.5s;
+  &.is_active {
+    display: none;
+  }
+`;
+
+const ImgWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 2;
+  visibility: hidden;
+  transition: all 0.5s;
+  &.is_active {
+    visibility: visible;
+  }
+`;
+
+const SuccessImg = styled.img`
+  visibility: hidden;
+  &.is_active {
+    visibility: visible;
+    z-index: 3;
+    margin-top: 50%;
+    transform: translateY(-50%) rotate(0deg) scale(0);
+    transform: translateY(-50%) rotate(720deg) scale(1);
+    width: 40px;
+    height: 40px;
+    transform-origin: 50% 50%;
+    transition: all 0.5s;
+  }
 `;

@@ -28,7 +28,7 @@ export function DeleteModal({ open, setOpen, handleDelete, children }) {
 
 const ModalWrapper = styled.div`
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   width: 70%;
   max-width: 300px;

@@ -28,12 +28,12 @@ export default function DetailTrip({
   return (
     <>
       <Heading>
-        <Button delete onClick={() => setIsOpen(true)}>
-          <img src={deleteIcon} alt="delete_trip" />
-        </Button>
-        <h1>Your Trips</h1>
         <Button>
           <img src={home} alt="go_back" onClick={() => navigate(-1)} />
+        </Button>
+        <h1>Your Trips</h1>
+        <Button delete onClick={() => setIsOpen(true)}>
+          <img src={deleteIcon} alt="delete_trip" />
         </Button>
       </Heading>
       {detailDestination.map(trip => (
