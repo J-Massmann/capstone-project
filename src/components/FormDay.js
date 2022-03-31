@@ -1,10 +1,12 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 import getDates from './hooks/getDates.js';
 import getDisplayDate from './hooks/getDisplayDate.js';
 import { useImmer } from 'use-immer';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import success from '../img/success.svg';
 
 export default function FormDay({
   currentDestination,
@@ -13,6 +15,7 @@ export default function FormDay({
   handleNewDay,
   initialValues,
 }) {
+  const [isSuccessfull, setisSuccessfull] = useState(false);
   const { date } = useParams();
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
@@ -101,19 +104,34 @@ export default function FormDay({
           {errors?.date && <ErrorMessage>{errors?.date.message}</ErrorMessage>}
         </div>
         <div>
+          <Subheader>Choose locations for the day</Subheader>
           {formLocations?.map((loc, index) => (
             <LocationButton
               key={index}
               type="button"
               value={loc.location}
               onClick={e => handleToggle(e)}
-              className={loc.isChecked ? 'active' : ''}
+              className={loc.isChecked ? 'checked' : ''}
             >
               {loc.location}
             </LocationButton>
           ))}
         </div>
-        <CreateButton>{buttonName}</CreateButton>
+        <CreateButton
+          className={isSuccessfull ? 'is_active' : ''}
+          onClick={() => setisSuccessfull(true)}
+        >
+          <Span className={isSuccessfull ? 'is_active' : ''}>{buttonName}</Span>
+          <ImgWrapper className={isSuccessfull ? 'is_active' : ''}>
+            <SuccessImg
+              width={40}
+              height={40}
+              src={success}
+              alt="success"
+              className={isSuccessfull ? 'is_active' : ''}
+            />
+          </ImgWrapper>
+        </CreateButton>
       </FormContainer>
     </>
   );
@@ -145,6 +163,15 @@ const LabelHeader = styled.label`
   font-size: 1.5rem;
 `;
 
+const Subheader = styled.h3`
+  width: 100%;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-decoration: underline;
+  font-weight: bold;
+  font-size: 1.5rem;
+`;
+
 const LocationButton = styled.button`
   padding: 6px 12px;
   margin-top: 10px;
@@ -152,9 +179,15 @@ const LocationButton = styled.button`
   border: none;
   background-color: var(--bg-color-content);
   width: 100%;
-  height: 2.5em;
+  height: 2rem;
   max-width: 400px;
-  &.active {
+  transition: all ease-in-out 0.5s;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
+  &:active {
+    transform: scale(0.9);
+    filter: brightness(90%);
+  }
+  &.checked {
     background-color: var(--bg-color-action);
   }
 `;
@@ -170,6 +203,7 @@ const InputField = styled.input`
 `;
 
 const CreateButton = styled.button`
+  position: relative;
   margin-top: 2rem;
   width: 50%;
   max-width: 250px;
@@ -178,6 +212,50 @@ const CreateButton = styled.button`
   background-color: var(--bg-color-action);
   border: none;
   border-radius: 10px;
+  transition: all 0.5s;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
+  &.is_active {
+    width: 40px;
+    height: 40px;
+    background: transparent;
+  }
+`;
+
+const Span = styled.span`
+  transition: all 0.5s;
+  &.is_active {
+    display: none;
+  }
+`;
+
+const ImgWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  z-index: 2;
+  visibility: hidden;
+  transition: all 0.5s;
+  &.is_active {
+    visibility: visible;
+  }
+`;
+
+const SuccessImg = styled.img`
+  visibility: hidden;
+  &.is_active {
+    visibility: visible;
+    z-index: 3;
+    margin-top: 50%;
+    transform: translateY(-50%) rotate(0deg) scale(0);
+    transform: translateY(-50%) rotate(720deg) scale(1);
+    width: 40px;
+    height: 40px;
+    transform-origin: 50% 50%;
+    transition: all 0.5s;
+  }
 `;
 
 const ErrorMessage = styled.p`

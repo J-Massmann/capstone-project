@@ -8,7 +8,7 @@ export default createGlobalStyle`
  :root {
    --bg-color-main: #2A3036;
    --bg-color-action: #FF5A72;
-   --bg-color-content: #bfc2c8; 
+   --bg-color-content: #bfc2c8;
    --font-color: #F3F4F6;
  }
 

@@ -29,14 +29,17 @@ const LinkButton = styled(NavLink)`
   color: var(--font-color);
   background-color: var(--bg-color-content);
   border-radius: ${props =>
-    props.status === 'future' ? `10px 0 0 10px` : `0 10px 10px 0`};
+    props.status === 'future' ? `14px 0 0 14px` : `0 14px 14px 0`};
   border: 1px solid var(--bg-color-main);
-  width: 40%;
+  width: 45%;
   height: 2.2rem;
   text-decoration: none;
   justify-content: center;
   align-items: center;
+  box-shadow: 6px 6px 12px 0 rgba(0, 0, 0, 0.25);
   &.active {
     background-color: var(--bg-color-action);
+    font-weight: bold;
+    font-size: 1rem;
   }
 `;

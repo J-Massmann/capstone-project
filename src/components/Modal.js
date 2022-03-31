@@ -28,12 +28,12 @@ export function DeleteModal({ open, setOpen, handleDelete, children }) {
 
 const ModalWrapper = styled.div`
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   width: 70%;
   max-width: 300px;
   transform: translate(-50%, -50%);
-  background-color: var(--bg-color-content);
+  background-color: var(--font-color);
   padding: 1.5rem;
   z-index: 50;
   border: 3px solid var(--bg-color-action);
@@ -51,6 +51,8 @@ const Button = styled.button`
   max-width: 100px;
   padding: 5px;
   border-radius: 10px;
+  border: 1px solid var(--bg-color-main);
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
   background-color: ${props =>
-    props['aria-label'] === 'yes' ? 'green' : 'red'};
+    props['aria-label'] === 'yes' ? '#616367' : 'var(--bg-color-action)'};
 `;

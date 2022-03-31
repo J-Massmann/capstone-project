@@ -51,7 +51,7 @@ export default function EditTrips({ destinations, onEditDestination }) {
             <Button onClick={() => navigate(-1)}>
               <img src={x_icon} alt="cancel" />
             </Button>
-            <h1> {trip.place}</h1>
+            <Header> {trip.place}</Header>
           </HeaderWrapper>
           <Form
             formName={'Edit a trip'}
@@ -75,19 +75,34 @@ const HeaderWrapper = styled.header`
   display: flex;
   position: relative;
   align-items: center;
-  h1 {
-    width: 100%;
-    text-align: center;
-    @media (max-width: 230px) {
-      text-align: end;
-    }
+  justify-content: center;
+`;
+
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  text-align: center;
+  width: 50%;
+  @media (max-width: 230px) {
+    text-align: end;
   }
 `;
 
 const Button = styled.button`
+  position: absolute;
   width: fit-content;
   height: fit-content;
   background: transparent;
   border: transparent;
+  left: 5px;
   cursor: pointer;
 `;

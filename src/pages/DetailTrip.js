@@ -28,18 +28,18 @@ export default function DetailTrip({
   return (
     <>
       <Heading>
-        <Button delete onClick={() => setIsOpen(true)}>
-          <img src={deleteIcon} alt="delete_trip" />
-        </Button>
-        <h1>Your Trips</h1>
         <Button>
           <img src={home} alt="go_back" onClick={() => navigate(-1)} />
+        </Button>
+        <MainHedaer>Your Trips</MainHedaer>
+        <Button delete onClick={() => setIsOpen(true)}>
+          <img src={deleteIcon} alt="delete_trip" />
         </Button>
       </Heading>
       {detailDestination.map(trip => (
         <Wrapper key={trip.id}>
           <SubHeaderWrapper>
-            <h2>{trip.place}</h2>
+            <Subheader>{trip.place}</Subheader>
             <Button>
               <Link to={`/edit/${trip.place}`}>
                 <img src={edit} alt="edit_icon" />
@@ -80,6 +80,22 @@ const Heading = styled.header`
   justify-content: center;
 `;
 
+const MainHedaer = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
+`;
+
 const Wrapper = styled.section`
   display: block;
   width: 100%;
@@ -94,14 +110,26 @@ const SubHeaderWrapper = styled.div`
   display: flex;
   position: relative;
   align-items: center;
-  h2 {
-    width: 100%;
-    margin-bottom: 0;
-    font-size: 2em;
-    font-weight: bold;
-    @media (max-width: 230px) {
-      text-align: end;
-    }
+`;
+
+const Subheader = styled.h2`
+  margin-bottom: 0;
+  font-size: 2em;
+  font-weight: bold;
+  background-size: cover;
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  @media (max-width: 230px) {
+    text-align: end;
   }
 `;
 
@@ -116,6 +144,7 @@ const Button = styled.button`
   background: transparent;
   border: transparent;
   cursor: pointer;
+  height: fit-content;
   @media (min-width: 266px) {
     position: absolute;
     right: ${props => (props.delete ? '' : '0')};
@@ -133,6 +162,11 @@ const CreateButton = styled.button`
   border-radius: 10px;
   position: fixed;
   bottom: 15px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
+  &:active {
+    transform: scale(0.9);
+    filter: brightness(90%);
+  }
 `;
 
 const LinkDayPlaner = styled(Link)`

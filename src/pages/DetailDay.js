@@ -1,9 +1,8 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import edit from '../img/Edit_Icon_round.svg';
+import edit from '../img/Edit_Icon.svg';
 import deleteIcon from '../img/Delete_Icon.svg';
 import goback from '../img/go-back.svg';
-import home from '../img/Home_Icon.svg';
 import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
 import { useState } from 'react';
@@ -32,11 +31,9 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Route {daydate}</h1>
-        <Button>
-          <Link to={`/futuretrips`}>
-            <img src={home} alt="home" />
-          </Link>
+        <Header>Route {daydate}</Header>
+        <Button onClick={() => setIsOpen(true)}>
+          <img src={deleteIcon} alt="delete_route" />
         </Button>
       </Heading>
       <Wrapper>
@@ -45,13 +42,9 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
             Day {dayDiff + 1} - {date}
           </h2>
           <Button>
-            <img
-              height="42"
-              width="46"
-              src={deleteIcon}
-              alt="delete_trip"
-              onClick={() => setIsOpen(true)}
-            />
+            <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
+              <img src={edit} alt="edit_route" />
+            </Link>
           </Button>
         </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
@@ -62,11 +55,6 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
         ) : (
           <p>You haven't added any locations to your Route</p>
         )}
-        <EditButton>
-          <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
-            <img src={edit} alt="edit_icon" />
-          </Link>
-        </EditButton>
       </Wrapper>
       <GoToMapButton>
         <LinkForm to={`/details/${id}/map/day_${daydate}(${date})`}>
@@ -88,6 +76,22 @@ const Heading = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
 `;
 
 const Button = styled.button`
@@ -115,19 +119,9 @@ const SubHeaderWrapper = styled.div`
     width: 100%;
     margin-top: 0;
     margin-bottom: 0;
-    font-size: 1.5em;
+    font-size: 1.4em;
     font-weight: bold;
   }
-`;
-
-const EditButton = styled.button`
-  position: fixed;
-  bottom: 30px;
-  right: 15px;
-  z-index: 2;
-  background: transparent;
-  border: transparent;
-  width: fit-content;
 `;
 
 const Subheader2 = styled.h3`
@@ -135,6 +129,7 @@ const Subheader2 = styled.h3`
   margin-bottom: 0;
   text-decoration: underline;
   font-weight: bold;
+  font-size: 1.4rem;
 `;
 
 const Location = styled.p`
@@ -144,9 +139,11 @@ const Location = styled.p`
   background-color: var(--bg-color-content);
   color: var(--bg-color-main);
   width: 100%;
-  height: 2.5em;
+  height: 2rem;
   max-width: 400px;
   text-align: center;
+  font-size: 13px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
 `;
 
 const GoToMapButton = styled.button`
@@ -159,6 +156,11 @@ const GoToMapButton = styled.button`
   border-radius: 10px;
   position: fixed;
   bottom: 15px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
+  &:active {
+    transform: scale(0.9);
+    filter: brightness(90%);
+  }
 `;
 
 const LinkForm = styled(Link)`

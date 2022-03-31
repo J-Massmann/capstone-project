@@ -11,9 +11,9 @@ export default function PastTrips({ destinations }) {
   });
   return (
     <>
-      <header>
-        <Header>Your Trips</Header>
-      </header>
+      <HeaderContainer>
+        <Header>Travel Planner</Header>
+      </HeaderContainer>
       <ToggleBar />
       <DestinationWrapper>
         {pastDestinations?.length > 0 ? (
@@ -44,9 +44,26 @@ export default function PastTrips({ destinations }) {
     </>
   );
 }
+const HeaderContainer = styled.header`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+`;
 
 const Header = styled.h1`
   text-align: center;
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 80%;
 `;
 
 const DestinationWrapper = styled.main`
@@ -66,5 +83,12 @@ const AddButton = styled.button`
   z-index: 2;
   background: transparent;
   border: transparent;
-  width: fit-content;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50px;
+  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
+  &:active {
+    transform: scale(0.9);
+  }
 `;

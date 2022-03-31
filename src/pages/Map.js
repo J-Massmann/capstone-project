@@ -22,14 +22,14 @@ export default function Map({ onGetCurrentDestination }) {
         <Button goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
         </Button>
-        <h1>Route {daydate}</h1>
+        <Header>Route {daydate}</Header>
         <Button>
           <Link to={`/futuretrips`}>
             <img src={home} alt="home" />
           </Link>
         </Button>
       </Heading>
-      <MapContainerContainer center={destinationCoordination} zoom={10}>
+      <Container center={destinationCoordination} zoom={12}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -39,15 +39,30 @@ export default function Map({ onGetCurrentDestination }) {
             <Popup>{route.location}</Popup>
           </Marker>
         ))}
-      </MapContainerContainer>
+      </Container>
     </>
   );
 }
 const Heading = styled.header`
   display: flex;
-  position: relative;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+`;
+
+const Header = styled.h1`
+  background: linear-gradient(
+        -225deg,
+        transparent 8px,
+        var(--bg-color-action) 0
+      )
+      bottom left,
+    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
+      right;
+  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
+  background-size: 51% 20px;
+  background-repeat: no-repeat;
+  width: 50%;
+  text-align: center;
 `;
 
 const Button = styled.button`
@@ -55,14 +70,9 @@ const Button = styled.button`
   background: transparent;
   border: transparent;
   cursor: pointer;
-  @media (min-width: 266px) {
-    position: absolute;
-    right: ${props => (props.goback ? '' : '0')};
-    left: ${props => (props.goback ? '0' : '')};
-  }
 `;
 
-const MapContainerContainer = styled(MapContainer)`
+const Container = styled(MapContainer)`
   height: 85vh;
   border-radius: 10px;
 `;
