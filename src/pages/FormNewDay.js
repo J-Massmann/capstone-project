@@ -42,7 +42,7 @@ export default function FormNewDay({ onAddRoute, onGetCurrentDestination }) {
         buttonName={'Create'}
         handleNewDay={onSubmit}
       />
-      <Modal open={isOpen}>The plan has been saved!</Modal>
+      <Modal open={isOpen}>Your day has been saved!</Modal>
     </>
   );
 }
