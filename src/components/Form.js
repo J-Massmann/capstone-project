@@ -49,7 +49,7 @@ export default function Form({
       accessToken: mapboxgl.accessToken,
       types: 'region, place, poi',
       limit: 5,
-      placeholder: 'Add a place you want to vist...',
+      placeholder: 'Add a place you want to visit...',
       minLength: 2,
       clearOnBlur: true,
     });
