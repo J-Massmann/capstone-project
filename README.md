@@ -8,7 +8,7 @@ App for organizing your next holiday. With the App ypu can add new holiday desti
 
 [live demo](https://capstone-project-liart.vercel.app/futuretrips)
 
-<img allign="right" src="./src/img/justus_massmann.gif" alt="app preview" width="270">
+<img align="right" src="./src/img/justus_massmann.gif" alt="app preview" width="270">
 
 # `Feature`
 
