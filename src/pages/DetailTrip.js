@@ -6,6 +6,7 @@ import deleteIcon from '../img/Delete_Icon.svg';
 import { useState } from 'react';
 import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
+import Button from '../components/Button.js';
 
 export default function DetailTrip({
   onGetCurrentDestination,
@@ -28,23 +29,23 @@ export default function DetailTrip({
   return (
     <>
       <Heading>
-        <Button>
+        <IconButton>
           <img src={home} alt="go_back" onClick={() => navigate(-1)} />
-        </Button>
+        </IconButton>
         <MainHedaer>Your Trips</MainHedaer>
-        <Button delete onClick={() => setIsOpen(true)}>
+        <IconButton delete onClick={() => setIsOpen(true)}>
           <img src={deleteIcon} alt="delete_trip" />
-        </Button>
+        </IconButton>
       </Heading>
       {detailDestination.map(trip => (
         <Wrapper key={trip.id}>
           <SubHeaderWrapper>
             <Subheader>{trip.place}</Subheader>
-            <Button>
+            <IconButton>
               <Link to={`/edit/${trip.place}`}>
                 <img src={edit} alt="edit_icon" />
               </Link>
-            </Button>
+            </IconButton>
           </SubHeaderWrapper>
           <Subheader2>Date:</Subheader2>
           <p>
@@ -58,11 +59,7 @@ export default function DetailTrip({
           </ul>
         </Wrapper>
       ))}
-      <CreateButton>
-        <LinkDayPlaner to={`/details/${id}/dayplaner`}>
-          Plan your days
-        </LinkDayPlaner>
-      </CreateButton>
+      <IconButton link={`/details/${id}/dayplaner`}>Plan your days</IconButton>
       <DeleteModal
         open={isOpen}
         setOpen={setIsOpen}
@@ -139,7 +136,7 @@ const Subheader2 = styled.h3`
   text-decoration: underline;
 `;
 
-const Button = styled.button`
+const IconButton = styled.button`
   width: fit-content;
   background: transparent;
   border: transparent;
@@ -150,28 +147,4 @@ const Button = styled.button`
     right: ${props => (props.delete ? '' : '0')};
     left: ${props => (props.delete ? '0' : '')};
   }
-`;
-
-const CreateButton = styled.button`
-  width: 50%;
-  max-width: 250px;
-  height: 2.5rem;
-  justify-self: center;
-  background-color: var(--bg-color-action);
-  border: none;
-  border-radius: 10px;
-  position: fixed;
-  bottom: 15px;
-  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-  &:active {
-    transform: scale(0.9);
-    filter: brightness(90%);
-  }
-`;
-
-const LinkDayPlaner = styled(Link)`
-  width: 100%;
-  display: block;
-  text-decoration: none;
-  color: var(--bg-color-main);
 `;

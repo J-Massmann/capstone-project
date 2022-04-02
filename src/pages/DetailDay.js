@@ -6,6 +6,7 @@ import goback from '../img/go-back.svg';
 import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
 import { useState } from 'react';
+import Button from '../components/Button.js';
 
 export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
   const { daydate } = useParams();
@@ -28,24 +29,24 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
   return (
     <>
       <Heading>
-        <Button goback onClick={() => navigate(-1)}>
+        <IconButton goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
-        </Button>
+        </IconButton>
         <Header>Route {daydate}</Header>
-        <Button onClick={() => setIsOpen(true)}>
+        <IconButton onClick={() => setIsOpen(true)}>
           <img src={deleteIcon} alt="delete_route" />
-        </Button>
+        </IconButton>
       </Heading>
       <Wrapper>
         <SubHeaderWrapper>
           <h2>
             Day {dayDiff + 1} - {date}
           </h2>
-          <Button>
+          <IconButton>
             <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
               <img src={edit} alt="edit_route" />
             </Link>
-          </Button>
+          </IconButton>
         </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
         {route?.locations.length > 0 ? (
@@ -56,11 +57,9 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
           <p>You haven't added any locations to your Route</p>
         )}
       </Wrapper>
-      <GoToMapButton>
-        <LinkForm to={`/details/${id}/map/day_${daydate}(${date})`}>
-          Show on map
-        </LinkForm>
-      </GoToMapButton>
+      <Button link={`/details/${id}/map/day_${daydate}(${date})`}>
+        Show on map
+      </Button>
       <DeleteModal
         open={isOpen}
         setOpen={setIsOpen}
@@ -94,7 +93,7 @@ const Header = styled.h1`
   text-align: center;
 `;
 
-const Button = styled.button`
+const IconButton = styled.button`
   width: fit-content;
   background: transparent;
   border: transparent;

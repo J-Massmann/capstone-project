@@ -4,6 +4,7 @@ import home from '../img/Home_Icon.svg';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import DayCard from '../components/DayCard.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
+import Button from '../components/Button.js';
 
 export default function Dayplaner({ onGetCurrentDestination }) {
   const navigate = useNavigate();
@@ -18,15 +19,15 @@ export default function Dayplaner({ onGetCurrentDestination }) {
   return (
     <>
       <Heading>
-        <Button goback onClick={() => navigate(-1)}>
+        <IconButton goback onClick={() => navigate(-1)}>
           <img src={goback} alt="go back in to DetailPage" />
-        </Button>
+        </IconButton>
         <Header>Day Planer</Header>
-        <Button>
+        <IconButton>
           <Link to={`/futuretrips`}>
             <img src={home} alt="home" />
           </Link>
-        </Button>
+        </IconButton>
       </Heading>
       <Wrapper>
         <Subheader>{id}</Subheader>
@@ -56,11 +57,9 @@ export default function Dayplaner({ onGetCurrentDestination }) {
           <p>You haven't planned any of your days in {id}</p>
         )}
       </CardWrapper>
-      <CreateButton>
-        <LinkForm to={`/details/${id}/dayplaner/plannewday`}>
-          Plan another day
-        </LinkForm>
-      </CreateButton>
+      <Button link={`/details/${id}/dayplaner/plannewday`}>
+        Plan another day
+      </Button>
     </>
   );
 }
@@ -88,7 +87,7 @@ const Header = styled.h1`
   text-align: center;
 `;
 
-const Button = styled.button`
+const IconButton = styled.button`
   width: fit-content;
   background: transparent;
   border: transparent;
@@ -136,27 +135,3 @@ const linkStyle = {
   textDecoration: 'none',
   color: '#F3F4F6',
 };
-
-const CreateButton = styled.button`
-  width: 50%;
-  max-width: 250px;
-  height: 2.5rem;
-  justify-self: center;
-  background-color: var(--bg-color-action);
-  border: none;
-  border-radius: 10px;
-  position: fixed;
-  bottom: 15px;
-  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-  &:active {
-    transform: scale(0.9);
-    filter: brightness(90%);
-  }
-`;
-
-const LinkForm = styled(Link)`
-  width: 100%;
-  display: block;
-  text-decoration: none;
-  color: var(--bg-color-main);
-`;
