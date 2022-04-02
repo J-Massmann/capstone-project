@@ -59,7 +59,7 @@ export default function DetailTrip({
           </ul>
         </Wrapper>
       ))}
-      <IconButton link={`/details/${id}/dayplaner`}>Plan your days</IconButton>
+      <Button link={`/details/${id}/dayplaner`}>Plan your days</Button>
       <DeleteModal
         open={isOpen}
         setOpen={setIsOpen}

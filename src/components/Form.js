@@ -8,7 +8,7 @@ import { ThemeProvider } from 'styled-components';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import './Form.css';
 import mapboxgl from 'mapbox-gl';
-import success from '../img/success.svg';
+import { SubmitButton } from './Button.js';
 
 export default function Form({
   buttonName,
@@ -19,8 +19,6 @@ export default function Form({
   preloadedValues,
 }) {
   mapboxgl.accessToken = process.env.REACT_APP_ACCESSTOKEN;
-
-  const [isSuccessfull, setisSuccessfull] = useState(false);
   const [locations, updateLocations] = useImmer(destination?.locations ?? []);
   const [destinationMapbox, setDestinationMapbox] = useState(
     preloadedValues?.destination === undefined
@@ -126,6 +124,7 @@ export default function Form({
       datepickerZIndex: '2',
     },
   };
+  console.log(destinationMapbox, stateDate);
 
   return (
     <>
@@ -214,30 +213,17 @@ export default function Form({
                 ))}
           </ListWrapper>
         </Wrapper>
-
-        <CreateButton
-          onClick={() => setisSuccessfull(true)}
-          className={isSuccessfull ? 'is_active' : ''}
-          disabled={
+        <SubmitButton
+          condition={
             destinationMapbox !== '' &&
             stateDate.startDate !== null &&
             stateDate.endDate !== null
               ? false
               : true
           }
-          type="submit"
         >
-          <Span className={isSuccessfull ? 'is_active' : ''}>{buttonName}</Span>
-          <ImgWrapper className={isSuccessfull ? 'is_active' : ''}>
-            <SuccessImg
-              width={40}
-              height={40}
-              src={success}
-              alt="success"
-              className={isSuccessfull ? 'is_active' : ''}
-            />
-          </ImgWrapper>
-        </CreateButton>
+          {buttonName}
+        </SubmitButton>
       </FormContainer>
     </>
   );
@@ -309,59 +295,4 @@ const AddButton = styled.button`
   border-radius: 10px;
   margin-top: 10px;
   box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-`;
-
-const CreateButton = styled.button`
-  position: relative;
-  margin-top: 2rem;
-  width: 50%;
-  max-width: 250px;
-  height: 2.5rem;
-  justify-self: center;
-  background-color: var(--bg-color-action);
-  border: none;
-  border-radius: 10px;
-  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-  transition: all 0.5s;
-  &.is_active {
-    width: 40px;
-    height: 40px;
-    background: transparent;
-  }
-`;
-const Span = styled.span`
-  transition: all 0.5s;
-  &.is_active {
-    display: none;
-  }
-`;
-
-const ImgWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  z-index: 2;
-  visibility: hidden;
-  transition: all 0.5s;
-  &.is_active {
-    visibility: visible;
-  }
-`;
-
-const SuccessImg = styled.img`
-  visibility: hidden;
-  &.is_active {
-    visibility: visible;
-    z-index: 3;
-    margin-top: 50%;
-    transform: translateY(-50%) rotate(0deg) scale(0);
-    transform: translateY(-50%) rotate(720deg) scale(1);
-    width: 40px;
-    height: 40px;
-    transform-origin: 50% 50%;
-    transition: all 0.5s;
-  }
 `;
