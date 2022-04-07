@@ -76,6 +76,7 @@
     "@storybook/testing-library": "^0.0.9",
     "@testing-library/dom": "^8.11.3",
     "@testing-library/user-event": "^13.5.0",
+    "prettier": "2.6.2",
     "webpack": "^5.70.0"
   }
 }
