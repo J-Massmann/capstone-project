@@ -29,6 +29,7 @@ export default function Map({ onGetCurrentDestination }) {
           </Link>
         </Button>
       </Heading>
+
       <Container center={destinationCoordination} zoom={12}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

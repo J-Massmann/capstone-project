@@ -124,7 +124,6 @@ export default function Form({
       datepickerZIndex: '2',
     },
   };
-  console.log(destinationMapbox, stateDate);
 
   return (
     <>

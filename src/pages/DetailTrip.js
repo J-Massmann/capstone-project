@@ -1,24 +1,27 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import home from '../img/Home_Icon.svg';
-import edit from '../img/Edit_Icon.svg';
-import deleteIcon from '../img/Delete_Icon.svg';
 import { useState } from 'react';
 import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
 import Button from '../components/Button.js';
+import Header from '../components/Header';
+import EditIcon from '../components/Icons/EditIcon';
 
 export default function DetailTrip({
   onGetCurrentDestination,
   onDeleteDestination,
 }) {
+  const [isOpen, setIsOpen] = useState(false);
   const { id } = useParams();
   const detailDestination = onGetCurrentDestination(id);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
   function handleDeleteDestination(id) {
     onDeleteDestination(id);
     navigate(-1);
+  }
+  function handleClick() {
+    setIsOpen(!isOpen);
   }
   const startDate = new Date(detailDestination[0]?.startDate);
   const displayStartDate = getDisplayDate(startDate);
@@ -28,24 +31,14 @@ export default function DetailTrip({
 
   return (
     <>
-      <Heading>
-        <IconButton>
-          <img src={home} alt="go_back" onClick={() => navigate(-1)} />
-        </IconButton>
-        <MainHedaer>Your Trips</MainHedaer>
-        <IconButton delete onClick={() => setIsOpen(true)}>
-          <img src={deleteIcon} alt="delete_trip" />
-        </IconButton>
-      </Heading>
+      <Header handleClick={handleClick} iconGoBack={home}>
+        Your Trip
+      </Header>
       {detailDestination.map(trip => (
         <Wrapper key={trip.id}>
           <SubHeaderWrapper>
             <Subheader>{trip.place}</Subheader>
-            <IconButton>
-              <Link to={`/edit/${trip.place}`}>
-                <img src={edit} alt="edit_icon" />
-              </Link>
-            </IconButton>
+            <EditIcon link={`/edit/${trip.place}`} />
           </SubHeaderWrapper>
           <Subheader2>Date:</Subheader2>
           <p>
@@ -70,28 +63,6 @@ export default function DetailTrip({
     </>
   );
 }
-const Heading = styled.header`
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-`;
-
-const MainHedaer = styled.h1`
-  background: linear-gradient(
-        -225deg,
-        transparent 8px,
-        var(--bg-color-action) 0
-      )
-      bottom left,
-    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
-      right;
-  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
-  background-size: 51% 20px;
-  background-repeat: no-repeat;
-  width: 50%;
-  text-align: center;
-`;
 
 const Wrapper = styled.section`
   display: block;
@@ -134,17 +105,4 @@ const Subheader2 = styled.h3`
   margin-bottom: 10px;
   margin-top: 10px;
   text-decoration: underline;
-`;
-
-const IconButton = styled.button`
-  width: fit-content;
-  background: transparent;
-  border: transparent;
-  cursor: pointer;
-  height: fit-content;
-  @media (min-width: 266px) {
-    position: absolute;
-    right: ${props => (props.delete ? '' : '0')};
-    left: ${props => (props.delete ? '0' : '')};
-  }
 `;

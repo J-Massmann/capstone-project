@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import edit from '../../img/Edit_Icon.svg';
 import { Link } from 'react-router-dom';
 
-export default function EditIcon({link}) {
-    return(
-        <IconButton>
-              <Link to={link}>
-                <img src={edit} alt="edit_icon" />
-              </Link>
-            </IconButton>
-    )
+export default function EditIcon({ link }) {
+  return (
+    <IconButton>
+      <Link to={link}>
+        <img src={edit} alt="edit_icon" />
+      </Link>
+    </IconButton>
+  );
 }
 
 const IconButton = styled.button`

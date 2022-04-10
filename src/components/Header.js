@@ -1,18 +1,33 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
-import deleteIcon from '../img/Delete_Icon.svg';
+import DeleteIcon from './Icons/DeleteIcon';
+import GoBackIcon, { GoBackIconForm } from './Icons/GoBackIcon';
+import HomeIcon from './Icons/HomeIcon';
 
-export default function Header({ children, iconGoBack }) {
-  const navigate = useNavigate();
+export default function Header({ children, handleClick, iconGoBack }) {
   return (
     <Heading>
-      <IconButton goback onClick={() => navigate(-1)}>
-        <img src={iconGoBack} alt="go back in to DetailPage" />
-      </IconButton>
+      <GoBackIcon iconGoBack={iconGoBack} />
       <Headline>{children}</Headline>
-      <IconButton onClick={() => setIsOpen(true)}>
-        <img src={deleteIcon} alt="delete_route" />
-      </IconButton>
+      <DeleteIcon handleOpen={handleClick} />
+    </Heading>
+  );
+}
+
+export function FormHeader({ iconGoBack, children }) {
+  return (
+    <Heading FormHeader>
+      <GoBackIconForm iconGoBack={iconGoBack} />
+      <Headline>{children}</Headline>
+    </Heading>
+  );
+}
+
+export function DayHeader({ children, iconGoBack }) {
+  return (
+    <Heading>
+      <GoBackIcon iconGoBack={iconGoBack} />
+      <Headline>{children}</Headline>
+      <HomeIcon />
     </Heading>
   );
 }
@@ -20,7 +35,8 @@ export default function Header({ children, iconGoBack }) {
 const Heading = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: ${props => (props.FormHeader ? 'center' : 'space-between')};
+  position: ${props => (props.FormHeader ? 'relative' : '')};
 `;
 
 const Headline = styled.h1`
@@ -37,11 +53,4 @@ const Headline = styled.h1`
   background-repeat: no-repeat;
   width: 50%;
   text-align: center;
-`;
-
-const IconButton = styled.button`
-  width: fit-content;
-  background: transparent;
-  border: transparent;
-  cursor: pointer;
 `;

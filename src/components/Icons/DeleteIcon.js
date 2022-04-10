@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import deleteIcon from '../img/Delete_Icon.svg';
+import deleteIcon from '../../img/Delete_Icon.svg';
 
 export default function DeleteIcon({ handleOpen }) {
   return (

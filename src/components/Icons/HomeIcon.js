@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import home from '../img/Home_Icon.svg';
+import home from '../../img/Home_Icon.svg';
 
 export default function HomeIcon() {
   return (
