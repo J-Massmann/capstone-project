@@ -1,25 +1,30 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import edit from '../img/Edit_Icon.svg';
-import deleteIcon from '../img/Delete_Icon.svg';
 import goback from '../img/go-back.svg';
 import { DeleteModal } from '../components/Modal.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
 import { useState } from 'react';
+import Button from '../components/Button.js';
+import EditIcon from '../components/Icons/EditIcon';
+import Header from '../components/Header';
 
 export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
   const { daydate } = useParams();
   const { id } = useParams();
   const { date } = useParams();
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const currentDestination = onGetCurrentDestination(id);
   const route = currentDestination[0].routes.find(route => {
     return getDisplayDate(route.date) === date;
   });
-  const [isOpen, setIsOpen] = useState(false);
   const dayDiff =
     (new Date(route?.date) - new Date(currentDestination[0].startDate)) /
     86400000;
+
+  function handleClick() {
+    setIsOpen(!isOpen);
+  }
 
   function handleDeleteDay(id, route) {
     onDeleteDay(id, route);
@@ -27,25 +32,15 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
   }
   return (
     <>
-      <Heading>
-        <Button goback onClick={() => navigate(-1)}>
-          <img src={goback} alt="go back in to DetailPage" />
-        </Button>
-        <Header>Route {daydate}</Header>
-        <Button onClick={() => setIsOpen(true)}>
-          <img src={deleteIcon} alt="delete_route" />
-        </Button>
-      </Heading>
+      <Header iconGoBack={goback} handleClick={handleClick}>
+        Route {daydate}
+      </Header>
       <Wrapper>
         <SubHeaderWrapper>
           <h2>
             Day {dayDiff + 1} - {date}
           </h2>
-          <Button>
-            <Link to={`/details/${id}/edit/day_${daydate}(${date})`}>
-              <img src={edit} alt="edit_route" />
-            </Link>
-          </Button>
+          <EditIcon link={`/details/${id}/edit/day_${daydate}(${date})`} />
         </SubHeaderWrapper>
         <Subheader2>Locations:</Subheader2>
         {route?.locations.length > 0 ? (
@@ -56,11 +51,9 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
           <p>You haven't added any locations to your Route</p>
         )}
       </Wrapper>
-      <GoToMapButton>
-        <LinkForm to={`/details/${id}/map/day_${daydate}(${date})`}>
-          Show on map
-        </LinkForm>
-      </GoToMapButton>
+      <Button link={`/details/${id}/map/day_${daydate}(${date})`}>
+        Show on map
+      </Button>
       <DeleteModal
         open={isOpen}
         setOpen={setIsOpen}
@@ -71,35 +64,6 @@ export default function DetailDay({ onGetCurrentDestination, onDeleteDay }) {
     </>
   );
 }
-
-const Heading = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const Header = styled.h1`
-  background: linear-gradient(
-        -225deg,
-        transparent 8px,
-        var(--bg-color-action) 0
-      )
-      bottom left,
-    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
-      right;
-  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
-  background-size: 51% 20px;
-  background-repeat: no-repeat;
-  width: 50%;
-  text-align: center;
-`;
-
-const Button = styled.button`
-  width: fit-content;
-  background: transparent;
-  border: transparent;
-  cursor: pointer;
-`;
 
 const Wrapper = styled.main`
   display: block;
@@ -144,28 +108,4 @@ const Location = styled.p`
   text-align: center;
   font-size: 13px;
   box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-`;
-
-const GoToMapButton = styled.button`
-  width: 50%;
-  max-width: 250px;
-  height: 2.5rem;
-  justify-self: center;
-  background-color: var(--bg-color-action);
-  border: none;
-  border-radius: 10px;
-  position: fixed;
-  bottom: 15px;
-  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-  &:active {
-    transform: scale(0.9);
-    filter: brightness(90%);
-  }
-`;
-
-const LinkForm = styled(Link)`
-  width: 100%;
-  display: block;
-  text-decoration: none;
-  color: var(--bg-color-main);
 `;

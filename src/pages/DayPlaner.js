@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import goback from '../img/go-back.svg';
-import home from '../img/Home_Icon.svg';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import DayCard from '../components/DayCard.js';
 import getDisplayDate from '../components/hooks/getDisplayDate.js';
+import Button from '../components/Button.js';
+import { DayHeader } from '../components/Header';
 
 export default function Dayplaner({ onGetCurrentDestination }) {
-  const navigate = useNavigate();
   const { id } = useParams();
   const detailDestination = onGetCurrentDestination(id);
 
@@ -17,17 +17,7 @@ export default function Dayplaner({ onGetCurrentDestination }) {
     .sort((dateA, dateB) => new Date(dateA.date) - new Date(dateB.date));
   return (
     <>
-      <Heading>
-        <Button goback onClick={() => navigate(-1)}>
-          <img src={goback} alt="go back in to DetailPage" />
-        </Button>
-        <Header>Day Planer</Header>
-        <Button>
-          <Link to={`/futuretrips`}>
-            <img src={home} alt="home" />
-          </Link>
-        </Button>
-      </Heading>
+      <DayHeader iconGoBack={goback}>Day Planer</DayHeader>
       <Wrapper>
         <Subheader>{id}</Subheader>
         <p>
@@ -56,49 +46,12 @@ export default function Dayplaner({ onGetCurrentDestination }) {
           <p>You haven't planned any of your days in {id}</p>
         )}
       </CardWrapper>
-      <CreateButton>
-        <LinkForm to={`/details/${id}/dayplaner/plannewday`}>
-          Plan another day
-        </LinkForm>
-      </CreateButton>
+      <Button link={`/details/${id}/dayplaner/plannewday`}>
+        Plan another day
+      </Button>
     </>
   );
 }
-
-const Heading = styled.header`
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Header = styled.h1`
-  background: linear-gradient(
-        -225deg,
-        transparent 8px,
-        var(--bg-color-action) 0
-      )
-      bottom left,
-    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
-      right;
-  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
-  background-size: 51% 20px;
-  background-repeat: no-repeat;
-  width: 50%;
-  text-align: center;
-`;
-
-const Button = styled.button`
-  width: fit-content;
-  background: transparent;
-  border: transparent;
-  cursor: pointer;
-  @media (min-width: 266px) {
-    position: absolute;
-    right: ${props => (props.goback ? '' : '0')};
-    left: ${props => (props.goback ? '0' : '')};
-  }
-`;
 const Wrapper = styled.main`
   display: block;
   width: 100%;
@@ -136,27 +89,3 @@ const linkStyle = {
   textDecoration: 'none',
   color: '#F3F4F6',
 };
-
-const CreateButton = styled.button`
-  width: 50%;
-  max-width: 250px;
-  height: 2.5rem;
-  justify-self: center;
-  background-color: var(--bg-color-action);
-  border: none;
-  border-radius: 10px;
-  position: fixed;
-  bottom: 15px;
-  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-  &:active {
-    transform: scale(0.9);
-    filter: brightness(90%);
-  }
-`;
-
-const LinkForm = styled(Link)`
-  width: 100%;
-  display: block;
-  text-decoration: none;
-  color: var(--bg-color-main);
-`;

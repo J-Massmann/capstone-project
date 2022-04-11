@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
 import getDates from './hooks/getDates.js';
 import getDisplayDate from './hooks/getDisplayDate.js';
 import { useImmer } from 'use-immer';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import success from '../img/success.svg';
+import { SubmitButton } from './Button.js';
 
 export default function FormDay({
   currentDestination,
@@ -15,7 +14,6 @@ export default function FormDay({
   handleNewDay,
   initialValues,
 }) {
-  const [isSuccessfull, setisSuccessfull] = useState(false);
   const { date } = useParams();
   const startDate = new Date(currentDestination[0].startDate);
   const endDate = new Date(currentDestination[0].endDate);
@@ -117,21 +115,7 @@ export default function FormDay({
             </LocationButton>
           ))}
         </div>
-        <CreateButton
-          className={isSuccessfull ? 'is_active' : ''}
-          onClick={() => setisSuccessfull(true)}
-        >
-          <Span className={isSuccessfull ? 'is_active' : ''}>{buttonName}</Span>
-          <ImgWrapper className={isSuccessfull ? 'is_active' : ''}>
-            <SuccessImg
-              width={40}
-              height={40}
-              src={success}
-              alt="success"
-              className={isSuccessfull ? 'is_active' : ''}
-            />
-          </ImgWrapper>
-        </CreateButton>
+        <SubmitButton>{buttonName}</SubmitButton>
       </FormContainer>
     </>
   );
@@ -200,62 +184,6 @@ const InputField = styled.input`
   background-color: var(--bg-color-content);
   width: 100%;
   max-width: 400px;
-`;
-
-const CreateButton = styled.button`
-  position: relative;
-  margin-top: 2rem;
-  width: 50%;
-  max-width: 250px;
-  height: 2.5rem;
-  justify-self: center;
-  background-color: var(--bg-color-action);
-  border: none;
-  border-radius: 10px;
-  transition: all 0.5s;
-  box-shadow: 8px 8px 12px 0 rgba(0, 0, 0, 0.25);
-  &.is_active {
-    width: 40px;
-    height: 40px;
-    background: transparent;
-  }
-`;
-
-const Span = styled.span`
-  transition: all 0.5s;
-  &.is_active {
-    display: none;
-  }
-`;
-
-const ImgWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  z-index: 2;
-  visibility: hidden;
-  transition: all 0.5s;
-  &.is_active {
-    visibility: visible;
-  }
-`;
-
-const SuccessImg = styled.img`
-  visibility: hidden;
-  &.is_active {
-    visibility: visible;
-    z-index: 3;
-    margin-top: 50%;
-    transform: translateY(-50%) rotate(0deg) scale(0);
-    transform: translateY(-50%) rotate(720deg) scale(1);
-    width: 40px;
-    height: 40px;
-    transform-origin: 50% 50%;
-    transition: all 0.5s;
-  }
 `;
 
 const ErrorMessage = styled.p`

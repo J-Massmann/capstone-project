@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import styled from 'styled-components';
 import x_icon from '../img/icon_x.svg';
 import Form from '../components/Form.js';
 import Modal from '../components/Modal.js';
+import { FormHeader } from '../components/Header';
 
 export default function EditTrips({ destinations, onEditDestination }) {
   const { id } = useParams();
@@ -47,12 +47,7 @@ export default function EditTrips({ destinations, onEditDestination }) {
     <>
       {detailDestination.map(trip => (
         <div key={trip.id}>
-          <HeaderWrapper>
-            <Button onClick={() => navigate(-1)}>
-              <img src={x_icon} alt="cancel" />
-            </Button>
-            <Header> {trip.place}</Header>
-          </HeaderWrapper>
+          <FormHeader iconGoBack={x_icon}>{trip.place}</FormHeader>
           <Form
             formName={'Edit a trip'}
             buttonName={'Save'}
@@ -70,39 +65,3 @@ export default function EditTrips({ destinations, onEditDestination }) {
     </>
   );
 }
-
-const HeaderWrapper = styled.header`
-  display: flex;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Header = styled.h1`
-  background: linear-gradient(
-        -225deg,
-        transparent 8px,
-        var(--bg-color-action) 0
-      )
-      bottom left,
-    linear-gradient(-45deg, transparent 8px, var(--bg-color-action) 0) bottom
-      right;
-  box-shadow: 0px 25px 10px -15px rgba(0, 0, 0, 0.25);
-  background-size: 51% 20px;
-  background-repeat: no-repeat;
-  text-align: center;
-  width: 50%;
-  @media (max-width: 230px) {
-    text-align: end;
-  }
-`;
-
-const Button = styled.button`
-  position: absolute;
-  width: fit-content;
-  height: fit-content;
-  background: transparent;
-  border: transparent;
-  left: 5px;
-  cursor: pointer;
-`;
